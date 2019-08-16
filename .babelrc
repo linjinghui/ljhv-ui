@@ -1,0 +1,6 @@
+{
+  "plugins": [
+    ["component", [{ "libraryName": "web-base-ui" }]]
+  ],
+  "presets": ["es2015", "stage-0"]
+}
