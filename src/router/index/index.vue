@@ -38,7 +38,7 @@
           {
             title: '组件',
             children: [
-              { title: '主题色', path: 'theme' },
+              { title: '全局设置', path: 'theme' },
               { title: '文本大小', path: 'font' },
               { title: '按钮', path: 'button' },
               { title: '图标', path: 'cicon' },

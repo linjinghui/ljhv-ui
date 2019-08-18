@@ -2,7 +2,7 @@
   <div class="wrap page-theme">
     <h1>输入框</h1>
     <dl>
-      <dd><h3>xxxx</h3></dd>
+      <dd><h3>带清空按钮的输入框，支持规则校验，自定义左右小图标</h3></dd>
       <dd class="example">
         <section v-highlight>
            <pre><code># nopaste: 是否不允许粘贴（默认false）
@@ -22,7 +22,9 @@
 &lt;lv-input v-model="name" type="text" maxlength="10" placeholder="请输入中文" 
 nopaste="false" autofocus="true" disabled="false" clear="true" rule="chinese" readonly="false" 
 @focus="cbk_focus" @blur="cbk_blur" @keyup="cbk_keyup" @enter="cbk_enter"&gt;
+  # 左侧图标
   &lt;i class="cicon-tick center-v" slot="left"&gt;&lt;/i&gt;
+  # 右侧图标
   &lt;i class="cicon-search-cpt-chr center-v" slot="right"&gt;&lt;/i&gt;
 &lt;/lv-input&gt;</code></pre>
         </section>
