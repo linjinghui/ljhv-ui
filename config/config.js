@@ -1,7 +1,7 @@
 'use strict'
 
 module.exports = {
-  port: '4001',
+  port: '4009',
   title: '项目名称',
   icon: './static/favicon.png',
   vendor: [

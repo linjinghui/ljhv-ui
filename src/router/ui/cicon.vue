@@ -3,13 +3,14 @@
     <h1>css图标</h1>
     <dl>
       <dd><h3>概述</h3></dd>
-      <dd>提供了几种常用的纯css3样式图标</dd>
+      <dd>提供了几种常用的纯css3样式图标，通过设置font-size 属性控制大小</dd>
     </dl>
     <dl>
       <dd><h3>图标</h3></dd>
       <dd class="example">
         <section v-highlight>
            <pre><code># -cbdr 表示带边框
+# -chr 表示鼠标移过效果
 # -crle 表示圆角
 # move-loop 表示转圈效果
 &lt;i class="cicon-arrow-right-cbdr-crle"&gt;&lt;/i&gt;</code></pre>

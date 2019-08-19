@@ -9,7 +9,11 @@ const Font = () => import('./ui/font.vue');
 const Button = () => import('./ui/button.vue');
 const Cicon = () => import('./ui/cicon.vue');
 const Input = () => import('./ui/input.vue');
-
+const Radio = () => import('./ui/radio.vue');
+const Checkbox = () => import('./ui/checkbox.vue');
+const Swith = () => import('./ui/swith.vue');
+const Slider = () => import('./ui/slider.vue');
+const Menu = () => import('./ui/menu.vue');
 
 Vue.use(Router);
 
@@ -60,6 +64,31 @@ export default new Router({
           path: '/input',
           name: 'input',
           component: Input
+        },
+        {
+          path: '/radio',
+          name: 'radio',
+          component: Radio
+        },
+        {
+          path: '/checkbox',
+          name: 'checkbox',
+          component: Checkbox
+        },
+        {
+          path: '/swith',
+          name: 'swith',
+          component: Swith
+        },
+        {
+          path: '/slider',
+          name: 'slider',
+          component: Slider
+        },
+        {
+          path: '/menu',
+          name: 'menu',
+          component: Menu
         }
       ]
     }

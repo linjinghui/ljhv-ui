@@ -42,7 +42,12 @@
               { title: '文本大小', path: 'font' },
               { title: '按钮', path: 'button' },
               { title: '图标', path: 'cicon' },
-              { title: '输入框', path: 'input' }
+              { title: '输入框', path: 'input' },
+              { title: '单选框', path: 'radio' },
+              { title: '复选框', path: 'checkbox' },
+              { title: '开关', path: 'swith' },
+              { title: '滑块-test', path: 'slider' },
+              { title: '菜单', path: 'menu' }
             ]
           }
         ]
