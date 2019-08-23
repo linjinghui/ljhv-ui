@@ -51,7 +51,11 @@
               { title: '下拉框', path: 'dropmenu' },
               { title: '日期选择器-test', path: 'datepicker' },
               { title: '提示框', path: 'tip' },
-              { title: '确认框', path: 'confirm' }
+              { title: '确认框', path: 'confirm' },
+              { title: '加载中', path: 'loading' },
+              { title: '进度条', path: 'progress' },
+              { title: 'title提示', path: 'tooltip' },
+              { title: '区域菜单', path: 'rangemenu' }
             ]
           }
         ]

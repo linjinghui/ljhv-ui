@@ -18,6 +18,10 @@ const Dropmenu = () => import('./ui/dropmenu.vue');
 const Datepicker = () => import('./ui/datepicker.vue');
 const Tip = () => import('./ui/tip.vue');
 const Confirm = () => import('./ui/confirm.vue');
+const Loading = () => import('./ui/loading.vue');
+const Progress = () => import('./ui/progress.vue');
+const Tooltip = () => import('./ui/tooltip.vue');
+const Rangemenu = () => import('./ui/rangemenu.vue');
 
 Vue.use(Router);
 
@@ -113,6 +117,26 @@ export default new Router({
           path: '/confirm',
           name: 'confirm',
           component: Confirm
+        },
+        {
+          path: '/loading',
+          name: 'loading',
+          component: Loading
+        },
+        {
+          path: '/progress',
+          name: 'progress',
+          component: Progress
+        },
+        {
+          path: '/tooltip',
+          name: 'tooltip',
+          component: Tooltip
+        },
+        {
+          path: '/rangemenu',
+          name: 'rangemenu',
+          component: Rangemenu
         }
       ]
     }
