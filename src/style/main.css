@@ -32,3 +32,19 @@ h4 {
 small {
   font-size: 12px;
 }
+
+[data-badge] {
+  position: relative;
+}
+[data-badge]:after {
+  content: attr(data-badge);
+  position: absolute;
+  right: -12px;
+  top: -5px;
+  padding: 0 4px;
+  line-height: normal;
+  font-size: 12px;
+  border-radius: 4px;
+  color: #fff;
+  background-color: #409eff;
+}

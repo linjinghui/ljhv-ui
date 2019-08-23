@@ -47,7 +47,11 @@
               { title: '复选框', path: 'checkbox' },
               { title: '开关', path: 'swith' },
               { title: '滑块-test', path: 'slider' },
-              { title: '菜单', path: 'menu' }
+              { title: '菜单', path: 'menu' },
+              { title: '下拉框', path: 'dropmenu' },
+              { title: '日期选择器-test', path: 'datepicker' },
+              { title: '提示框', path: 'tip' },
+              { title: '确认框', path: 'confirm' }
             ]
           }
         ]

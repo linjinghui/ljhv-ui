@@ -5,16 +5,14 @@
       <dd><h3>开关，带禁用功能</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-swith v-model="swith" disabled="false"&gt;&lt;/lv-swith&gt;
+           <pre><code># disabled: 是否禁用(默认false)
+&lt;lv-swith v-model="swith" disabled="false"&gt;&lt;/lv-swith&gt;
 &lt;script type="text/babel"&gt;
 export default {
   data () {
     return {
       swith: true
     };
-  },
-  methods: {
-    xxx () {}
   }
 }
 &lt;/script&gt;</code></pre>

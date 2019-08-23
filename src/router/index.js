@@ -14,6 +14,10 @@ const Checkbox = () => import('./ui/checkbox.vue');
 const Swith = () => import('./ui/swith.vue');
 const Slider = () => import('./ui/slider.vue');
 const Menu = () => import('./ui/menu.vue');
+const Dropmenu = () => import('./ui/dropmenu.vue');
+const Datepicker = () => import('./ui/datepicker.vue');
+const Tip = () => import('./ui/tip.vue');
+const Confirm = () => import('./ui/confirm.vue');
 
 Vue.use(Router);
 
@@ -89,6 +93,26 @@ export default new Router({
           path: '/menu',
           name: 'menu',
           component: Menu
+        },
+        {
+          path: '/dropmenu',
+          name: 'dropmenu',
+          component: Dropmenu
+        },
+        {
+          path: '/datepicker',
+          name: 'datepicker',
+          component: Datepicker
+        },
+        {
+          path: '/tip',
+          name: 'tip',
+          component: Tip
+        },
+        {
+          path: '/confirm',
+          name: 'confirm',
+          component: Confirm
         }
       ]
     }

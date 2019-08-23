@@ -37,7 +37,7 @@ export default {
       </dd>
     </dl>
     <dl>
-      <dd><h3>可自定义菜单项内容</h3></dd>
+      <dd><h3>单选、自定义菜单项内容</h3></dd>
       <dd class="example">
         <section v-highlight>
            <pre><code>&lt;lv-menu v-bind="option2" v-model="option2.result" @cbkClkItem="callback2"&gt;
@@ -49,7 +49,7 @@ export default {
     return {
       option2: {
         show: true,
-        multi: true,
+        multi: false,
         data: [
           {name: 'name1', age: 11}, 
           {name: 'name2', age: 12}, 
@@ -97,9 +97,9 @@ export default {
         },
         option2: {
           show: true,
-          multi: true,
+          multi: false,
           data: [{name: 'name1', age: 11}, {name: 'name2', age: 12}, {name: 'name3', age: 13}, {name: 'name4', age: 14}],
-          result: [1, 2]
+          result: [2]
         }
       };
     },

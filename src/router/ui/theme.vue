@@ -35,6 +35,18 @@
       </dd>
     </dl>
     <dl>
+      <dd><h3>title属性</h3></dd>
+      <dd>重定义标签title属性</dd>
+      <dd class="example">
+        <section v-highlight>
+           <pre><code>&lt;span prop-title="我的title内容"&gt;把鼠标移动上来查看title样式&lt;/span&gt;</code></pre>
+        </section>
+        <section style="position:relative;padding:10px;">
+          <span prop-title="我的title内容">把鼠标移动上来查看title样式</span>
+        </section>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>内容不可选中</h3></dd>
       <dd>通过给元素添加class="no-select", 设置元素不可被选中</dd>
       <dd class="example">
@@ -43,6 +55,18 @@
         </section>
         <section style="position:relative;padding:10px;">
           <p class="no-select">内容不可选中</p>
+        </section>
+      </dd>
+    </dl>
+    <dl>
+      <dd><h3>数字角标</h3></dd>
+      <dd>通过给元素添加data-badge属性,设置角标</dd>
+      <dd class="example">
+        <section v-highlight>
+           <pre><code>&lt;span data-badge="9"&gt;消息&lt;/span&gt;</code></pre>
+        </section>
+        <section style="position:relative;padding:10px;">
+          <span data-badge="9">消息</span>
         </section>
       </dd>
     </dl>
