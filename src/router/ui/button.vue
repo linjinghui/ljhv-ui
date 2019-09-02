@@ -8,7 +8,7 @@
     <dl>
       <dd><h3>引入组件</h3></dd>
       <dd v-highlight>
-        <pre><code>import Button from 'ljhv-ui';
+        <pre><code>import Button from 'lv-web-ui';
 Vue.component('lvButton', Button);</code></pre>
       </dd>
     </dl>

@@ -22,6 +22,9 @@ const Loading = () => import('./ui/loading.vue');
 const Progress = () => import('./ui/progress.vue');
 const Tooltip = () => import('./ui/tooltip.vue');
 const Rangemenu = () => import('./ui/rangemenu.vue');
+const Table = () => import('./ui/table.vue');
+const Sidebar = () => import('./ui/sidebar.vue');
+const Img = () => import('./ui/img.vue');
 
 Vue.use(Router);
 
@@ -137,6 +140,21 @@ export default new Router({
           path: '/rangemenu',
           name: 'rangemenu',
           component: Rangemenu
+        },
+        {
+          path: '/table',
+          name: 'table',
+          component: Table
+        },
+        {
+          path: '/sidebar',
+          name: 'sidebar',
+          component: Sidebar
+        },
+        {
+          path: '/img',
+          name: 'img',
+          component: Img
         }
       ]
     }

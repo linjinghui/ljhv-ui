@@ -1,13 +1,15 @@
 {
-  "name": "ljhv-ui",
+  "name": "lv-web-ui",
   "version": "1.0.0",
-  "description": "ljhv-ui api",
+  "description": "lv-web-ui api",
   "main": "src/index.js",
   "scripts": {
     "_comment": "npm run build BAP 可以在打包后开启可视化资源分析工具",
     "prebuild": "rimraf ./dist",
     "build": "webpack --config build/webpack.prod.js",
-    "dev": "nodemon build/server.js"
+    "dev": "nodemon build/server.js",
+    "clean": "rimraf ./lib",
+    "pub": "npm run clean && webpack --config build/webpack.pub.js && node build/common.file.provide.js"
   },
   "author": "",
   "devDependencies": {
@@ -54,6 +56,7 @@
     "style-loader": "^0.18.2",
     "url-loader": "^0.5.9",
     "vue": "^2.5.13",
+    "vue-image-crop-upload": "^2.2.3",
     "vue-lazyload": "^1.1.3",
     "vue-loader": "^14.1.1",
     "vue-perfect-scrollbar": "^0.0.12",
@@ -62,12 +65,20 @@
     "vue-router": "^3.0.1",
     "vue-template-compiler": "^2.5.13",
     "vuex": "^3.1.1",
+    "vue-quill-editor": "^3.0.6",
     "web-base-ui": "^2.7.1",
     "web-js-tool": "1.0.0",
     "webpack": "^3.1.0",
     "webpack-bundle-analyzer": "^3.0.3",
     "webpack-dev-middleware": "^1.11.0",
-    "webpack-hot-middleware": "^2.18.2"
+    "webpack-hot-middleware": "^2.18.2",
+    "clipboard": "^2.0.0",
+    "cropperjs": "^1.5.1",
+    "echarts": "^3.7.1",
+    "jstree": "^3.3.4",
+    "layui-laydate": "^5.0.9",
+    "quill-image-resize-module": "^3.0.0",
+    "swiper": "^4.5.0"
   },
   "dependencies": {
     "vue-hljs": "^1.1.2"

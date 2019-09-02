@@ -1,7 +1,7 @@
 <template>
   <div class="wrap page-home">
     <header>
-      <h1>LJHV-UI 使用文档</h1>
+      <h1>LV-WEB-UI 使用文档</h1>
     </header>
     <nav>
       <dl v-for="(item,index) in navData" :key="'nav_'+index">
@@ -55,7 +55,10 @@
               { title: '加载中', path: 'loading' },
               { title: '进度条', path: 'progress' },
               { title: 'title提示', path: 'tooltip' },
-              { title: '区域菜单', path: 'rangemenu' }
+              { title: '区域菜单', path: 'rangemenu' },
+              { title: '表格-test', path: 'table' },
+              { title: '侧边栏-test', path: 'sidebar' },
+              { title: '图片-test', path: 'img' }
             ]
           }
         ]

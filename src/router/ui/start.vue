@@ -2,8 +2,8 @@
   <div class="wrap page-start">
     <h1>快速上手</h1>
     <dl>
-      <dt><h3>关于ljhv-ui</h3></dt>
-      <dd>ljhv-ui 是 基于Vue2.x实现封装的UI版本，专为PC端打造，在追求完美视觉体验的同时也保证了其性能高效。可以通过“扫描二维码”直接与作者进行沟通。</dd>
+      <dt><h3>关于lv-web-ui</h3></dt>
+      <dd>lv-web-ui 是 基于Vue2.x实现封装的UI版本，专为PC端打造，在追求完美视觉体验的同时也保证了其性能高效。可以通过“扫描二维码”直接与作者进行沟通。</dd>
       <dd><img class="qrcode" width="140px" src="http://vue.ydui.org/img/qrcode.jpg?t=3.1415926"></dd>
     </dl>
     <dl>
@@ -11,7 +11,7 @@
       <dd>推荐使用 npm 来安装，能更好地和 webpack 模块打包器配合使用。</dd>
       <dd v-highlight>
         <pre><code># 最新稳定版
-$ npm install ljhv-ui --save</code></pre>
+$ npm install lv-web-ui --save</code></pre>
       </dd>
     </dl>
     <dl>
