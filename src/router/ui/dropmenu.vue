@@ -2,10 +2,17 @@
   <div class="wrap page-theme">
     <h1>下拉框</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Dropmenu} from 'lv-web-ui';
+Vue.component('lvDropmenu', Dropmenu);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>可多选的下拉框</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-drop-menu v-bind="option" v-model="option.result" @cbkClkItem="cbkClkItem"&gt;&lt;/lv-drop-menu&gt;
+           <pre><code>&lt;lv-dropmenu v-bind="option" v-model="option.result" @cbkClkItem="cbkClkItem"&gt;&lt;/lv-dropmenu&gt;
 &lt;script type="text/babel"&gt;
 export default {
   data () {
@@ -34,7 +41,7 @@ export default {
 &lt;/script&gt;</code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-drop-menu v-bind="option" v-model="option.result" @cbkClkItem="cbkClkItem"></lv-drop-menu>
+          <lv-dropmenu v-bind="option" v-model="option.result" @cbkClkItem="cbkClkItem"></lv-dropmenu>
         </section>
       </dd>
     </dl>
@@ -43,9 +50,9 @@ export default {
       <dd><h3>单选下拉框，支持输入框检索、自定义菜单内容</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-drop-menu v-bind="option2" v-model="option2.result" @cbkClkItem="cbkClkItem"&gt;
+           <pre><code>&lt;lv-dropmenu v-bind="option2" v-model="option2.result" @cbkClkItem="cbkClkItem"&gt;
   &lt;p slot="line" slot-scope="props"&gt;{props.item.name}&lt;/p&gt;
-&lt;/lv-drop-menu&gt;
+&lt;/lv-dropmenu&gt;
 &lt;script type="text/babel"&gt;
 export default {
   data () {
@@ -71,9 +78,9 @@ export default {
 &lt;/script&gt;</code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-drop-menu v-bind="option2" v-model="option2.result" @cbkClkItem="cbkClkItem">
+          <lv-dropmenu v-bind="option2" v-model="option2.result" @cbkClkItem="cbkClkItem">
             <p slot="line" slot-scope="props">{{props.item.name}}</p>
-          </lv-drop-menu>
+          </lv-dropmenu>
         </section>
       </dd>
     </dl>
@@ -82,9 +89,9 @@ export default {
       <dd><h3>异步检索下拉框</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-drop-menu v-bind="option3" v-model="option3.result" @cbkClkItem="cbkClkItem" @search="search"&gt;
+           <pre><code>&lt;lv-dropmenu v-bind="option3" v-model="option3.result" @cbkClkItem="cbkClkItem" @search="search"&gt;
   &lt;p slot="line" slot-scope="props"&gt;{props.item.name}&lt;/p&gt;
-&lt;/lv-drop-menu&gt;
+&lt;/lv-dropmenu&gt;
 &lt;script type="text/babel"&gt;
 export default {
   data () {
@@ -119,9 +126,9 @@ export default {
 &lt;/script&gt;</code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-drop-menu v-bind="option3" v-model="option3.result" @cbkClkItem="cbkClkItem" @search="search">
+          <lv-dropmenu v-bind="option3" v-model="option3.result" @cbkClkItem="cbkClkItem" @search="search">
             <p slot="line" slot-scope="props">{{props.item.name}}</p>
-          </lv-drop-menu>
+          </lv-dropmenu>
         </section>
       </dd>
     </dl>
@@ -130,12 +137,12 @@ export default {
 </template>
 
 <script>
-  import {Dropmenu} from 'web-base-ui';
+  import {DropMenu} from '../../../packages/index.js';
   
   export default {
-    name: 'DropMenu',
+    name: 'Dropmenu',
     components: {
-      lvDropMenu: Dropmenu
+      lvDropmenu: DropMenu
     },
     data () {
       return {

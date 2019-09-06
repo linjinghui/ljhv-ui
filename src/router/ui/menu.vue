@@ -32,7 +32,7 @@ export default {
 &lt;/script&gt;</code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-menu v-bind="option1" v-model="option1.result" @cbkClkItem="callback"></lv-menu>
+          <lv-menu v-bind="option1" v-model="option1.result"></lv-menu>
         </section>
       </dd>
     </dl>
@@ -80,7 +80,7 @@ export default {
 </template>
 
 <script>
-  import {Menu} from 'web-base-ui';
+  import {Menu} from '../../../packages/index.js';
   
   export default {
     name: 'Menu',

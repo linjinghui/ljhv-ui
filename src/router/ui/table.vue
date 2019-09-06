@@ -2,13 +2,22 @@
   <div class="wrap page-theme">
     <h1>表格 - PS:增加排序功能</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Table} from 'lv-web-ui';
+Vue.component('lvTable', Table);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>带排序和滚动条的表格组件，设置表格高度后会自动添加滚动条功能，且表格头固定不动</h3></dd>
       <dd class="example">
         <section v-highlight>
            <pre><code># data：表格数据列表
-# order：是否需要排序
+# order：是否需要排序，默认false
+# drag：是否开启拖拽排序，默认false
 # ref：排序方法里面会用到
-&lt;lv-table style="height:400px;" :data="dataList" :order="true" ref="rtable"&gt;
+# @sort：拖拽排序回调
+&lt;lv-table style="height:400px;" :data="dataList" :order="true" :drag="true" ref="rtable" @sort="callback"&gt;
   &lt;tr slot="head"&gt;
     # 可以通过设置class="no-order"来关闭本列的排序功能
     &lt;td class="no-order"&gt;序号&lt;/td&gt;
@@ -40,29 +49,37 @@ export default {
     };
   },
   methods: {
+    // 排序功能
     clkOrder (orderBy) {
       this.$refs.rtable.setOrder(this.dataList, orderBy);
+    },
+    // 拖拽排序后，还原
+    restore () {
+      this.$refs.rtable.restore();
+    },
+    callback (data) {
+      console.log(data);
     }
   }
 }
 &lt;/script&gt;</code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-table style="height:400px;" :data="dataList" :order="true" ref="rtable">
+          <lv-table style="height:400px;" :data="dataList" :order="true" :drag="true" ref="rtable" @sort="callback">
             <tr slot="head">
               <td class="no-order">序号</td>
               <td @click="clkOrder('name')">姓名</td>
               <td @click="clkOrder('age')">年龄</td>
               <td class="no-order">操作</td>
             </tr>
-            <tr slot="body" slot-scope="props">
+            <template slot="body" slot-scope="props">
               <td>{{props.index}}</td>
               <td>{{props.item.name}}</td>
               <td>{{props.item.age}}</td>
               <td>
                 <lv-button>确定</lv-button>
               </td>
-            </tr>
+            </template>
           </lv-table>
         </section>
       </dd>
@@ -71,10 +88,10 @@ export default {
 </template>
 
 <script>
-  import {Table, Button} from 'web-base-ui';
+  import {Table, Button} from '../../../packages/index.js';
   
   export default {
-    name: 'Theme',
+    name: 'Table',
     components: {
       lvTable: Table,
       lvButton: Button
@@ -108,7 +125,7 @@ export default {
           
           this.dataList.push({
             id: Math.floor(Math.random() * (m - n + 1) + n),
-            name: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968) + ':' + random,
+            name: String.fromCodePoint(Math.round(Math.random() * 20901) + 19968) + ':' + i,
             age: random * 10,
             state: 1
           });
@@ -116,6 +133,9 @@ export default {
       },
       clkOrder (orderBy) {
         this.$refs.rtable.setOrder(this.dataList, orderBy);
+      },
+      restore () {
+        this.$refs.rtable.restore();
       }
     }
   };

@@ -36,29 +36,39 @@
             ]
           },
           {
-            title: '组件',
+            title: '全局组件',
             children: [
               { title: '全局设置', path: 'theme' },
               { title: '文本大小', path: 'font' },
-              { title: '按钮', path: 'button' },
               { title: '图标', path: 'cicon' },
+              { title: '确认框', path: 'confirm' },
+              { title: '加载中', path: 'loading' },
+              { title: '提示框', path: 'tip' }
+            ]
+          },
+          {
+            title: '表单组件',
+            children: [
+              { title: '按钮', path: 'button' },
               { title: '输入框', path: 'input' },
               { title: '单选框', path: 'radio' },
               { title: '复选框', path: 'checkbox' },
               { title: '开关', path: 'swith' },
+              { title: '下拉框', path: 'dropmenu' },
+              { title: '表格', path: 'table' },
+              { title: '日期选择器', path: 'datepicker' },
+              { title: '图片-test', path: 'img' }
+            ]
+          },
+          {
+            title: '组件',
+            children: [
               { title: '滑块-test', path: 'slider' },
               { title: '菜单', path: 'menu' },
-              { title: '下拉框', path: 'dropmenu' },
-              { title: '日期选择器-test', path: 'datepicker' },
-              { title: '提示框', path: 'tip' },
-              { title: '确认框', path: 'confirm' },
-              { title: '加载中', path: 'loading' },
               { title: '进度条', path: 'progress' },
               { title: 'title提示', path: 'tooltip' },
               { title: '区域菜单', path: 'rangemenu' },
-              { title: '表格-test', path: 'table' },
-              { title: '侧边栏-test', path: 'sidebar' },
-              { title: '图片-test', path: 'img' }
+              { title: '侧边栏-test', path: 'sidebar' }
             ]
           }
         ]
@@ -93,8 +103,11 @@
         flex-shrink: 0;
 
         > section {
-          flex: 1;
+          width: 40%;
           border: solid 1px #eee;
+        }
+        > section:first-of-type {
+          width: 60%;
         }
       }
     }

@@ -8,7 +8,7 @@
     <dl>
       <dd><h3>引入组件</h3></dd>
       <dd v-highlight>
-        <pre><code>import Button from 'lv-web-ui';
+        <pre><code>import {Button} from 'lv-web-ui';
 Vue.component('lvButton', Button);</code></pre>
       </dd>
     </dl>
@@ -139,7 +139,7 @@ Vue.component('lvButton', Button);</code></pre>
 </template>
 
 <script>
-  import {Button} from 'web-base-ui';
+  import {Button} from '../../../packages/index.js';
   
   export default {
     name: 'Button',

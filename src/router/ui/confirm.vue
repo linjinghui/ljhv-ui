@@ -13,35 +13,35 @@ export default {
       var _this = this;
 
       this.$confirm({
-        # 显示隐藏
+        // 显示隐藏
         show: true,
-        # 是否需要底层遮罩效果
+        // 是否需要底层遮罩效果
         modal: true,
         heading: '投票',
         content: '你今天还能为其他未投过票的参选者投&lt;font style="color: red;"&gt;1&lt;/font&gt;票',
-        # 小图标类型, 可空 success(默认)|error|warning|bigsuccess|bigerror|bigwarning
-        type: '',
-        # 自定义内容样式，可不传，默认文本居中显示
+        // 小图标类型, 可空 success(默认)|error|warning|bigsuccess|bigerror|bigwarning
+        type: 'success',
+        // 自定义内容样式，可不传，默认文本居中显示
         stl: {
-          # 标题样式
+          // 标题样式
           header: {
-            # 文本位置：left|center
+            // 文本位置：left|center
             'text-align': 'center'
           },
-          # 内容样式
+          // 内容样式
           section: {
-            # 文本位置：left|center|right
+            // 文本位置：left|center|right
             'text-align': 'center'
           },
-          # 按钮样式
+          // 按钮样式
           footer: {
-            # 按钮位置：left|center|right
+            // 按钮位置：left|center|right
             'text-align': 'center'
           }
         },
         buttons: [{
           text: '放弃修改',
-          # 按钮主题： primary|success|info|warning|danger|#f56c6c
+          // 按钮主题： primary|success|info|warning|danger|#f56c6c
           theme: 'line'
         }, {
           text: '选择文件',
@@ -73,6 +73,7 @@ export default {
         <section v-highlight>
            <pre><code>&lt;lv-button @click="clkBtn"&gt;文本确认框&lt;/lv-button&gt;
 &lt;script type="text/babel"&gt;
+
 export default {
   methods: {
     showPrompt () {
@@ -173,7 +174,7 @@ export default {
 </template>
 
 <script>
-  import {Button, Dialog} from 'web-base-ui';
+  import {Button, Dialog} from '../../../packages/index.js';
   
   export default {
     name: 'Theme',
@@ -208,9 +209,6 @@ export default {
       // 
     },
     methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      },
       clkBtn () {
         var _this = this;
 
@@ -220,7 +218,7 @@ export default {
           heading: '投票',
           content: ' 你今天还能为其他未投过票的参选者投<font style="color: red;">1</font>票',
           // error|success|warning|bigsuccess|bigerror|bigwarning
-          type: '',
+          type: 'success',
           stl: {
             header: {
               // left|center

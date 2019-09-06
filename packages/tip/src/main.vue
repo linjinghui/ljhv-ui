@@ -4,20 +4,18 @@
  -->
 
 <template>
-  <transition name="slide-fade">
-    <div class="wrap-tip" :id="id"
-      :style="{'background-color': _theme, 'text-align': textAlign, 
-      'top': full+''==='true'&&'0', 'width': full+''==='true'&&'100%'}" v-show="value">
-      <i class="cicon-cross-crle" v-if="theme==='danger'" :style="{'color': _theme}"></i>
-      <i class="cicon-tick-crle" v-else-if="theme==='success'" :style="{'color': _theme}"></i>
-      <i class="cicon-exclamation-crle" v-else-if="theme==='warning'"></i>
-      {{text}}
-      <i class="cicon-cross" @click="clk_hide"></i>
-    </div>
-  </transition>
+  <div class="wrap-tip" :class="[{'cmb':isMobile,'show':value},type]" :id="id">
+    <i class="cicon-cross-crle" v-if="type==='danger'"></i>
+    <i class="cicon-tick-crle" v-else-if="type==='success'"></i>
+    <i class="cicon-exclamation-crle" v-else-if="type==='warning'"></i>
+    <span class="text">{{text}}</span>
+    <i class="cicon-cross" @click="clk_hide"></i>
+  </div>
 </template>
 
 <script type="text/babel">
+  import {browerVersion} from 'web-js-tool';
+
   export default {
     name: 'Tip',
     data: function () {
@@ -27,9 +25,6 @@
       };
     },
     props: {
-      eventName: {
-        default: 'Tip'
-      },
       full: {
         default: false
       },
@@ -39,8 +34,8 @@
       text: {
         default: '提示内容'
       },
-      theme: {
-        default: 'success'
+      type: {
+        default: ''
       },
       time: {
         type: Number,
@@ -60,32 +55,21 @@
             _this.clk_hide();
           }, this.time);
           // 计算长度
-          setTimeout(function () {
-            // var dom = document.getElementById(_this.id);
-            var dom = document.querySelector('#' + _this.id); 
-            
-            dom.style.marginLeft = '-' + parseInt((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
-            _this.$nextTick(function () {
-              dom.style.marginLeft = '-' + parseInt((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
-            });
-          }, 30);
+          // setTimeout(function () {
+          //   _this.countLength();
+          // }, 30);
         } else {
           // 清除定时器
           clearTimeout(this.timer);
         }
+      },
+      text: function () {
+        this.countLength();
       }
     },
     computed: {
-      '_theme': function () {
-        let obj = {
-          primary: '#f3faff',
-          success: '#f4fff9',
-          info: '#f3faff',
-          warning: '#f3faff',
-          danger: '#fdf3f3'
-        };
-
-        return obj[this.theme] || this.theme;
+      isMobile: function () {
+        return browerVersion().android || browerVersion().ios;
       }
     },
     beforeDestroy: function () {
@@ -93,6 +77,7 @@
     },
     mounted: function () {
       window.addEventListener('keyup', this.evt_keyup);
+      this.countLength();
     },
     methods: {
       clk_hide: function () {
@@ -105,6 +90,14 @@
         if (keyCode === 27 && this.value) {
           this.clk_hide();
         }
+      },
+      countLength: function () {
+        var dom = document.querySelector('#' + this.id); 
+            
+        dom.style.marginLeft = '-' + parseInt((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
+        this.$nextTick(function () {
+          dom.style.marginLeft = '-' + parseInt((dom.offsetWidth || dom.clientWidth) / 2) + 'px';
+        });
       }
     }
   };
@@ -114,25 +107,26 @@
   .wrap-tip {
     position: fixed;
     left: 50%;
-    top: 20px;
-    bottom: auto;
+    top: -100px;
     min-width: 160px;
     max-width: 80%;
-    height: 50px;
     padding-left: 20px;
     padding-right: 10px;
-    line-height: 50px;
+    padding-top: 12px;
+    padding-bottom: 12px;
     font-size: 14px;
     color: #666;
     opacity: 0.95;
     border-radius: 4px;
     box-shadow: 1px 2px 8px #ccc;
+    background-color: #f3faff;
     white-space: nowrap;
     word-break: break-all;
     word-wrap: break-word;
     overflow: hidden;
     text-overflow: ellipsis;
     z-index: 2000;
+    transition: all .2s ease-in;
 
     [class^="cicon"] {
       font-size: 22px;
@@ -151,13 +145,19 @@
     }
     .cicon-exclamation-crle {
       color: #45abff;
-      border: solid 1px #45abff;
+      border-style: solid;
+      border-width: 1px;
+      border-color: inherit;
+    }
+
+    .text {
+      display: inline-block;
+      height: 24px;
+      line-height: 24px;
     }
 
     .cicon-cross {
       float: right;
-      margin-top: 13px;
-      margin-left: 10px;
       font-size: 24px;
       color: #9b9b9b;
       cursor: pointer;
@@ -167,65 +167,59 @@
       color: inherit;
     }
   }
-
-  .slide-fade-enter-active {
-    transition: top .2s ease-in;
+  .wrap-tip.success {
+    background-color: #f4fff9;
+  }
+  .wrap-tip.info {
+    background-color: #f3faff;
+  }
+  .wrap-tip.warning {
+    background-color: #f3faff;
+  }
+  .wrap-tip.danger {
+    background-color: #fdf3f3;
   }
 
-  .slide-fade-leave-active {
-    transition: top .2s ease-out;
-  }
-  .slide-fade-enter, .slide-fade-leave-to {
-    top: -100px;
-  }
+  // 移动端
+  .wrap-tip.cmb {
+    top: auto;
+    bottom: -100px;
+    padding: 10px 20px;
+    color: #fff;
+    background-color: #000;
+    box-shadow: unset;
+    text-align: center;
 
-  @media all and (max-width: 1024px) {
-    .wrap-tip {
-      top: 0;
-      bottom: 0;
-      margin: auto;
-      padding: 0;
-      min-width: auto;
-      max-width: auto;
-      width: 140px!important;
-      height: 140px!important;
-      line-height: inherit;
-      text-align: center;
-      font-size: 18px;
-      border-radius: 8px;
+    > .cicon-cross {
+      display: none;
+    }
+  }
+  .wrap-tip.cmb.success,
+  .wrap-tip.cmb.warning,
+  .wrap-tip.cmb.danger {
+    display: none;
+    bottom: 50%!important;
+    min-width: 120px;
+    transition: unset;
+
+    > [class^="cicon"]:not(.cicon-cross) {
+      display: block;
+      margin: 0 auto;
+      margin-bottom: 10px;
+      font-size: 38px;
+      border-width: 2px;
       color: #fff;
-      background-color: rgba(0, 0, 0, 0.4)!important;
-
-      .cicon-cross {
-        display: none;
-      }
-
-      .cicon-cross-crle, .cicon-tick-crle, .cicon-exclamation-crle {
-        display: block;
-        margin: 20px auto 20px auto;
-        font-size: 50px;
-        border-width: 2px;
-        border-color: #fff;
-      }
-      .cicon-exclamation-crle {
-        color: #fff;
-      }
-    }
-    
-    @keyframes zoomIn{0%{opacity:0;transform:scale3d(.3,.3,.3)}50%{opacity:1}}
-    @keyframes zoomOut{0%{opacity:1}50%{opacity:0;transform:scale3d(.3,.3,.3)}to{opacity:0}}
-
-    .slide-fade-enter-active {
-      animation: zoomIn .2s;
-    }
-
-    .slide-fade-leave-active {
-      animation: zoomOut .2s;
-    }
-    .slide-fade-enter, .slide-fade-leave-to {
-      top: 0;
+      border-color: inherit;
     }
   }
 
+  // 动画
+  .wrap-tip:not(.cmb).show {
+    top: 20px;
+  }
+  .wrap-tip.cmb.show {
+    display: block;
+    bottom: 20px;
+  }
   
 </style>

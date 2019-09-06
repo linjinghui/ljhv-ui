@@ -1,10 +1,17 @@
+<!--
+功能介绍：
+1、
+ :key="item.id"
+ @mouseenter="hover=index"
+      @click="clk_item(index)"
+ -->
 
 <template>
   <vperfect-scrollbar class="wrap-menu" :settings="settings" v-show="show">
     <div class="line" v-for="(item,index) in data" :key="'menu_'+index" 
     :class="{'theme-c active':multi?value.indexOf(index)!==-1:value[0]===index}" 
     @click="clk_item(index)">
-      <div><slot name="line" :item="item">{{item}}</slot></div>
+      <slot name="line" :item="item"><p>{{item}}</p></slot>
       <i class="cicon-tick"></i>
     </div>
   </vperfect-scrollbar>
@@ -49,6 +56,14 @@
         default: false
       }
     },
+    watch: {
+      value: function (val) {
+        console.log('watch value', JSON.stringify(val));
+      }
+    },
+    // computed: {},
+    // beforeDestroy: function () {},
+    // mounted: function () {},
     methods: {
       emt_hide: function () {
         this.$emit('input', false);
@@ -67,14 +82,6 @@
           _value = [index];
         }
         this.$emit('input', _value);
-        this.$nextTick(function () {
-          var result = [];
-
-          _value.forEach(item => {
-            result[result.length] = this.data[item];
-          });
-          this.$emit('cbkClkItem', result);
-        });
       },
       evt_keydown: function (event) {
         if (this.show) {
@@ -127,6 +134,14 @@
     .ps__scrollbar-y-rail {
       z-index: 1;
     }
+
+    > .line > * {
+      flex: 1;
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      user-select: none;
+    }
   }
 </style>
 <style scoped lang="scss">
@@ -153,14 +168,6 @@
       padding-left: 10px;
       padding-right: 10px;
       cursor: pointer;
-
-      > div {
-        flex: 1;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        user-select: none;
-      }
 
       >.cicon-tick {
         display: none;

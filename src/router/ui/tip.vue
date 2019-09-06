@@ -12,12 +12,14 @@ export default {
     clkBtn () {
       this.$tip({
         text: '提示内容',
-        # 显示隐藏，默认3秒后消失
+        // 显示隐藏，默认3秒后消失
         show: true,
-        # 文本位置，left: 左侧(默认), center: 居中
+        // 延迟时间，默认3秒
+        time: 3000,
+        // 文本位置，left: 左侧(默认), center: 居中
         textAlign: 'left',
-        # 主题 success(默认)|info|warning|danger
-        theme: 'danger'
+        // 主题 success|info|warning|danger
+        type: 'success'
       });
     }
   }
@@ -33,10 +35,10 @@ export default {
 </template>
 
 <script>
-  import {Button} from 'web-base-ui';
+  import {Button} from '../../../packages/index.js';
   
   export default {
-    name: 'Theme',
+    name: 'Tip',
     components: {
       lvButton: Button
     },
@@ -49,17 +51,16 @@ export default {
       // 
     },
     methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      },
       clkBtn () {
         this.$tip({
           text: '提示内容',
           show: true,
+          // 延迟时间，默认3秒
+          time: 5000,
           // left|center
           textAlign: 'left',
-          // success|info|warning|danger, 移动端不支持：info
-          theme: 'success'
+          // success|info|warning|danger
+          type: 'success'
         });
       }
     }

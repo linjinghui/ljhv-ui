@@ -2,6 +2,13 @@
   <div class="wrap page-theme">
     <h1>开关</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Swith} from 'lv-web-ui';
+Vue.component('lvSwith', Swith);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>开关，带禁用功能</h3></dd>
       <dd class="example">
         <section v-highlight>
@@ -26,7 +33,7 @@ export default {
 </template>
 
 <script>
-  import {Swith} from 'web-base-ui';
+  import {Swith} from '../../../packages/index.js';
   
   export default {
     name: 'Swith',

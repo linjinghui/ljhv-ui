@@ -2,6 +2,13 @@
   <div class="wrap page-theme">
     <h1>单选框</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Radio} from 'lv-web-ui';
+Vue.component('lvRadio', Radio);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>带确认选中功能的单选框</h3></dd>
       <dd class="example">
         <section v-highlight>
@@ -32,7 +39,7 @@ export default {
 </template>
 
 <script>
-  import {Radio} from 'web-base-ui';
+  import {Radio} from '../../../packages/index.js';
   
   export default {
     name: 'Radio',
@@ -43,6 +50,11 @@ export default {
       return {
         food: '1'
       };
+    },
+    watch: {
+      food: function (val) {
+        console.log('food=', val);
+      }
     },
     mounted: function () {
       // 

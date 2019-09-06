@@ -15,8 +15,8 @@
   </button>
   <!-- 选择文件专用∨ -->
   <label class="button theme-b" :class="theme" :id="id" :disabled="pdisabled" :for="'file_'+id" v-else>
-      <input type="file" :id="'file_'+id" :disabled="pdisabled" :accept="fileoption.accept" :multiple="fileoption.multiple" @change="file_change">
-      <slot></slot>
+    <input type="file" :id="'file_'+id" :disabled="pdisabled" :accept="fileoption.accept" :multiple="fileoption.multiple" @change="file_change">
+    <slot></slot>
   </label>
   <!-- 选择文件专用∧ -->
 </template>

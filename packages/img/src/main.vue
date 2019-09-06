@@ -78,6 +78,7 @@
 
           img.src = this.src;
           img.onload = function () {
+            console.log(img.src);
             // 图片加载完成
             _this.$set(_this.imgInfo, 'src', img.src);
             if (_this.autoWh) {
@@ -88,7 +89,8 @@
             if ((_this.preview + '') === 'true') {
               _this.$nextTick(function () {
                 var imgs = _this.containerClass ? (document.querySelector('.' + _this.containerClass)) : (document.getElementById(_this.id));
-
+                
+                // console.log(imgs);
                 _this.viewer = new Viewer(imgs, Object.assign({
                   inline: false,
                   // 显示右上角关闭按钮（jQuery 版本无效）

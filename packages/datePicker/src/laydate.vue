@@ -4,7 +4,7 @@
  -->
 
 <template>
-  <cmp-input type="text" maxlength="20" :class="id" :placeholder="placeholder+':'+$scopedSlots" v-model="value">
+  <cmp-input type="text" maxlength="20" :class="id" :placeholder="placeholder" v-model="value">
     <template slot="right" v-if="$scopedSlots.right">
       <slot name="right"></slot>
     </template>

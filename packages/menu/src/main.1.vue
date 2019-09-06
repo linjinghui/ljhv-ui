@@ -1,11 +1,16 @@
+<!--
+功能介绍：
+1、
+ :key="item.id"
+ @mouseenter="hover=index"
+      @click="clk_item(index)"
+ -->
 
 <template>
-  <vperfect-scrollbar class="wrap-menu" :settings="settings" v-show="show">
-    <div class="line" v-for="(item,index) in data" :key="'menu_'+index" 
-    :class="{'theme-c active':multi?value.indexOf(index)!==-1:value[0]===index}" 
-    @click="clk_item(index)">
-      <div><slot name="line" :item="item">{{item}}</slot></div>
-      <i class="cicon-tick"></i>
+  <vperfect-scrollbar class="wrap-menu" ref="ps" :settings="settings" v-show="show">
+    <div class="line" v-for="(item, index) in data" :key="item.id" @mousedown="clk_item(index)"
+      :class="{'theme-c active': multi?value.indexOf(index)!==-1:value[0]===index}">
+      <slot name="line" :item="item">{{item}}</slot><i class="cicon-tick center-hv" v-if="multi"></i>
     </div>
   </vperfect-scrollbar>
 </template>
@@ -30,13 +35,11 @@
       };
     },
     props: {
-      // 初始下标值
       value: {
         default: function () {
           return [];
         }
       },
-      // 列表数据
       data: {
         default: function () {
           return [];
@@ -49,32 +52,37 @@
         default: false
       }
     },
+    // watch: {},
+    // computed: {},
+    // beforeDestroy: function () {},
+    // mounted: function () {},
     methods: {
       emt_hide: function () {
         this.$emit('input', false);
       },
       clk_item: function (index) {
-        var _value = JSON.parse(JSON.stringify(this.value));
+        // 单选的时候，不允许取消选择
+        if (this.multi || this.value.indexOf(index) === -1) {
+          var _value = JSON.parse(JSON.stringify(this.value));
+          var _index = _value.indexOf(index);
 
-        if (this.multi && _value.indexOf(index) >= 0) {
-          // 取消选中
-          _value.splice(_value.indexOf(index), 1);
-        } else if (this.multi) {
-          // 多选选中
-          _value.push(index);
-        } else {
-          // 单选选中
-          _value = [index];
-        }
-        this.$emit('input', _value);
-        this.$nextTick(function () {
-          var result = [];
+          if (_index === -1) {
+            // 不存在， 加入
+            this.multi ? (_value.push(index)) : (_value = [index]);
+          } else {
+            // 存在， 删除
+            this.multi ? (_value.splice(_index, 1)) : (_value = []);
+          }
+          this.$emit('input', _value);
+          this.$nextTick(function () {
+            var result = [];
 
-          _value.forEach(item => {
-            result[result.length] = this.data[item];
+            for (var i = 0;i < _value.length;i++) {
+              result[result.length] = this.data[_value[i]];
+            }
+            this.$emit('cbkClkItem', result);
           });
-          this.$emit('cbkClkItem', result);
-        });
+        }
       },
       evt_keydown: function (event) {
         if (this.show) {
@@ -135,6 +143,7 @@
     padding-top: 5px;
     padding-bottom: 5px;
     width: 100%;
+    max-height: 310px;
     border: solid 1px #e4e7ed;
     box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
     background-color: #fff;
@@ -145,35 +154,40 @@
 
     >.line {
       position: relative;
-      display: flex;
-      flex-shrink: 0;
-      flex-wrap: wrap;
-      align-items: center;
-      justify-content: space-between;
       padding-left: 10px;
       padding-right: 10px;
+      height: 30px;
+      line-height: 30px;
       cursor: pointer;
-
-      > div {
-        flex: 1;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-        overflow: hidden;
-        user-select: none;
-      }
+      white-space: nowrap;
+      text-overflow: ellipsis;
+      overflow: hidden;
+      user-select: none;
 
       >.cicon-tick {
         display: none;
-        flex: unset;
-        width: 20px;
+        position: absolute;
+        left: auto;
+        right: 10px;
         font-size: 20px;
       }
     }
-    >.line:not(.active):hover {
+    >.line:hover {
       background-color: #f5f7fa;
     }
-    >.line.active > .cicon-tick {
-      display: block;
+    >.line:active,
+    >.line.active {
+      // color: var(--theme);
+      background-color: transparent;
+
+      >.cicon-tick {
+        display: unset;
+      }
     }
   }
+
+  // .wrap-menu.hidden {
+  //   opacity: 0;
+  //   transform: scaleY(0);
+  // }
 </style>

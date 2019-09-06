@@ -1,12 +1,8 @@
-<!--
-功能介绍：
-1、
- -->
 
 <template>
   <div class="wrap-drop-menu" @click.stop>
     <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" 
-    :readonly="multi?true:readonly" @keyup="evn_keyup" @enter="evn_enter" @blur="evn_blur">
+    :readonly="multi?true:readonly" @keyup="evn_keyup" @enter="evn_enter">
         <i class="cicon-arrow-bottom center-v" v-if="!isSearch" :disabled="disabled+''==='true'" :class="{'up': show}" slot="right" @click.stop="clk_arrow"></i>
         <i class="cicon-loading move-loop center-v" v-if="isSearch" slot="right" @click.stop="clk_arrow">
           <span></span><span></span><span></span>
@@ -76,7 +72,6 @@
         this.$emit('input', val);
       },
       data: function () {
-        // alert(1);
         this.$nextTick(function () {
           this.setIptValue();
         });
@@ -109,16 +104,9 @@
     },
     methods: {
       clk_arrow: function () {
-        // if (this.disabled + '' !== 'true') {
-        //   this.show = !this.show;
-        // }
         this.toggleDropmenu();
-        // this.result = '';
       },
       clk_hide: function () {
-        // if (this.disabled + '' !== 'true') {
-        //   this.show = false;
-        // }
         this.toggleDropmenu(false);
       },
       toggleDropmenu: function (status) {
@@ -129,13 +117,6 @@
             this.show = status;
           }
         }
-        // if (typeof status === 'undefined') {
-        //   if (this.disabled + '' !== 'true') {
-        //     this.show = !this.show;
-        //   }
-        // } else {
-        //   this.show = status;
-        // }
       },
       cbkClkItem: function (data) {
         this.$emit('cbkClkItem', data);
@@ -192,11 +173,6 @@
       },
       evn_enter: function () {
         this.$emit('search', this.iptValue);
-      },
-      evn_blur: function () {
-        if (!this.multi) {
-          this.show = false;
-        }
       }
     }
   };

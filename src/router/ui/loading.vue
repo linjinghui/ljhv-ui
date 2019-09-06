@@ -11,12 +11,12 @@ export default {
   methods: {
     showLoading () {
       this.$loading({
-        # 显示隐藏
+        // 显示隐藏
         show: true, 
-        # 文本内容
+        // 文本内容
         text: '请您稍后', 
-        # 是否遮罩背景(默认false)
-        modal: false
+        // 是否遮罩背景(默认false)
+        modal: true
       });
     }
   }
@@ -32,7 +32,7 @@ export default {
 </template>
 
 <script>
-  import {Button} from 'web-base-ui';
+  import {Button} from '../../../packages/index.js';
   
   export default {
     name: 'Theme',
@@ -48,16 +48,13 @@ export default {
       // 
     },
     methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      },
       showLoading () {
         var _this = this;
 
         _this.$loading({
           show: true,
           text: '请您稍后',
-          modal: false
+          modal: true
         });
         setTimeout(function () {
           _this.$loading({show: false});
