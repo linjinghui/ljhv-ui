@@ -27,7 +27,7 @@ export default {
 </template>
 
 <script>
-  import {Slider} from 'web-base-ui';
+  import {Slider} from '../../../packages/index.js';
   
   export default {
     name: 'Theme',

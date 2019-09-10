@@ -5,7 +5,7 @@
  -->
 
 <template>
-  <img class="wrap-img" :id="id" :class="containerClass" :src="imgInfo.src" :alt="alt" :width="width" :height="height" :style="preview?'cursor:pointer':''">
+  <img class="wrap-img" :id="id" :src="imgInfo.src" :alt="alt" :width="width" :height="height" :style="preview?'cursor:pointer':''">
 </template>
 
 <script type="text/babel">
@@ -17,7 +17,7 @@
       return {
         id: 'Img_' + new Date().getTime() + parseInt(Math.random() * 100),
         imgInfo: {
-          src: require('../images/default.png')
+          src: this.defSrc
         },
         viewer: ''
       };
@@ -28,6 +28,14 @@
       },
       src: {
         default: ''
+      },
+      // 默认图片
+      defSrc: {
+        default: require('../images/default.png')
+      },
+      // 错误图片
+      errSrc: {
+        default: require('../images/404.png')
       },
       width: {
         default: ''
@@ -44,7 +52,7 @@
         default: true
       },
       // 容器class，用于显示容器下的所有图片
-      containerClass: {
+      container: {
         default: ''
       }
     },
@@ -61,6 +69,7 @@
     },
     mounted: function () {
       this.loadUrl();
+      this.initViewer();
       // // 监听页面图片加载错误
       // document.addEventListener('error', function (e) {
       //   var elem = e.target;
@@ -84,84 +93,81 @@
             if (_this.autoWh) {
               _this.$set(_this.imgInfo, 'width', img.width);
               _this.$set(_this.imgInfo, 'height', img.height);
-            }
-            // 加入查看功能
-            if ((_this.preview + '') === 'true') {
-              _this.$nextTick(function () {
-                var imgs = _this.containerClass ? (document.querySelector('.' + _this.containerClass)) : (document.getElementById(_this.id));
-                
-                // console.log(imgs);
-                _this.viewer = new Viewer(imgs, Object.assign({
-                  inline: false,
-                  // 显示右上角关闭按钮（jQuery 版本无效）
-                  button: true, 
-                  // 显示缩略图导航
-                  navbar: true, 
-                  // 显示当前图片的标题（现实 alt 属性及图片尺寸）
-                  title: true, 
-                  // 显示工具栏
-                  toolbar: true, 
-                  // 显示缩放百分比
-                  tooltip: true, 
-                  // 图片是否可移动
-                  movable: true, 
-                  // 图片是否可缩放
-                  zoomable: true, 
-                  // 图片是否可旋转
-                  rotatable: true, 
-                  // 图片是否可翻转
-                  scalable: true, 
-                  // 使用 CSS3 过度
-                  transition: true, 
-                  // 播放时是否全屏
-                  fullscreen: true, 
-                  // 是否支持键盘
-                  keyboard: true, 
-                  // 播放间隔，单位为毫秒
-                  interval: 5000, 
-                  // 鼠标滚动时的缩放比例
-                  zoomRatio: 0.1, 
-                  // 最小缩放比例
-                  minZoomRatio: 0.01, 
-                  // 最大缩放比例
-                  maxZoomRatio: 100, 
-                  // 设置图片查看器 modal 模式时的 z-index
-                  zIndex: 2015, 
-                  // 设置图片查看器 inline 模式时的 z-index
-                  zIndexInline: 0, 
-                  // url 字符串/函数 src 设置大图片的 url
-                  build: function () {
-                    // 
-                  },
-                  built: function () {
-                    // 
-                  },
-                  show: function () {
-                    // 
-                  },
-                  shown: function () {
-                    // 
-                  },
-                  hide: function () {
-                    // 
-                  },
-                  hidden: function () {
-                    // 
-                  },
-                  view: function () {
-                    // 
-                  },
-                  viewed: function () {
-                    // 
-                  }
-                }, _this.opt));
-              });
-            }
-            
+            }            
           };
           img.onerror = function () {
-            _this.$set(_this.imgInfo, 'src', require('../images/404.png'));
+            _this.$set(_this.imgInfo, 'src', _this.errSrc);
           };
+        }
+      },
+      initViewer: function () {
+        if ((this.preview + '') === 'true') {
+          var imgs = this.container ? (document.querySelector('.' + this.container)) : (document.getElementById(this.id));
+          
+          this.viewer = new Viewer(imgs, Object.assign({
+            inline: false,
+            // 显示右上角关闭按钮（jQuery 版本无效）
+            button: true, 
+            // 显示缩略图导航
+            navbar: true, 
+            // 显示当前图片的标题（现实 alt 属性及图片尺寸）
+            title: true, 
+            // 显示工具栏
+            toolbar: true, 
+            // 显示缩放百分比
+            tooltip: true, 
+            // 图片是否可移动
+            movable: true, 
+            // 图片是否可缩放
+            zoomable: true, 
+            // 图片是否可旋转
+            rotatable: true, 
+            // 图片是否可翻转
+            scalable: true, 
+            // 使用 CSS3 过度
+            transition: true, 
+            // 播放时是否全屏
+            fullscreen: true, 
+            // 是否支持键盘
+            keyboard: true, 
+            // 播放间隔，单位为毫秒
+            interval: 5000, 
+            // 鼠标滚动时的缩放比例
+            zoomRatio: 0.1, 
+            // 最小缩放比例
+            minZoomRatio: 0.01, 
+            // 最大缩放比例
+            maxZoomRatio: 100, 
+            // 设置图片查看器 modal 模式时的 z-index
+            zIndex: 2015, 
+            // 设置图片查看器 inline 模式时的 z-index
+            zIndexInline: 0, 
+            // url 字符串/函数 src 设置大图片的 url
+            build: function () {
+              // 
+            },
+            built: function () {
+              // 
+            },
+            show: function () {
+              // 
+            },
+            shown: function () {
+              // 
+            },
+            hide: function () {
+              // 
+            },
+            hidden: function () {
+              // 
+            },
+            view: function () {
+              // 
+            },
+            viewed: function () {
+              // 
+            }
+          }, this.opt));
         }
       }
     }

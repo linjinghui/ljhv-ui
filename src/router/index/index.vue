@@ -57,7 +57,7 @@
               { title: '下拉框', path: 'dropmenu' },
               { title: '表格', path: 'table' },
               { title: '日期选择器', path: 'datepicker' },
-              { title: '图片-test', path: 'img' }
+              { title: '图片', path: 'img' }
             ]
           },
           {
