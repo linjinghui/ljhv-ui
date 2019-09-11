@@ -8,15 +8,21 @@
 <template>
   <div class="slider wrap-drag" style="border:solid 1px;">
     <p class="progress theme-b" :disabled="disabled" :style="'width:'+perx+'%;'"></p>
-    <span class="bar theme-c" :disabled="disabled" v-drag:x="cpos" @edrag="funDrag"></span>
+    <tooltip ref="ttp" :text="tttext" theme="#333" position="bottom">
+      <span class="bar theme-c" :disabled="disabled" v-drag:x="cpos" @edrag="funDrag"><i :disabled="disabled"></i></span>
+    </tooltip>
   </div>
 </template>
 
 <script>
   import drag from '../../../src/directives/drag.js';
+  import Tooltip from '../../tooltip/src/main.vue';
 
   export default {
     name: 'Slider',
+    components: {
+      Tooltip
+    },
     props: {
       // 初始进度, 百分比
       percent: {
@@ -29,6 +35,13 @@
     directives: {
       drag
     },
+    computed: {
+      tttext: function () {
+        var num = isNaN(this.perx) ? 0 : parseInt(this.perx);
+
+        return num.toFixed(0);
+      }
+    },
     data () {
       return {
         perx: 0,
@@ -39,6 +52,7 @@
       funDrag: function (data) {
         this.perx = data.detail.px;
         this.$emit('edrag', this.perx);
+        this.$refs.ttp.update();
       }
     }
   };
@@ -54,12 +68,18 @@
       display: block;
       width: 20px;
       height: 20px;
-      border-style: solid;
-      border-width: 2px;
-      border-radius: 50%;
       background-color: #fff;
       z-index: 2;
       cursor: -webkit-grab;
+      overflow: hidden;
+      > i {
+        display: block;
+        width: 100%;
+        height: 100%;
+        border-style: solid;
+        border-width: 2px;
+        border-radius: 50%;
+      }
     }
     > .bar[disabled] {
       opacity: 1!important;

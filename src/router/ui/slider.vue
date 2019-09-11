@@ -29,7 +29,7 @@ export default {
         </section>
         <section style="padding:10px;">
           <div style="width: 300px;">
-            <lv-slider percent="30" :disabled="true" @edrag="callback"></lv-slider>
+            <lv-slider percent="60" :disabled="false" @edrag="callback"></lv-slider>
           </div>
         </section>
       </dd>

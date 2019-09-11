@@ -197,7 +197,7 @@
         if (this.markNum < max && (top < 0 || left < 0 || (top + this.tooltipDom.height > bodyHeight) || (left + this.tooltipDom.width > bodyWidth))) {
           this.markNum += 1;
           this.setTooltipPstn(this.pstns[nextPosnIndex]);
-        } else {
+        } else if (dom) {
           dom.style.left = left + 'px';
           dom.style.top = top + 'px';
           this.setTooltipArrowPstn(type);
@@ -209,9 +209,9 @@
         dom.setAttribute('class', 'tooltip ' + type);
       },
       resetToopText: function () {
-        let dom = this.tooltipDom.dom.querySelector('.text');
-
-        dom.innerHTML = this.text;
+        if (this.tooltipDom.dom) {
+          this.tooltipDom.dom.querySelector('.text').innerHTML = this.text;
+        }
       },
       update: function () {
         this.markNum = 0;
