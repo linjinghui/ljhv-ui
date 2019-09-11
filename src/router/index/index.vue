@@ -63,7 +63,7 @@
           {
             title: '组件',
             children: [
-              { title: '滑块-test', path: 'slider' },
+              { title: '滑块', path: 'slider' },
               { title: '菜单', path: 'menu' },
               { title: '进度条', path: 'progress' },
               { title: 'title提示', path: 'tooltip' },

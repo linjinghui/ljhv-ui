@@ -1,5 +1,8 @@
 /**
  * 拖拽指令 v-drag、 v-drag:x、v-drag:y
+ * v-drag:x="{x:20}" 初始值 x 20%
+ * 指令使用者 设置 disable 可以禁用拖拽
+ * 拖拽后会通过edrag通知使用者
  * 需要指定一个父层class="wrap-drag"
  * */
 export default {
@@ -65,6 +68,18 @@ export default {
       
       return ret;
     };
+    // 设置位置
+    var setTransform = function (x, y, px, py) {
+      el.style.transform = binding.arg === 'x' ? 'translateX(' + x + 'px)' : binding.arg === 'y' ? 'translateY(' + y + 'px)' : 'translate(' + x + 'px, ' + y + 'px)';
+      var eventName = 'edrag';
+      // px: 百分比位置
+      var eventData = {x: x, y: y, px: px, py: py};
+      if (vnode.componentInstance) {
+      	vnode.componentInstance.$emit(eventName, {detail: eventData});
+      } else {
+      	vnode.elm.dispatchEvent(new CustomEvent(eventName, {detail: eventData}));
+      }
+    }
     // 鼠标移动事件
     var handler = function () {
       // 鼠标xy坐标
@@ -98,28 +113,37 @@ export default {
         py = y / (boundingClientRect.height - el.offsetHeight) * 100;
       }
 
-      el.style.transform = binding.arg === 'x' ? 'translateX(' + x + 'px)' : binding.arg === 'y' ? 'translateY(' + y + 'px)' : 'translate(' + x + 'px, ' + y + 'px)';
-      var eventName = 'drag';
-      var eventData = {x: x, y: y, px: px, py: py};
-      if (vnode.componentInstance) {
-      	vnode.componentInstance.$emit(eventName, {detail: eventData});
-      } else {
-      	vnode.elm.dispatchEvent(new CustomEvent(eventName, {detail: eventData}));
-      }
+      setTransform(x, y, px, py);
     };
 
-    // 给目标元素添加模拟拖拽事件
-    toggleListener(el, 'add', 'mousedown,touchstart', function (event) {
-      let e = event || window.event;
+    // 初始化位置, 百分比
+    if (binding.value) {
+      var _x = 0;
+      var _y = 0;
 
-      e.preventDefault();
-      e.stopPropagation();
-      // window 添加mousemove事件
-      toggleListener(window, 'add', 'mousemove', handler);
-    });
-    // 移除目标元素的模拟拖拽事件
-    toggleListener(window, 'add', 'mouseup,touchend', function (event) {
-      toggleListener(window, 'remove', 'mousemove', handler);
-    });
+      if (binding.arg !== 'y' && binding.value.x) {
+        _x = (boundingClientRect.width - el.offsetWidth) * binding.value.x / 100;
+      } 
+      if (binding.arg !== 'x' && binding.value.y) {
+        _y = (boundingClientRect.height - el.offsetHeight) * binding.value.y / 100;
+      }
+      setTransform(_x, _y, binding.value.x || 0, binding.value.y || 0);
+    }
+
+    if (!el.getAttribute('disabled')) {
+      // 给目标元素添加模拟拖拽事件
+      toggleListener(el, 'add', 'mousedown,touchstart', function (event) {
+        let e = event || window.event;
+
+        e.preventDefault();
+        e.stopPropagation();
+        // window 添加mousemove事件
+        toggleListener(window, 'add', 'mousemove', handler);
+      });
+      // 移除目标元素的模拟拖拽事件
+      toggleListener(window, 'add', 'mouseup,touchend', function (event) {
+        toggleListener(window, 'remove', 'mousemove', handler);
+      });
+    }
   }
 };

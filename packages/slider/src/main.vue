@@ -7,8 +7,8 @@
  -->
 <template>
   <div class="slider wrap-drag" style="border:solid 1px;">
-    <p class="progress theme-b" :style="'width:'+perx+'%;'"></p>
-    <span class="bar theme-c" v-drag:x @drag="funDrag"></span>
+    <p class="progress theme-b" :disabled="disabled" :style="'width:'+perx+'%;'"></p>
+    <span class="bar theme-c" :disabled="disabled" v-drag:x="cpos" @edrag="funDrag"></span>
   </div>
 </template>
 
@@ -18,14 +18,12 @@
   export default {
     name: 'Slider',
     props: {
-      value: {
+      // 初始进度, 百分比
+      percent: {
         default: 0
       },
       disabled: {
         default: false
-      },
-      max: {
-        default: 0
       }
     },
     directives: {
@@ -33,20 +31,14 @@
     },
     data () {
       return {
-        perx: 0
+        perx: 0,
+        cpos: this.percent ? {x: this.percent} : ''
       };
-    },
-    mounted: function () {
-      var _this = this;
-
-      setTimeout(function () {
-        console.log(_this.name);
-      }, 5000);
     },
     methods: {
       funDrag: function (data) {
-        console.log(data.detail);
         this.perx = data.detail.px;
+        this.$emit('edrag', this.perx);
       }
     }
   };
@@ -67,6 +59,10 @@
       border-radius: 50%;
       background-color: #fff;
       z-index: 2;
+      cursor: -webkit-grab;
+    }
+    > .bar[disabled] {
+      opacity: 1!important;
     }
     > .progress {
       position: absolute;
