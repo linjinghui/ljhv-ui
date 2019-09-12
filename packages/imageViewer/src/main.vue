@@ -28,7 +28,7 @@
     // 1、构造目标元素
     render: function (createElement) {
       let dom = (function (children) {
-        return children && children.filter(c => {
+        return children && children.filter(function (c) {
           return c && c.tag;
         })[0];
       }(this.$slots.default));

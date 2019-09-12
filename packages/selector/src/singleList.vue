@@ -82,7 +82,7 @@
         let str = JSON.stringify(this.results);
 
         if (data && data.children && data.children.length > 0) {
-          data.children.forEach(item => {
+          data.children.forEach(function (item) {
             let rstr = '"id":';
 
             if (typeof item.id === 'string') {

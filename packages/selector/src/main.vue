@@ -351,14 +351,14 @@ required: 必填，无法取消
 
           has === -1 && this.results.push(data);
         } else {
-          this.results = this.results.filter(item => {
+          this.results = this.results.filter(function (item) {
             return item.id !== data.id;
           });
         }
       },
       // 通知节点更新选中状态
       emitNodeCheckStatus: function (arr) {
-        arr.forEach(item => {
+        arr.forEach(function (item) {
           this.$eventbus.$emit('changeResult' + item.id, this.results);
         });
       },

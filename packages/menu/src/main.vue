@@ -70,7 +70,7 @@
         this.$nextTick(function () {
           var result = [];
 
-          _value.forEach(item => {
+          _value.forEach(function (item) {
             result[result.length] = this.data[item];
           });
           this.$emit('cbkClkItem', result);

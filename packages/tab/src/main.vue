@@ -70,7 +70,7 @@
         this.plist.splice(index, 1);
         this.clkItem(index - 1);
         if (closeCnt) {
-          this.$nextTick(() => {
+          this.$nextTick(function () {
             for (let i = 0;i < this.plist.length;i++) {
               if (this.plist[i].closeCnt === closeCnt) {
                 this.clkDel(i);
