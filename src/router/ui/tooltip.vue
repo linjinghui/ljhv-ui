@@ -2,17 +2,23 @@
   <div class="wrap page-theme">
     <h1>类似title属性的提示</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Tooltip} from 'lv-web-ui';
+Vue.component('lvTooltip', Tooltip);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>鼠标滑过弹出提示</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code># text 提示文本
-# theme 背景色值
-# position 显示位置，right|bottom|left|top
+           <pre><code>// text 提示文本
+// theme 背景色值
+// position 显示位置，right|bottom|left|top
 &lt;lv-tooltip text="提示内容" theme="#16aa6b" position="right"&gt;
   &lt;button&gt;滑过显示提示文本&lt;/button&gt;
 &lt;/lv-tooltip&gt;
-export default {}
-&lt;/script&gt;</code></pre>
+</code></pre>
         </section>
         <section style="padding:10px;">
           <lv-tooltip text="提示内容" theme="#16aa6b" position="right">
@@ -25,10 +31,10 @@ export default {}
 </template>
 
 <script>
-  import {Tooltip} from 'web-base-ui';
+  import {Tooltip} from '../../../packages/index.js';
   
   export default {
-    name: 'Theme',
+    name: 'Tooltip',
     components: {
       lvTooltip: Tooltip
     },

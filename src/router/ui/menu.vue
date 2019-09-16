@@ -2,6 +2,13 @@
   <div class="wrap page-theme">
     <h1>菜单</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Menu} from 'lv-web-ui';
+Vue.component('lvMenu', Menu);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>可多选菜单</h3></dd>
       <dd class="example">
         <section v-highlight>
@@ -11,13 +18,13 @@ export default {
   data () {
     return {
       option1: {
-        # 是否显示
+        // 是否显示
         show: true,
-        # 是否多选
+        // 是否多选
         multi: true,
-        # 列表项
+        // 列表项
         data: ['黄金高', '双皮奶', '拉希米', '换节奏', '北京烤鸭', '无泡沫', '长达作为'],
-        # 选中结果下标集
+        // 选中结果下标集
         result: [1, 3]
       }
     };

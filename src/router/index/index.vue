@@ -68,7 +68,7 @@
               { title: '进度条', path: 'progress' },
               { title: 'title提示', path: 'tooltip' },
               { title: '区域菜单', path: 'rangemenu' },
-              { title: '侧边栏-test', path: 'sidebar' }
+              { title: '侧边栏', path: 'sidebar' }
             ]
           }
         ]

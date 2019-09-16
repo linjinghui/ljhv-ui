@@ -1,15 +1,13 @@
 <template>
   <transition name="slide-fade-sidebar">
-    <div class="wrap-aside"
-      v-if="(value !== '')"
-      v-show="(value + '' === 'true')">
-      <header>
+    <div class="wrap-aside" v-if="(value !== '')" v-show="(value + '' === 'true')">
+      <header v-if="$slots.title">
         <slot name="title"></slot>
       </header>
-      <vperfect-scrollbar class="scroll-area" :settings="settings" @ps-y-reach-end="handle_scroll('end')" @ps-y-reach-start="handle_scroll('top')">
+      <vperfect-scrollbar class="scroll-area" :style="{height:'calc(100% - '+($slots.title?60:0)+'px - '+($slots.footer?60:0)+'px)'}" :settings="settings" @ps-y-reach-end="handle_scroll('end')" @ps-y-reach-start="handle_scroll('top')">
         <slot name="content"></slot>
       </vperfect-scrollbar>
-      <footer>
+      <footer v-if="$slots.footer">
         <slot name="footer"></slot>
       </footer>
     </div>
@@ -43,6 +41,10 @@
     },
     mounted: function () {
       window.addEventListener('keyup', this.evt_keyup, false);
+      console.log(this.$slots);
+      console.log('title', this.$slots.title);
+      console.log('content', this.$slots.content);
+      console.log('footer', this.$slots.footer);
     },
     watch: {
       //
@@ -86,7 +88,7 @@
     }
 
     >.scroll-area {
-      height: calc(100% - 60px - 60px);
+      height: 100%;
       overflow: auto;
     }
 

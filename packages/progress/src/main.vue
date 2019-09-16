@@ -9,8 +9,8 @@
 <template>
   <div class="progress circle" v-if="type === 'circle'">
     <svg viewBox="0 0 100 100">
-      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" fill="none" stroke-width="6.8" :stroke="theme"></path>
-      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" stroke-linecap="round" fill="none" stroke-width="6.8" :stroke="themebar" class="pg-bar" :style="{'stroke-dashoffset': percent + 'px', 'stroke-dasharray': maxValue + 'px, ' + maxValue + 'px'}"></path>
+      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" fill="none" stroke-width="5.8" :stroke="theme"></path>
+      <path d="M 50 50 m 0 -47 a 47 47 0 1 1 0 94 a 47 47 0 1 1 0 -94" stroke-linecap="round" fill="none" stroke-width="5.8" :stroke="themebar" class="pg-bar" :style="{'stroke-dashoffset': percent + 'px', 'stroke-dasharray': maxValue + 'px, ' + maxValue + 'px'}"></path>
     </svg>
     <p class="text center-hv">{{checkProgressParam(progress)}}%</p>
   </div>
@@ -37,12 +37,15 @@
       };
     },
     props: {
+      // circle cylinder square
       type: {
         default: 'square'
       },
+      // 底色
       theme: {
         default: '#e5e9f2'
       },
+      // 进度条颜色
       themebar: {
         default: '#20a0ff'
       },
@@ -50,9 +53,6 @@
       progress: {
         default: 0
       }
-    },
-    watch: {
-      //
     },
     computed: {
       percent: function () {
@@ -65,12 +65,6 @@
         }
         return result;
       }
-    },
-    beforeDestroy: function () {
-      //
-    },
-    mounted: function () {
-      //
     },
     methods: {
       checkProgressParam: function (val) {
@@ -103,7 +97,7 @@
   /*圆形进度条*/
   .progress.circle {
     >.text {
-      width: 100px;
+      width: 100%;
       height: 30px;
       line-height: 30px;
       text-align: center;

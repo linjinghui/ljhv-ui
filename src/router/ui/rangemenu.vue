@@ -2,6 +2,13 @@
   <div class="wrap page-theme">
     <h1>区域菜单</h1>
     <dl>
+      <dd><h3>引入组件</h3></dd>
+      <dd v-highlight>
+        <pre><code>import {Rangemenu} from 'lv-web-ui';
+Vue.component('lvRangemenu', Rangemenu);</code></pre>
+      </dd>
+    </dl>
+    <dl>
       <dd><h3>区域菜单，可自定义菜单内容</h3></dd>
       <dd class="example">
         <section v-highlight>
@@ -31,7 +38,9 @@ export default {
       <dd><h3>自定义菜单内容</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-rangemenu v-model="list2" @add="add2"&gt;&lt;/lv-rangemenu&gt;
+           <pre><code>&lt;lv-rangemenu v-model="list2" @add="add2"&gt;
+  &lt;template slot-scope="props"&gt;{props.item.name}&lt;/template&gt;
+&lt;/lv-rangemenu&gt;
 &lt;script type="text/babel"&gt;
 export default {
   data () {
@@ -66,12 +75,12 @@ export default {
 </template>
 
 <script>
-  import {Rangemenu} from 'web-base-ui';
+  import {RangeMenu} from '../../../packages/index.js';
   
   export default {
     name: 'Rangemenu',
     components: {
-      lvRangemenu: Rangemenu
+      lvRangemenu: RangeMenu
     },
     data () {
       return {
@@ -83,6 +92,12 @@ export default {
           }
         ]
       };
+    },
+    watch: {
+      list (val) {
+        console.log('==watch list==');
+        console.log(val);
+      }
     },
     mounted: function () {
       // 
