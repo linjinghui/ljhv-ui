@@ -87,7 +87,6 @@
 
           img.src = this.src;
           img.onload = function () {
-            console.log(img.src);
             // 图片加载完成
             _this.$set(_this.imgInfo, 'src', img.src);
             if (_this.autoWh) {

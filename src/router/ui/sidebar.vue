@@ -12,7 +12,7 @@ Vue.component('lvSidebar', Sidebar);</code></pre>
       <dd><h3>可自定义装配头尾</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-sidebar v-model="show" @callback_sroll="callback_sroll"&gt;
+           <pre><code>&lt;lv-sidebar v-model="show" modal="false" @callback_sroll="callback_sroll"&gt;
   &lt;p slot="title" class="title"&gt;标题&lt;/p&gt;
   &lt;ul slot="content"&gt;
     &lt;li v-for="i in 50" :key="i"&gt;内容{{i}}&lt;/li&gt;
@@ -44,7 +44,7 @@ export default {
         </section>
         <section style="padding:10px;">
           <lv-button @click="show=!show">show\hide</lv-button>
-          <lv-sidebar v-model="show" @callback_sroll="callback_sroll">
+          <lv-sidebar v-model="show" modal="false" @callback_sroll="callback_sroll">
             <p slot="title" class="title">标题</p>
             <ul slot="content">
               <li v-for="i in 50" :key="i">内容{{i}}</li>

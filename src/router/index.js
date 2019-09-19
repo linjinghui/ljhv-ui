@@ -25,6 +25,10 @@ const Rangemenu = () => import('./ui/rangemenu.vue');
 const Table = () => import('./ui/table.vue');
 const Sidebar = () => import('./ui/sidebar.vue');
 const Img = () => import('./ui/img.vue');
+const Shuttle = () => import('./ui/shuttle.vue');
+const Pagebar = () => import('./ui/pagebar.vue');
+const Textarea = () => import('./ui/textarea.vue');
+const Editor = () => import('./ui/editor.vue');
 
 Vue.use(Router);
 
@@ -155,6 +159,26 @@ export default new Router({
           path: '/img',
           name: 'img',
           component: Img
+        },
+        {
+          path: '/shuttle',
+          name: 'shuttle',
+          component: Shuttle
+        },
+        {
+          path: '/pagebar',
+          name: 'pagebar',
+          component: Pagebar
+        },
+        {
+          path: '/textarea',
+          name: 'textarea',
+          component: Textarea
+        },
+        {
+          path: '/editor',
+          name: 'editor',
+          component: Editor
         }
       ]
     }

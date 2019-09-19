@@ -16,15 +16,11 @@ disabled：是否禁用
         </span>
       </header>
       <vperfect-scrollbar :settings="settings">
-        <a class="line" v-for="(item, index) in leftData.data"
-          :key="item.id"
-          v-if="leftData.data.length > 0 && typeof item === 'object'"
-          :class="{'disabled': item.disabled}">
-          <cmp-checkbox
-            v-model="item.checked"
-            :disabled="item.disabled"
-            @click="clk_l_item(item)">{{item.name}}</cmp-checkbox>
-        </a>
+        <template v-for="(item, index) in leftData.data">
+          <a class="line" :class="{'disabled':item.disabled}" :key="'l_'+index" v-if="leftData.data.length>0&&typeof item==='object'">
+            <cmp-checkbox v-model="item.checked" :disabled="item.disabled" @click="clk_l_item(item)">{{item.name}}</cmp-checkbox>
+          </a>
+        </template>
       </vperfect-scrollbar>
     </div>
     <div class="p-m">
@@ -45,15 +41,11 @@ disabled：是否禁用
         </span>
       </header>
       <vperfect-scrollbar :settings="settings">
-        <a class="line" v-for="item in rightData.data"
-          :key="item.id"
-          v-if="rightData.data.length > 0"
-          :class="{'disabled': item.disabled}">
-          <cmp-checkbox
-            v-model="item.checked"
-            :disabled="item.disabled"
-            @click="clk_r_item(item)">{{item.name}}</cmp-checkbox>
-        </a>
+        <template v-for="(item,index) in rightData.data">
+          <a class="line" :class="{'disabled': item.disabled}" :key="'r_'+index" v-if="rightData.data.length>0">
+            <cmp-checkbox v-model="item.checked" :disabled="item.disabled" @click="clk_r_item(item)">{{item.name}}</cmp-checkbox>
+          </a>
+        </template>
       </vperfect-scrollbar>
     </div>
   </div>
@@ -376,7 +368,7 @@ disabled：是否禁用
 
     >.p-m {
       position: relative;
-      width: 100px;
+      width: 12%;
 
       >.btn-wrap {
         width: 100%;
@@ -410,7 +402,7 @@ disabled：是否禁用
     }
 
     >.p-list {
-      width: calc((100% - 100px) / 2);
+      width: 44%;
       border: 1px solid #ebebeb;
       border-radius: 4px;
       overflow: hidden;

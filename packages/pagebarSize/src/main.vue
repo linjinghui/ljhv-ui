@@ -1,9 +1,10 @@
 <template>
   <div class="wrapper-pagebar-pagesize">
     显示
-    <cmp-drop-menu v-model="optionDropMenu.result" v-bind="optionDropMenu" :data="pagesizes" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
+    <cmp-drop-menu v-model="optionDropMenu.result" v-bind="optionDropMenu" :data="pageSizes" @cbkClkItem="cbkClkItem"></cmp-drop-menu>
     条
-    <cmp-pagebar v-model="pindex" :theme="theme" :lenth="lenth" :pageSize="pagesizes[optionDropMenu.result[0]]" :totalSize="totalSize" @callback="callback"></cmp-pagebar>
+    <span></span>
+    <cmp-pagebar v-model="pindex" :theme="theme" :lenth="lenth" :pageSize="pageSizes[optionDropMenu.result[0]]" :totalSize="totalSize" @callback="callback"></cmp-pagebar>
   </div>
 </template>
 
@@ -27,10 +28,13 @@
           readonly: true,
           result: [0]
         },
-        pindex: this.index
+        pindex: this.value
       };
     },
     props: {
+      'value': {
+        default: ''
+      },
       // simple
       'theme': {
         default: ''
@@ -38,13 +42,13 @@
       'lenth': {
         default: 5
       },
-      'index': {
-        default: 0
-      },
-      'pagesize': {
+      // 'index': {
+      //   default: 0
+      // },
+      'pageSize': {
         default: 10
       },
-      'pagesizes': {
+      'pageSizes': {
         type: Array,
         default: function () {
           return [10, 20, 40, 80, 100];
@@ -54,19 +58,19 @@
         default: 0
       }
     },
-    mounted: function () {
-      this.setDropMenuResult(this.pagesize);
-    },
-    computed: {
-      // 
-    },
     watch: {
-      pagesize: function (val) {
+      value: function (val) {
+        this.pindex = val;
+      },
+      pageSize: function (val) {
         this.setDropMenuResult(val);
       },
-      index: function (val) {
-        this.pindex = val;
+      pindex: function (val) {
+        this.$emit('input', val);
       }
+    },
+    mounted: function () {
+      this.setDropMenuResult(this.pageSize);
     },
     methods: {
       callback: function (data) {
@@ -79,19 +83,19 @@
       },
       emt: function () {
         this.$emit('callback', {
-          'pagesize': this.pagesizes[this.optionDropMenu.result[0]],
+          'pageSize': this.pageSizes[this.optionDropMenu.result[0]],
           'currentPage': this.pindex
         });
       },
-      setDropMenuResult: function (pagesize) {
-        if (isNaN(pagesize)) {
+      setDropMenuResult: function (pageSize) {
+        if (isNaN(pageSize)) {
           this.$set(this.optionDropMenu.result, 0, 0);
         } else {
-          var data = this.pagesizes;
+          var data = this.pageSizes;
           var index = 0;
 
           for (var i = 0;i < data.length;i++) {
-            if (data[i] + '' === pagesize + '') {
+            if (data[i] + '' === pageSize + '') {
               index = i;
             }
           }
@@ -106,7 +110,9 @@
   .wrapper-pagebar-pagesize {
     >.wrap-drop-menu {
       display: inline-block;
-      width: 60px;
+      margin-left: 5px;
+      margin-right: 5px;
+      width: 70px;
 
       >.input {
         height: 26px;
@@ -134,12 +140,14 @@
 <style scoped lang="scss">
   .wrapper-pagebar-pagesize {
     position: relative;
+    display: flex;
+    justify-items: center;
     width: 100%;
     color: #535353;
     font-size: 12px;
 
-    >.pagebar-wrapper {
-      float: right;
+    > span {
+      flex: 1;
     }
   }
 </style>

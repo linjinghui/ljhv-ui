@@ -11,8 +11,8 @@
       <i class="cicon-arrow-right"></i>
       <small>下一页</small>
     </span>
-    <label class="total">共{{totalSize}}条</label>, 
-    <label>前往<input v-model="value2" @keyup.enter="entIpt2">页</label>
+    <label class="total">共{{totalSize}}条</label>， 
+    <label class="goto">前往<input v-model="value2" @keyup.enter="entIpt2">页</label>
   </div>
 </template>
 
@@ -115,7 +115,10 @@
 
 <style scoped lang="scss">
   .pagebar-wrapper {
-    float: left;
+    position: relative;
+    display: flex;
+    justify-items: center;
+    // justify-content: space-between;
     font-size: 12px;
     color: #535353;
     user-select: none;
@@ -188,7 +191,11 @@
     }
 
     .total {
-      padding: 0 10px;
+      margin-left: 10px;
+      line-height: 24px;
+    }
+
+    .goto {
       line-height: 24px;
     }
   }

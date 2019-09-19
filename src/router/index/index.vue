@@ -55,20 +55,24 @@
               { title: '复选框', path: 'checkbox' },
               { title: '开关', path: 'swith' },
               { title: '下拉框', path: 'dropmenu' },
-              { title: '表格', path: 'table' },
               { title: '日期选择器', path: 'datepicker' },
-              { title: '图片', path: 'img' }
+              { title: '文本域', path: 'textarea' }
             ]
           },
           {
             title: '组件',
             children: [
+              { title: '表格', path: 'table' },
               { title: '滑块', path: 'slider' },
               { title: '菜单', path: 'menu' },
               { title: '进度条', path: 'progress' },
               { title: 'title提示', path: 'tooltip' },
               { title: '区域菜单', path: 'rangemenu' },
-              { title: '侧边栏', path: 'sidebar' }
+              { title: '侧边栏', path: 'sidebar' },
+              { title: '图片', path: 'img' },
+              { title: '穿梭框', path: 'shuttle' },
+              { title: '分页工具', path: 'pagebar' },
+              { title: '富文本编辑器', path: 'editor' }
             ]
           }
         ]

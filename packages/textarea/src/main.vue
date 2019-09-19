@@ -1,6 +1,6 @@
 <template>
   <div class="text-area" :class="{'theme-bc focus': isFocus, 'disabled': disabled+''==='true'}">
-    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste ? 'return false' : ''" :disabled="disabled+''==='true'" @focus="fun_focus" @blur="fun_blur"></textarea>
+    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste?'return false':''" :disabled="disabled+''==='true'" @focus="fun_focus" @blur="fun_blur" @input="autoTextAreaHeight"></textarea>
     <p v-if="residualSize >= 0">还能输入{{residualSize}}个字</p>
   </div>
 </template>
@@ -32,29 +32,37 @@
       disabled: {
         type: Boolean,
         default: false
+      },
+      // 是否高度自增
+      autoHeight: {
+        type: Boolean,
+        default: false
       }
     },
     watch: {
       value: function (val) {
-        this.pvalue = val;
+        if (this.pvalue !== val) {
+          this.pvalue = val;
+        }
       },
       pvalue: function (val) {
-        this.$emit('input', val);
+        var _this = this;
+
+        this.debounce(function () {
+          _this.$emit('input', _this.pvalue);
+        }, 500)();
       }
     },
     computed: {
       residualSize: function () {
         let result;
-        let valLength = this.value ? this.value.length : 0;
+        let valLength = this.pvalue ? this.pvalue.length : 0;
 
         if (this.maxlength) {
           result = this.maxlength - valLength;
         }
         return result;
       }
-    },
-    mounted: function () {
-      //
     },
     methods: {
       fun_focus: function () {
@@ -64,6 +72,34 @@
       fun_blur: function () {
         this.isFocus = false;
         this.$emit('blur');
+      },
+      autoTextAreaHeight: function (e) {
+        if (this.autoHeight) {
+          var el = e.target || e.srcElement;
+
+          el.style.height = el.scrollTop + el.scrollHeight + 'px';
+        }
+      },
+      debounce: function (func, wait, immediate) {
+        var timeout;
+
+        return function () {
+          var context = this;
+          var args = arguments;
+          var later = function () {
+            timeout = null;
+            if (!immediate) {
+              func.apply(context, args);
+            }
+          };
+          var callNow = immediate && !timeout;
+
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) {
+            func.apply(context, args);
+          }
+        };
       }
     }
   };
@@ -104,6 +140,7 @@
 
   .text-area.disabled {
     background-color: #f1f1f1;
+    user-select: none;
 
     >textarea {
       cursor: default;

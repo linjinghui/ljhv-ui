@@ -69,9 +69,10 @@
         this.$emit('input', _value);
         this.$nextTick(function () {
           var result = [];
+          var _this = this;
 
           _value.forEach(function (item) {
-            result[result.length] = this.data[item];
+            result[result.length] = _this.data[item];
           });
           this.$emit('cbkClkItem', result);
         });
