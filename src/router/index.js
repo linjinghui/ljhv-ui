@@ -29,6 +29,7 @@ const Shuttle = () => import('./ui/shuttle.vue');
 const Pagebar = () => import('./ui/pagebar.vue');
 const Textarea = () => import('./ui/textarea.vue');
 const Editor = () => import('./ui/editor.vue');
+const More = () => import('./ui/loadmore.vue');
 
 Vue.use(Router);
 
@@ -179,6 +180,11 @@ export default new Router({
           path: '/editor',
           name: 'editor',
           component: Editor
+        },
+        {
+          path: '/loadmore',
+          name: 'loadmore',
+          component: More
         }
       ]
     }

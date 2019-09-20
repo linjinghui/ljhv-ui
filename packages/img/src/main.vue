@@ -49,7 +49,7 @@
       },
       // 预览功能
       preview: {
-        default: true
+        default: false
       },
       // 容器class，用于显示容器下的所有图片
       container: {

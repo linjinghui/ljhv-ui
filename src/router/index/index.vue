@@ -72,7 +72,8 @@
               { title: '图片', path: 'img' },
               { title: '穿梭框', path: 'shuttle' },
               { title: '分页工具', path: 'pagebar' },
-              { title: '富文本编辑器', path: 'editor' }
+              { title: '富文本编辑器', path: 'editor' },
+              { title: '加载更多', path: 'loadmore' }
             ]
           }
         ]
