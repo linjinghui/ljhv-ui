@@ -106,6 +106,8 @@
         animatedClassName: this.animatedClassName,
         unit: this.unit,
         callBack: function (value) {
+          console.log('=2===', value);
+          // _this.$emit('callback', value);
           if (_this.ignorePoint && value % 1 > 0) {
             this.setValue(Math.round(value));
           } else {
@@ -135,8 +137,8 @@
       left: 0;
     }
     .my-slider-animated{
-      transition: left 0.5s ease;
-      -webkit-transition: left 0.5s ease;
+      transition: left 0.3s ease;
+      -webkit-transition: left 0.3s ease;
     }
     .slider-item-box{
       width: 100%;
@@ -163,7 +165,7 @@
       background: #999;
     }
     .slider-guide{
-      width: 2px;
+      width: 1px;
       height: 40px;
       background: #ff5409;
       position: absolute;

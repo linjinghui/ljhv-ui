@@ -19,6 +19,7 @@
 	var Ruler = function(options){
 		this.id = options.id;
 		this.getObj = document.getElementById(options.id);
+		this.getPobj = this.getObj.parentNode || this.getObj.parentElement;
 		this.maxNum = options.maxNum;
 		this.minNum = options.minNum;
 		this.stepNum = options.stepNum;
@@ -45,19 +46,19 @@
 	}
 	Ruler.prototype = {
 		init: function(){
-			this.getAllSliderItemNum = (this.setMaxNum - this.setMinNum)/this.stepNum,//滑尺刻度总个数
-			this.setSliderItemNum = this.setSliderItemNum >= Math.ceil(document.body.offsetWidth/this.stepWidth)?this.setSliderItemNum : Math.ceil(document.body.offsetWidth/this.stepWidth);//初始化滑尺个数是否沾满一屏，否的话设置
+			this.getAllSliderItemNum = (this.setMaxNum - this.setMinNum)/this.stepNum;//滑尺刻度总个数
+			this.setSliderItemNum = this.setSliderItemNum >= Math.ceil(this.getPobj.offsetWidth/this.stepWidth)?this.setSliderItemNum : Math.ceil(this.getPobj.offsetWidth/this.stepWidth);//初始化滑尺个数是否沾满一屏，否的话设置
 			this.setSliderGuide();
 			this.initSlider();
 		},
 		initSlider: function(){
-			var that = this,
-				getSliderItemNum = that.setSliderItemNum > that.getAllSliderItemNum?that.getAllSliderItemNum:that.setSliderItemNum,//滑尺刻度总个数
-				setObjWidth = that.stepWidth * that.getAllSliderItemNum,//滑尺总宽度
-				sliderItemLeft,//每个刻度的left
-				sliderItemValue,//每个刻度代表的value
-				strHtml = '',
-				spanAllHtml = '';
+			var that = this;
+			var getSliderItemNum = that.setSliderItemNum > that.getAllSliderItemNum?that.getAllSliderItemNum:that.setSliderItemNum;//滑尺刻度总个数
+			var setObjWidth = that.stepWidth * that.getAllSliderItemNum;//滑尺总宽度
+			var sliderItemLeft;//每个刻度的left
+			var sliderItemValue;//每个刻度代表的value
+			var strHtml = '';
+			var spanAllHtml = '';
 			that.getObj.style.width = setObjWidth + 'px';
 			that.getObj.style.left = that.getSliderGuideLeftDeviation + 'px';
 			for(var i = 0; i<=getSliderItemNum; i++){
@@ -77,23 +78,20 @@
 			that.setSliderGuideDataValue();
 			that.setSliderItemValueTextAlign();
 			that.touch();
-			// setTimeout(function () {
-			// 	that.setValue(4);
-			// }, 1000);
 		},
 		loadMoreSlider: function(){
-			var that = this,
-				getBodyWidth = document.body.offsetWidth,
-				getSliderIndex = Math.round((getBodyWidth/2-that.getObj.offsetLeft)/that.stepWidth),
-				getSliderItemNum = that.setSliderItemNum,
+			var that = this;
+			var getBodyWidth = this.getPobj.offsetWidth;
+			var getSliderIndex = Math.round((getBodyWidth/2-that.getObj.offsetLeft)/that.stepWidth);
+			var getSliderItemNum = that.setSliderItemNum;
         // sliderItemBox = document.getElementById('sliderItemBox'),
-        sliderItemBox = that.getObj.querySelector('#sliderItemBox'),
-				sliderItemIndex,//新增的每个刻度代表的index
-				sliderItemLeft,//新增的每个刻度的left
-				sliderItemValue,//新增的每个刻度代表的value
-				strHtml = '',
-				spanAllHtml = sliderItemBox.innerHTML,
-				startIndex = that.forIndex * getSliderItemNum;
+      var sliderItemBox = that.getObj.querySelector('#sliderItemBox');
+			var sliderItemIndex;//新增的每个刻度代表的index
+			var sliderItemLeft;//新增的每个刻度的left
+			var sliderItemValue;//新增的每个刻度代表的value
+			var strHtml = '';
+			var spanAllHtml = sliderItemBox.innerHTML;
+			var startIndex = that.forIndex * getSliderItemNum;
 
 			if(getSliderIndex >= (getSliderItemNum * (that.forIndex-1) + Math.round(getSliderItemNum/2))){
 				for(var i = 1; i<=getSliderItemNum; i++){
@@ -118,11 +116,11 @@
 			}
 		},
 		setSliderGuideBorderBottom: function(width){
-			var that = this,
-				setBorderBottom = width,
-				creatBorderHtml = document.createElement('div'),
+			var that = this;
+			var setBorderBottom = width;
+			var creatBorderHtml = document.createElement('div');
         // getHtml = document.getElementsByClassName('slider-border-bottom')[0];
-        getHtml = that.getObj.querySelector('.slider-border-bottom');
+      var getHtml = that.getObj.querySelector('.slider-border-bottom');
 			creatBorderHtml.classList.add('slider-border-bottom');
 			creatBorderHtml.style.width = setBorderBottom + 'px';
 			creatBorderHtml.style.top = that.getObj.offsetTop + that.getObj.offsetHeight + 'px';
@@ -132,9 +130,9 @@
 		setSliderGuide: function(){
 			var that = this;
 			if(that.sliderGuide){
-				var getBodyWidth = document.body.offsetWidth,
-					getObjTop = that.getObj.offsetTop,
-					creatGuideHtml = document.createElement('div');
+				var getBodyWidth = this.getPobj.offsetWidth;
+				var getObjTop = that.getObj.offsetTop;
+				var creatGuideHtml = document.createElement('div');
 				creatGuideHtml.classList.add('slider-guide');
 				creatGuideHtml.id="sliderGuide";
 				creatGuideHtml.setAttribute('data-value','');
@@ -148,7 +146,7 @@
 		},
 		setSliderGuideDataValue: function(value){
 			var that = this;
-      var getBodyWidth = document.body.offsetWidth;
+      var getBodyWidth = this.getPobj.offsetWidth;
       // var getSliderGuideDom = document.getElementById('sliderGuide');
       var parent = that.getObj.parentNode || that.getObj.parentElement;
       var getSliderGuideDom = parent.querySelector('#sliderGuide');
@@ -156,17 +154,20 @@
       if(!(value) && value != 0){
         /*初始化指针指向的value*/
         value = parseInt(getBodyWidth/2/that.stepWidth) * that.stepNum + that.setMinNum;
-      }
-
+			}
+			
+			value = parseFloat(value.toFixed(2));
 			getSliderGuideDom.setAttribute('data-value',value);
 			// that.callBack(value);
-			that.callBack.call(that, value)
+			setTimeout(function () {
+				that.callBack.call(that, value)
+			}, 300);
 		},
 		setSliderItemValueTextAlign: function(){
-			var that = this,
+			var that = this;
         // getItemAll = document.getElementsByClassName('slider-item-value'),
-        getItemAll = that.getObj.getElementsByClassName('slider-item-value'),
-				getItemWidth;
+      var getItemAll = that.getObj.getElementsByClassName('slider-item-value');
+			var getItemWidth;
 			if(getItemAll && getItemAll.length > 0){
 				for(var i=0,len=getItemAll.length; i<len; i++){
 					getItemWidth = getItemAll[i].offsetWidth;
@@ -199,7 +200,7 @@
 				e.preventDefault();
 				e.stopPropagation();
 				var moveTouch = e.changedTouches[0],
-					getBodyWidth = document.body.offsetWidth,
+					getBodyWidth = that.getPobj.offsetWidth,
 					left;
 				that.movePageX = moveTouch.pageX;
 				that.moveX = that.movePageX - that.startPageX;
@@ -225,7 +226,7 @@
 		},
 		setSliderValue: function (offsetLeft, zdval) {
 			var that = this; 
-			var getBodyWidth = document.body.offsetWidth;
+			var getBodyWidth = this.getPobj.offsetWidth;
 			var getInteget = parseInt(that.moveX/that.stepWidth);
 			var getRemainder = that.moveX % that.stepWidth;
 			var left = 0;
@@ -251,16 +252,18 @@
 			}
 			that.getObj.style.left = left + 'px';
 
-			var SliderGuideDataValue = Math.round((getBodyWidth/2-offsetLeft)/that.stepWidth) * that.stepNum + that.setMinNum;
+			// var SliderGuideDataValue = Math.round((getBodyWidth/2-offsetLeft)/that.stepWidth) * that.stepNum + that.setMinNum;
+			var SliderGuideDataValue = Math.round((getBodyWidth/2-left)/that.stepWidth) * that.stepNum + that.setMinNum;
+			console.log('==1==', SliderGuideDataValue, left);
 			that.setSliderGuideDataValue(zdval === undefined ? SliderGuideDataValue : zdval);
 			that.loadMoreSlider();
 		},
 		setValue: function (val) {
-      // var getSliderGuideDom = document.getElementById('sliderGuide');
+			// var getSliderGuideDom = document.getElementById('sliderGuide');
       var parent = this.getObj.parentNode || this.getObj.parentElement;
       var getSliderGuideDom = parent.querySelector('#sliderGuide');
 			var value = getSliderGuideDom.getAttribute('data-value');
-			
+			console.log('==3==', val, value);
 			this.startLeft = this.getObj.offsetLeft;
 			this.moveX = (value - val) / this.stepNum * this.stepWidth;
 			this.setSliderValue('', val);
