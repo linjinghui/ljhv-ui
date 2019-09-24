@@ -73,7 +73,9 @@
               { title: '穿梭框', path: 'shuttle' },
               { title: '分页工具', path: 'pagebar' },
               { title: '富文本编辑器', path: 'editor' },
-              { title: '加载更多', path: 'loadmore' }
+              { title: '加载更多', path: 'loadmore' },
+              { title: '侧边导航', path: 'sidenav' },
+              { title: '刻度尺', path: 'rule' }
             ]
           }
         ]
@@ -139,6 +141,7 @@
       width: 220px;
       height: calc(100% - 60px);
       line-height: 28px;
+      overflow: auto;
 
       > dl {
         margin-top: 10px;

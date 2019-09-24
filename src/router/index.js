@@ -30,6 +30,8 @@ const Pagebar = () => import('./ui/pagebar.vue');
 const Textarea = () => import('./ui/textarea.vue');
 const Editor = () => import('./ui/editor.vue');
 const More = () => import('./ui/loadmore.vue');
+const Sidenav = () => import('./ui/sidenav.vue');
+const Rule = () => import('./ui/rule.vue');
 
 Vue.use(Router);
 
@@ -185,6 +187,16 @@ export default new Router({
           path: '/loadmore',
           name: 'loadmore',
           component: More
+        },
+        {
+          path: '/sidenav',
+          name: 'sidenav',
+          component: Sidenav
+        },
+        {
+          path: '/rule',
+          name: 'rule',
+          component: Rule
         }
       ]
     }
