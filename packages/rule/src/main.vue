@@ -106,7 +106,6 @@
         animatedClassName: this.animatedClassName,
         unit: this.unit,
         callBack: function (value) {
-          console.log(value);
           if (_this.ignorePoint && value % 1 > 0) {
             this.setValue(Math.round(value));
           } else {
