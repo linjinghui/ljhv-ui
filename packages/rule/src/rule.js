@@ -254,7 +254,6 @@
 
 			// var SliderGuideDataValue = Math.round((getBodyWidth/2-offsetLeft)/that.stepWidth) * that.stepNum + that.setMinNum;
 			var SliderGuideDataValue = Math.round((getBodyWidth/2-left)/that.stepWidth) * that.stepNum + that.setMinNum;
-			console.log('==1==', SliderGuideDataValue, left);
 			that.setSliderGuideDataValue(zdval === undefined ? SliderGuideDataValue : zdval);
 			that.loadMoreSlider();
 		},
@@ -263,7 +262,6 @@
       var parent = this.getObj.parentNode || this.getObj.parentElement;
       var getSliderGuideDom = parent.querySelector('#sliderGuide');
 			var value = getSliderGuideDom.getAttribute('data-value');
-			console.log('==3==', val, value);
 			this.startLeft = this.getObj.offsetLeft;
 			this.moveX = (value - val) / this.stepNum * this.stepWidth;
 			this.setSliderValue('', val);

@@ -106,8 +106,6 @@
         animatedClassName: this.animatedClassName,
         unit: this.unit,
         callBack: function (value) {
-          console.log('=2===', value);
-          // _this.$emit('callback', value);
           if (_this.ignorePoint && value % 1 > 0) {
             this.setValue(Math.round(value));
           } else {
