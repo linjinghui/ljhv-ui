@@ -6,16 +6,16 @@
 <template>
   <vperfect-scrollbar class="scroll-sidenar" :settings="settings">
     <dl class="wrap-sidenar" :id="id">
-      <template v-for="(item,index) in plist">
-        <dt :key="'pt_'+index" @click="clkDt(item,index)">
+      <template v-for="(item,index) in list">
+        <dt :key="'pt_'+index" :class="{'open':openIndexList.indexOf(index)>-1,'active theme-c':$route.path===item.path}" @click="toggle(index)">
           <slot name="item" :item="item">{{item.title}}</slot>
-          <i class="cicon-arrow-bottom arrow" :class="{'show':item.show}" v-if="item.children&&item.children.length"></i>
+          <i class="cicon-arrow-bottom arrow" v-if="item.children&&item.children.length&&!hideArrow"></i>
         </dt>
-        <template v-for="(citem,cindex) in item.children">
-          <dd :key="'cld_'+cindex" :class="{'show':item.show,'theme-c':$route.name===citem.path}" :style="{'animation-delay': 0.04*(cindex+1)+'s'}">
+        <div :key="'dpt_'+index" :ref="'dpt_'+index">
+          <dd v-for="(citem,cindex) in item.children" :key="'cld_'+cindex" :class="{'active theme-c':$route.path===citem.path}">
             <slot name="item" :item="citem">{{citem.title}}</slot>
           </dd>
-        </template>
+        </div>
       </template>
     </dl>
   </vperfect-scrollbar>
@@ -33,62 +33,20 @@
       list: {
         type: Array,
         default: function () {
-          return [
-            {
-              title: '开始',
-              children: [
-                { title: '快速上手', path: 'start' },
-                { title: '更新日志', path: 'log' }
-              ]
-            },
-            {
-              title: '全局组件',
-              children: [
-                { title: '全局设置', path: 'theme' },
-                { title: '文本大小', path: 'font' },
-                { title: '图标', path: 'cicon' },
-                { title: '确认框', path: 'confirm' },
-                { title: '加载中', path: 'loading' },
-                { title: '提示框', path: 'tip' }
-              ]
-            },
-            {
-              title: '表单组件',
-              children: [
-                { title: '按钮', path: 'button' },
-                { title: '输入框', path: 'input' },
-                { title: '单选框', path: 'radio' },
-                { title: '复选框', path: 'checkbox' },
-                { title: '开关', path: 'swith' },
-                { title: '下拉框', path: 'dropmenu' },
-                { title: '日期选择器', path: 'datepicker' },
-                { title: '文本域', path: 'textarea' }
-              ]
-            },
-            {
-              title: '组件',
-              children: [
-                { title: '表格', path: 'table' },
-                { title: '滑块', path: 'slider' },
-                { title: '菜单', path: 'menu' },
-                { title: '进度条', path: 'progress' },
-                { title: 'title提示', path: 'tooltip' },
-                { title: '区域菜单', path: 'rangemenu' },
-                { title: '侧边栏', path: 'sidebar' },
-                { title: '图片', path: 'img' },
-                { title: '穿梭框', path: 'shuttle' },
-                { title: '分页工具', path: 'pagebar' },
-                { title: '富文本编辑器', path: 'editor' },
-                { title: '加载更多', path: 'loadmore' },
-                { title: '侧边导航', path: 'sidenav' }
-              ]
-            }
-          ];
+          return [];
         }
       },
       // 是否可以展开多个
       showMult: {
         default: true
+      },
+      // 是否展开所有
+      showAll: {
+        default: false
+      },
+      // 隐藏箭头
+      hideArrow: {
+        default: false
       }
     },
     data: function () {
@@ -97,59 +55,75 @@
         settings: {
           wheelSpeed: 0.5
         },
-        plist: this.list,
-        showIndex: ''
+        openIndexList: []
       };
     },
     watch: {
-      list (val) {
-        this.plist = val;
-      },
       $route: function (to, from) {
-        console.log(from, to);
-        var name = to.name;
-
-        if (name === 'secretKey' || name === 'spaceFile' || name === 'fileRecycle') {
-          name = 'objectSpace';
-        }
-        this.routePath = name;
-        this.funSetNavActiveByRoute();
+        this.watchRoute();
       }
     },
     mounted: function () {
-      console.log(this.$route);
+      this.watchRoute();
+      if (this.showMult && this.showAll) {
+        // 显示所有子项
+        this.openIndexList = (function (_this) {
+          var arr = [];
+          
+          _this.list.forEach(function (element, index) {
+            arr.push(index);
+          });
+          return arr;
+        }(this));
+      }
     },
     methods: {
-      clkDt (info, index) {
-        if (!this.showMult && this.showIndex !== '' && this.showIndex !== index) {
-          // 关闭其他子层
-          this.$set(this.plist[this.showIndex], 'show', false);
-        }
-        if (info.children && info.children.length) {
-          // 显示隐藏子层
-          this.showIndex = info.show ? '' : index;
-          this.$set(info, 'show', !info.show);
-        } else {
-          this.clkItem(info);
+      toggle: function (index, from) {
+        if (index >= 0) {
+          var _index = this.openIndexList.indexOf(index);
+
+          if (_index === -1) {
+            if (!this.showMult) {
+              this.openIndexList = [];
+            }
+            this.openIndexList.push(index);
+          } else if (!from) {
+            // 如果是路由过来的，不处理
+            this.openIndexList.splice(_index, 1);
+          }
         }
       },
-      clkItem (info) {
-        this.$emit('click', info);
+      watchRoute: function () {
+        var result = '';
+        var rpath = this.$route.path;
+
+        for (var i = 0;i < this.list.length;i++) {
+          var item = this.list[i];
+
+          if (JSON.stringify(item).indexOf(rpath) > -1) {
+            result = i;
+            break;
+          }
+        }
+        this.toggle(result, 'route');
       }
     }
   };
 </script>
 
-<style scoped lang="scss">
-
-  @keyframes dshow {
-    
-    to {
-      opacity: 1;
-      transform: translateX(0);
+<style lang="scss">
+  .wrap-sidenar {
+    dt, dd {
+      > *:not(.arrow) {
+        flex: 1;
+      }
+    }
+    [class^=cicon-arrow]:before, [class^=cicon-dbarrow]:before, [class^=cicon-dbarrow]:after {
+      border-width: 1px;
     }
   }
-
+</style>
+<style scoped lang="scss">
   .scroll-sidenar {
     width: 100%;
     height: 100%;
@@ -160,30 +134,33 @@
     user-select: none;
     overflow: hidden;
 
-    > dt, > dd {
+    dt, dd {
       display: flex;
       flex-shrink: 0;
       align-items: center;
       justify-content: space-between;
+      line-height: 28px;
       cursor: pointer;
 
       > .arrow {
         font-size: 16px;
-        transition: all 0.4s;
-      }
-      > .arrow.show {
-        transform: rotate(270deg);
+        transition: all 0.3s;
       }
     }
-    > dd {
-      display: none;
+    dd {
       padding-left: 20px;
-      opacity: 0;
-      transform: translateX(50px);
     }
-    > dd.show {
-      display: block;
-      animation: dshow 0.1s forwards;
+
+    dt + div {
+      max-height: 0;
+      overflow: hidden;
+      transition: all .3s ease-in-out;
+    }
+    dt.open + div {
+      max-height: 1000px;
+    }
+    dt.open > .arrow {
+      transform: rotate(270deg);
     }
   }
 </style>

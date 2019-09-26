@@ -41,12 +41,13 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Index
+      redirect: '/index'
     }, 
     {
       path: '/index',
       name: 'index',
       component: Index,
+      redirect: '/start',
       children: [
         {
           path: '/start',
