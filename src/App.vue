@@ -152,8 +152,8 @@
     position: relative;
     width: 100%;
     height: 100%;
-    min-width: 1350px;
-    min-height: 630px;
+    /* min-width: 1350px;
+    min-height: 630px; */
     overflow: auto;
     background-color: #fff;
     --theme: #0079ff;
@@ -162,95 +162,3 @@
   /* 笔记本尺寸 1366 * 768 */
   @media screen and (max-width: 1366px) {}
 </style>
-
-<style lang="scss" class="cssForm">
-  // 默认垂直布局
-  .wrap-form {
-
-    // 单层
-    >.form-layer {
-
-      >label {
-        line-height: 30px;
-      }
-
-      >.f-dom {
-        display: inline-block;
-        width: 100%;
-      }
-
-      >.tip {
-        color: red;
-        line-height: 20px;
-      }
-    }
-    
-    // 单层水平
-    >.form-layer.horiz {
-      position: relative;
-      
-      >label {
-        display: inline-block;
-        margin-right: 10px;
-        width: 100px;
-        text-align: right;
-      }
-
-      >.f-dom {
-        width: calc(100% - 100px - 5px - 10px);
-      }
-    }
-  }
-
-  // 水平布局
-  .wrap-form.horiz {
-
-    // 单层
-    >.form-layer {
-      position: relative;
-      margin-bottom: 14px;
-      
-      >label {
-        display: inline-block;
-        margin-right: 10px;
-        width: 100px;
-        text-align: right;
-      }
-
-      >.f-dom {
-        width: calc(100% - 100px - 5px - 10px);
-      }
-
-      >.tip {
-        position: absolute;
-        top: 0;
-        left: calc(100% + 10px);
-        line-height: 30px;
-        white-space: nowrap;
-        word-wrap: break-word;
-        word-break: normal;
-        z-index: 1;
-      }
-    }
-
-    // 单层垂直
-    >.form-layer.vert {
-
-      >label {
-        display: unset;
-        margin-right: unset;
-        width: unset;
-        text-align: unset;
-      }
-
-      >.f-dom {
-        width: 100%;
-      }
-
-      >.tip {
-        top: 30px;
-      }
-    }
-  }
-</style>
-

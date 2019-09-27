@@ -1,10 +1,13 @@
 <template>
   <div class="wrap page-home">
     <header>
-      <h1>LV-WEB-UI 使用文档</h1>
+      <h1>
+        <router-link to="/navlist"><i class="cicon-list"></i></router-link>        
+        LV-WEB-UI 使用文档
+      </h1>
     </header>
     <nav>
-      <lv-sidenav :list="navData" :showAll="false" :showMult="true" :hideArrow="false">
+      <lv-sidenav :list="navData" :showAll="true" :showMult="true" :hideArrow="false">
         <router-link slot="item" slot-scope="props" :to="props.item.path" v-if="props.item.path">{{props.item.title}}</router-link>
       </lv-sidenav>
     </nav>
@@ -116,6 +119,28 @@
       }
     }
   }
+
+  @media (max-width:719px) {
+    .page-home {
+      > header .cicon-list {
+        display: inline-block!important;
+      }
+      > nav {
+        display: none;
+      }
+      > section {
+        width: 100%!important;
+
+        > div > dl > .example {
+          flex-wrap: wrap;
+          > section {
+            margin-bottom: 20px;
+            width: 100%!important;
+          }
+        }
+      }
+    }
+  }
 </style>
 <style scoped lang="scss">
   .page-home {
@@ -130,6 +155,12 @@
       line-height: 60px;
       border-bottom: solid 1px #eee;
       background-color: #fff;
+
+      .cicon-list {
+        display: none;
+        font-size: 40px;
+        cursor: pointer;
+      }
     }
 
     > nav {

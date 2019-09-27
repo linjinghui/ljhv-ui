@@ -32,6 +32,7 @@ const Editor = () => import('./ui/editor.vue');
 const More = () => import('./ui/loadmore.vue');
 const Sidenav = () => import('./ui/sidenav.vue');
 const Rule = () => import('./ui/rule.vue');
+const Navlist = () => import('./ui/navlist.vue');
 
 Vue.use(Router);
 
@@ -198,6 +199,11 @@ export default new Router({
           path: '/rule',
           name: 'rule',
           component: Rule
+        },
+        {
+          path: '/navlist',
+          name: 'navlist',
+          component: Navlist
         }
       ]
     }

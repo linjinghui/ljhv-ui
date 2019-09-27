@@ -334,3 +334,14 @@
   border-radius: 50%;
   background-color: #3a95de;
 }
+[class^=cicon-list]:before {
+  width: 0.5em;
+	height: 0;
+	border-top-width: 2px;
+}
+[class^=cicon-list]:after {
+  width: 0.5em;
+  height: 0.32em;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
+}

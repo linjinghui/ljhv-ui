@@ -6,8 +6,11 @@
 4、最大值 - max - 用于tip提示
  -->
 <template>
-  <div class="slider wrap-drag">
-    <span class="bar theme-c" :disabled="disabled" v-drag @edrag="funDrag"><i :disabled="disabled"></i></span>
+  <div class="slider wrap-drag" style="border:solid 1px;">
+    <p class="progress theme-b" :disabled="disabled" :style="'width:'+perx+'%;'"></p>
+    <tooltip ref="ttp" :text="tttext" theme="#333" position="bottom">
+      <span class="bar theme-c" :disabled="disabled" v-drag:x="cpos" @edrag="funDrag"><i :disabled="disabled"></i></span>
+    </tooltip>
   </div>
 </template>
 
@@ -58,8 +61,7 @@
 <style scoped lang="scss">
   .slider {
     position: relative;
-    width: 100%;
-    height: 100%;
+    height: 20px;
 
     > .bar {
       position: relative;
@@ -78,9 +80,6 @@
         border-width: 2px;
         border-radius: 50%;
       }
-    }
-    > .bar:active {
-      cursor: -webkit-grabbing;
     }
     > .bar[disabled] {
       opacity: 1!important;

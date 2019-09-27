@@ -5,9 +5,9 @@ import router from './router';
 import App from './App';
 import directives from './directives';
 import {Loading, Tip, Confirm, Prompt} from '../packages/index.js';
-
 import vueHljs from 'vue-hljs';
 import 'vue-hljs/dist/vue-hljs.min.css';
+import VConsole from 'vconsole';
 Vue.use(vueHljs);
 
 // 注册全局组件
@@ -20,6 +20,13 @@ Vue.prototype.$eventbus = new Vue();
 window.EVENTBUS = new Vue();
 
 Vue.prototype.$store = store;
+
+// 判断是否移动端
+var client = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);
+Vue.prototype.$client = client;
+
+// 如果是移动端添加 vconsole 插件，可屏蔽
+client && new VConsole();
 
 const app = new Vue({
   router,

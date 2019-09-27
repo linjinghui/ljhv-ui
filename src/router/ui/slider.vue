@@ -1,17 +1,17 @@
 <template>
   <div class="wrap page-theme">
     <h1>滑块</h1>
-    <dl>
+    <!-- <dl>
       <dd><h3>引入组件</h3></dd>
       <dd v-highlight>
         <pre><code>import {Slider} from 'lv-web-ui';
 Vue.component('lvSlider', Slider);</code></pre>
       </dd>
-    </dl>
+    </dl> -->
     <dl>
       <dd><h3>可设置初始值，带禁用功能的滑块</h3></dd>
       <dd class="example">
-        <section v-highlight>
+        <section v-highlight style="display:none;">
            <pre><code># percent 初始进度值，百分比
 # disabled 是否禁用 默认false
 # edrag 拖拽后的回调，返回坐标值的百分比
@@ -28,7 +28,7 @@ export default {
 &lt;/script&gt;</code></pre>
         </section>
         <section style="padding:10px;">
-          <div style="width: 300px;">
+          <div style="width:100%;height:300px;border:solid 1px;">
             <lv-slider percent="60" :disabled="false" @edrag="callback"></lv-slider>
           </div>
         </section>
