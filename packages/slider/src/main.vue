@@ -1,13 +1,19 @@
 <!--
 功能介绍：
-1、自定义百分比位置 - percent - 实时返回
-2、自定义主题色 - theme
-3、禁用 - disabled
-4、最大值 - max - 用于tip提示
+1、自定义最大、最小值
+2、禁用 - disabled
  -->
 <template>
-  <div class="slider wrap-drag">
-    <span class="bar theme-c" :disabled="disabled" v-drag @edrag="funDrag"><i :disabled="disabled"></i></span>
+  <div class="slider">
+    <span v-if="showMinMax" v-text="min"></span>
+    <div class="wrap-drag">
+      <p class="progress bg"></p>
+      <p class="progress theme-b" :disabled="disabled" :style="'width:'+pgwidth+'px;'"></p>
+      <tooltip ref="ttp" :text="text" theme="#333" position="bottom">
+        <span class="bar theme-c" :disabled="disabled" v-drag:x="{px:value/max,disabled:disabled}" @edrag="funDrag"></span>
+      </tooltip>
+    </div>
+    <span v-if="showMinMax" v-text="max"></span>
   </div>
 </template>
 
@@ -21,35 +27,73 @@
       Tooltip
     },
     props: {
-      // 初始进度, 百分比
-      percent: {
+      min: {
+        type: Number,
+        default: 0
+      },
+      max: {
+        type: Number,
+        default: 100
+      },
+      value: {
+        type: Number,
+        default: 0
+      },
+      // 保留小数点位数
+      point: {
+        type: Number,
         default: 0
       },
       disabled: {
         default: false
+      },
+      showMinMax: {
+        default: true
       }
     },
     directives: {
       drag
     },
-    computed: {
-      tttext: function () {
-        var num = isNaN(this.perx) ? 0 : parseInt(this.perx);
-
-        return num.toFixed(0);
-      }
-    },
+    computed: {},
     data () {
       return {
-        perx: 0,
-        cpos: this.percent ? {x: this.percent} : ''
+        pgwidth: 0,
+        text: '0'
       };
     },
     methods: {
+      debounce: function (func, wait, immediate) {
+        var timeout;
+
+        return function () {
+          var context = this;
+          var args = arguments;
+          var later = function () {
+            timeout = null;
+            if (!immediate) {
+              func.apply(context, args);
+            }
+          };
+          var callNow = immediate && !timeout;
+
+          clearTimeout(timeout);
+          timeout = setTimeout(later, wait);
+          if (callNow) {
+            func.apply(context, args);
+          }
+        };
+      },
       funDrag: function (data) {
-        this.perx = data.detail.px;
-        this.$emit('edrag', this.perx);
+        // var _this = this;
+
+        this.pgwidth = data.detail.x;
+        this.text = parseFloat((data.detail.px * this.max).toFixed(this.point));
+        // this.text = data.detail.px * this.max;
         this.$refs.ttp.update();
+        // this.debounce(function () {
+        //   _this.$emit('input', _this.text);
+        // }, 1800)();
+        this.$emit('callback', this.text);
       }
     }
   };
@@ -58,40 +102,53 @@
 <style scoped lang="scss">
   .slider {
     position: relative;
-    width: 100%;
-    height: 100%;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
 
-    > .bar {
+    > span:first-of-type {
+      padding-right: 6px;
+    }
+    > span:last-of-type {
+      padding-left: 6px;
+    }
+
+    .wrap-drag {
+      position: relative;
+      flex: 1;
+    }
+
+    .bar {
       position: relative;
       display: block;
       width: 20px;
       height: 20px;
+      border: solid 2px;
+      border-radius: 50%;
       background-color: #fff;
-      z-index: 2;
+      z-index: 3;
       cursor: -webkit-grab;
       overflow: hidden;
-      > i {
-        display: block;
-        width: 100%;
-        height: 100%;
-        border-style: solid;
-        border-width: 2px;
-        border-radius: 50%;
-      }
     }
-    > .bar:active {
+    .bar:active {
       cursor: -webkit-grabbing;
     }
-    > .bar[disabled] {
+    .bar[disabled] {
       opacity: 1!important;
     }
-    > .progress {
+    .progress {
       position: absolute;
       top: 0;
       left: 0;
       bottom: 0;
       margin: auto;
       height: 4px;
+      z-index: 2;
+    }
+    .progress.bg {
+      width: 100%;
+      background-color: #e3e3e3;
+      z-index: 1;
     }
   }
   </style>

@@ -9,13 +9,26 @@ Vue.component('lvSidenav', Sidenav);</code></pre>
       </dd>
     </dl>
     <dl>
-      <dd><h3>xxxx</h3></dd>
+      <dd><h3>可根据路由地址自动识别激活项</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;script type="text/babel"&gt;
+           <pre><code>// list 列表数据，格式：[{title: '导航名称', path: '跳转地址', children: ''}]
+// showAll: 是否显示所有节点
+// showMult: 是否展开多个节点
+// hideArrow: 是否隐藏箭头
+&lt;lv-sidenav :list="navData" :showAll="false" :showMult="true" :hideArrow="false"&gt;&lt;/lv-sidenav&gt;
+&lt;script type="text/babel"&gt;
 export default {
   data () {
-    return {};
+    return {
+      navData: [{
+        title: '开始',
+        children: [
+          { title: '快速上手', path: '/start' },
+          { title: '更新日志', path: '/log' }
+        ]
+      }]
+    };
   },
   methods: {
     xxx () {}

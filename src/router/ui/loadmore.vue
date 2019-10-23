@@ -9,7 +9,7 @@ Vue.component('lvMore', More);</code></pre>
       </dd>
     </dl>
     <dl>
-      <dd><h3>xxxx</h3></dd>
+      <dd><h3>当组件出现在可视范围之内时，会自动触发callback回调（status为nomore的时候不会再触发）</h3></dd>
       <dd class="example">
         <section v-highlight>
            <pre><code>// wrapId 滚动层ID，默认document

@@ -30,6 +30,16 @@ export default {
     }(el, 'wrap-drag'));
     var wrapDragWidth = wrapDrag.getBoundingClientRect().width;
     var wrapDragHeight = wrapDrag.getBoundingClientRect().height;
+    var wrapDragLeft = wrapDrag.getBoundingClientRect().left;
+    var wrapDragTop = wrapDrag.getBoundingClientRect().top;
+    var emit = function (data) {
+      var eventName = 'edrag';
+      if (vnode.componentInstance) {
+      	vnode.componentInstance.$emit(eventName, {detail: data});
+      } else {
+      	vnode.elm.dispatchEvent(new CustomEvent(eventName, {detail: data}));
+      }
+    }
 
     var start = function (evt) {
       var touches = evt.changedTouches[0];
@@ -55,39 +65,62 @@ export default {
       } else {
         el.style.transform = 'translateX(' + (moveX) + 'px) translateY(' + (moveY) + 'px)';
       }
+      emit({
+        x: moveX,
+        y: moveY,
+        wrapDragWidth: wrapDragWidth,
+        wrapDragHeight: wrapDragHeight,
+        px: (moveX / (wrapDragWidth - el.offsetWidth)),
+        py: (moveY / (wrapDragHeight - el.offsetHeight))
+      });
     }
     var end = function (evt) {}
     var cancel = function (evt) {}
+
+    // 初始回调
+    move({
+      touches: [{ 
+        pageX: (wrapDragWidth - el.offsetWidth) * (binding.value.px || 0), 
+        pageY: (wrapDragHeight - el.offsetHeight) * (binding.value.py || 0)
+      }],
+      changedTouches: [{ 
+        pageX: (wrapDragWidth - el.offsetWidth) * (binding.value.px || 0), 
+        pageY: (wrapDragHeight - el.offsetHeight) * (binding.value.py || 0)
+      }]
+    });
+
     // touch mouse事件绑定
-    el.addEventListener('touchstart', start, false);
-    el.addEventListener('touchmove', move, false);
-    el.addEventListener('touchend', end, false);
-    el.addEventListener('touchcancel', cancel, false);
-    el.addEventListener('mousedown', function (evt) {
-      isMouseDown = true;
-      evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-      evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-      start(evt);
-    }, false);
-    window.addEventListener('mousemove', function (evt) {
-      evt.preventDefault();
-      if (isMouseDown === true) {
+    if (!binding.value.disabled) {
+      el.addEventListener('touchstart', start, false);
+      el.addEventListener('touchmove', move, false);
+      el.addEventListener('touchend', end, false);
+      el.addEventListener('touchcancel', cancel, false);
+      el.addEventListener('mousedown', function (evt) {
+        isMouseDown = true;
         evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
         evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-        move(evt);
-      }
-    }, false);
-    window.addEventListener('mouseup', function (evt) {
-      isMouseDown = false;
-      evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-      evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-      end(evt);
-    }, false);
-    // el.addEventListener('mouseout', function (evt) {
-    //   isMouseDown = false;
-    //   evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-    //   evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
-    //   cancel(evt);
-    // }, false);
+        start(evt);
+      }, false);
+      window.addEventListener('mousemove', function (evt) {
+        evt.preventDefault();
+        if (isMouseDown === true) {
+          evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+          evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+          move(evt);
+        }
+      }, false);
+      window.addEventListener('mouseup', function (evt) {
+        isMouseDown = false;
+        evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+        evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+        end(evt);
+      }, false);
+      // el.addEventListener('mouseout', function (evt) {
+      //   isMouseDown = false;
+      //   evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+      //   evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+      //   cancel(evt);
+      // }, false);
+    }
   }
 };
