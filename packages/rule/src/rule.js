@@ -94,8 +94,8 @@
 			var startIndex = that.forIndex * getSliderItemNum;
 
 			if(getSliderIndex >= (getSliderItemNum * (that.forIndex-1) + Math.round(getSliderItemNum/2))){
-				for(var i = 1; i<=getSliderItemNum; i++){
-					sliderItemIndex = i + getSliderItemNum * that.forIndex;
+				for(var i = startIndex + 1; i <= (startIndex + getSliderItemNum);i++){
+					sliderItemIndex = i;
 					sliderItemLeft = that.stepWidth * sliderItemIndex;
 					sliderItemValue = that.setMinNum + that.stepNum * sliderItemIndex;
 					
@@ -186,17 +186,17 @@
 			}
 		},
 		touch: function(){
+			var isMouseDown = false;
 			var that = this;
-			that.getObj.addEventListener('touchstart',function(e){
+			var start = function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				var startTouch = e.changedTouches[0];
 				that.startPageX = startTouch.pageX;
 				that.startLeft = this.offsetLeft;
 				this.className = that.initClassName;
-			},false)
-
-			that.getObj.addEventListener('touchmove',function(e){
+			}
+			var move = function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				var moveTouch = e.changedTouches[0],
@@ -212,9 +212,8 @@
 					left = getBodyWidth/2 - that.getObj.offsetWidth;
 				}
 				that.getObj.style.left = left + 'px';
-			},false)
-
-			that.getObj.addEventListener('touchend',function(e){
+			}
+			var end = function (e) {
 				e.preventDefault();
 				e.stopPropagation();
 				var moveTouch = e.changedTouches[0];
@@ -222,7 +221,34 @@
 				that.movePageX = moveTouch.pageX;
 				that.moveX = that.movePageX - that.startPageX;
 				that.setSliderValue(this.offsetLeft);
-			},false)
+			}
+
+			that.getObj.addEventListener('touchstart', start, false)
+			that.getObj.addEventListener('touchmove', move, false)
+			that.getObj.addEventListener('touchend', end, false)
+			that.getObj.addEventListener('mousedown', function (evt) {
+        isMouseDown = true;
+        evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+        evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+				// start(evt);
+				start.call(this, evt);
+      }, false);
+      window.addEventListener('mousemove', function (evt) {
+        evt.preventDefault();
+        if (isMouseDown === true) {
+          evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+          evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+					// move(evt);
+					move.call(that.getObj, evt);
+        }
+      }, false);
+      window.addEventListener('mouseup', function (evt) {
+        isMouseDown = false;
+        evt.touches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+        evt.changedTouches = [{ pageX: evt.pageX, pageY: evt.pageY }];
+				// end(evt);
+				end.call(that.getObj, evt);
+      }, false);
 		},
 		setSliderValue: function (offsetLeft, zdval) {
 			var that = this; 
