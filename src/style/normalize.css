@@ -23,6 +23,8 @@ html {
     -webkit-text-size-adjust: 100%; /* 2 */
     height: 100%;
     font-size: 14px;
+    /* rem 基于width=750px dpr=2 设计的页面, 如：16px=0.32rem */
+    /* font-size: calc(100vw / 7.5); */
 }
 
 /**
