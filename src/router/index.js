@@ -33,6 +33,7 @@ const More = () => import('./ui/loadmore.vue');
 const Sidenav = () => import('./ui/sidenav.vue');
 const Rule = () => import('./ui/rule.vue');
 const Navlist = () => import('./ui/navlist.vue');
+const Slidercode = () => import('./ui/slidercode.vue');
 
 Vue.use(Router);
 
@@ -204,6 +205,11 @@ export default new Router({
           path: '/navlist',
           name: 'navlist',
           component: Navlist
+        },
+        {
+          path: '/slidercode',
+          name: 'slidercode',
+          component: Slidercode
         }
       ]
     }

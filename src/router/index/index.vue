@@ -75,7 +75,8 @@
               { title: '富文本编辑器', path: '/editor' },
               { title: '加载更多', path: '/loadmore' },
               { title: '侧边导航', path: '/sidenav' },
-              { title: '刻度尺', path: '/rule' }
+              { title: '刻度尺', path: '/rule' },
+              { title: '滑块验证码', path: '/slidercode' }
             ]
           }
         ]
