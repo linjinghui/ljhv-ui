@@ -1,5 +1,9 @@
 
-(function (win) {
+(function (global, factory) {
+  typeof exports === 'object' && typeof module !== 'undefined' ? module.exports = factory() :
+  typeof define === 'function' && define.amd ? define(factory) :
+  (global = global || self, global.SliderCode = factory());
+}(this, function () {
   var l = 42;
   // 滑块半径
   var r = 9;
@@ -71,7 +75,6 @@
   function getRandomImgSrc () {
     // https://picsum.photos/id/100/300/150?image=200
     return imgSrc || 'http://picsum.photos/300/150/?image=' + getRandomNumberByRange(0, 1084);
-    // return 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2353873632,2644143944&fm=26&gp=0.jpg';
   }
 
   function draw (ctx, x, y, operation) {
@@ -99,8 +102,10 @@
   function square (x) {
     return x * x
   }
-  class jigsaw {
-    constructor ({ el, imgUrl, onSuccess, onFail, onRefresh }) {
+  class SliderCode {
+    constructor ({ el, width, height, imgUrl, onSuccess, onFail, onRefresh }) {
+      width && (w = width);
+      height && (h = height);
       el.style.position = 'relative'
       el.style.width = w + 'px'
       Object.assign(el.style, {
@@ -272,9 +277,11 @@
       this.img.setSrc(getRandomImgSrc())
     }
   }
-  win.jigsaw = {
+  return {
     init: function (opts) {
-      return new jigsaw(opts).init();
+      var sliderCode = new SliderCode(opts);
+      sliderCode.init();
+      return sliderCode;
     }
-  }
-}(window));
+  };
+}));

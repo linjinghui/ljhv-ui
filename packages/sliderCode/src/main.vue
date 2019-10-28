@@ -8,17 +8,25 @@
 </template>
 
 <script type="text/babel">
-  import './sliderCode.js';
+  import SliderCode from './sliderCode.js';
 
   export default {
     name: 'SliderCode',
     data: function () {
       return {
-        id: 'sliderCode_' + new Date().getTime() + parseInt(Math.random() * 100)
+        id: 'sliderCode_' + new Date().getTime() + parseInt(Math.random() * 100),
+        sliderCode: ''
       };
     },
     props: {
-      value: {
+      width: {
+        default: 310
+      },
+      height: {
+        default: 155
+      },
+      // 指定背景图片地址，不传，默认从https://picsum.photos上随机获取图片
+      imgUrl: {
         default: ''
       }
     },
@@ -28,22 +36,29 @@
       // 
     },
     mounted: function () {
-      window.jigsaw.init({
+      var _this = this;
+
+      this.sliderCode = SliderCode.init({
         el: document.getElementById(this.id),
-        imgUrl: 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2353873632,2644143944&fm=26&gp=0.jpg',
+        width: this.width,
+        height: this.height,
+        imgUrl: this.imgUrl,
         onSuccess: function () {
-          // 
+          _this.$emit('success');
         },
         onFail: function () {
-          // 
+          _this.$emit('fail');
         },
         onRefresh: function () {
-          // 
+          _this.$emit('refresh');
         }
       });
+      console.log(this.sliderCode);
     },
     methods: {
-      // 
+      fresh () {
+        this.sliderCode.reset();
+      }
     }
   };
 </script>
@@ -67,7 +82,7 @@
     .sliderContainer {
       position: relative;
       text-align: center;
-      width: 310px;
+      width: 100%;
       height: 40px;
       line-height: 40px;
       margin-top: 15px;
@@ -119,7 +134,7 @@
 
     .sliderContainer_fail .sliderIcon {
       // top: 14px;
-      background-position: 0 -82px !important;
+      background-position: 0 -47px !important;
     }
     .sliderContainer_active .sliderText, .sliderContainer_success .sliderText, .sliderContainer_fail .sliderText {
       display: none;
@@ -170,8 +185,7 @@
       margin: auto;
       width: 14px;
       height: 12px;
-      background: url(http://cstaticdun.126.net//2.6.3/images/icon_light.f13cff3.png) 0 -26px;
-      background-size: 34px 471px;
+      background: url(./icon_light.png) 0 -26px;
     }
 
     .refreshIcon {
@@ -181,8 +195,7 @@
       width: 34px;
       height: 34px;
       cursor: pointer;
-      background: url(http://cstaticdun.126.net//2.6.3/images/icon_light.f13cff3.png) 0 -437px;
-      background-size: 34px 471px;
+      background: url(./icon_light.png) 0 -66px;
     }
   }
 </style>
