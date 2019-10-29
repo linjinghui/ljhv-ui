@@ -52,7 +52,7 @@ export default {
         <section style="padding:10px;">
           <lv-laydate v-model="startDate" placeholder="请选择日期" :option="option">
             <!-- 可自定义右侧图标 -->
-            <i class="cicon-tick center-v" slot="right"></i>
+            <i class="cicon-tick" slot="right"></i>
           </lv-laydate>
         </section>
       </dd>

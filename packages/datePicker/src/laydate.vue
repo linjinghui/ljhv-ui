@@ -8,7 +8,7 @@
     <template slot="right" v-if="$scopedSlots.right">
       <slot name="right"></slot>
     </template>
-    <i class="cicon-calendar-cpt-chr center-v" slot="right" @click.stop style="font-size:26px;" v-else>
+    <i class="cicon-calendar-cpt-chr" slot="right" @click.stop style="font-size:26px;" v-else>
       <span></span>
     </i>
   </cmp-input>
