@@ -30,16 +30,16 @@ Vue.component('lvInput', Input);</code></pre>
 nopaste="false" autofocus="true" disabled="false" clear="true" rule="chinese" readonly="false" 
 @focus="cbk_focus" @blur="cbk_blur" @keyup="cbk_keyup" @enter="cbk_enter"&gt;
   // 左侧图标
-  &lt;i class="cicon-tick center-v" slot="left"&gt;&lt;/i&gt;
+  &lt;i class="cicon-tick" slot="left"&gt;&lt;/i&gt;
   // 右侧图标
-  &lt;i class="cicon-search-cpt-chr center-v" slot="right"&gt;&lt;/i&gt;
+  &lt;i class="cicon-search-cpt-chr" slot="right"&gt;&lt;/i&gt;
 &lt;/lv-input&gt;</code></pre>
         </section>
         <section style="padding:10px;">
           <lv-input v-model="name" type="text" maxlength="10" placeholder="请输入中文" nopaste="false" autofocus="true" disabled="false"
             clear="true" rule="chinese" readonly="false" @focus="cbk_focus" @blur="cbk_blur" @keyup="cbk_keyup" @enter="cbk_enter">
-          <i class="cicon-tick center-v" slot="left"></i>
-          <i class="cicon-search-cpt-chr center-v" slot="right"></i>
+          <i class="cicon-tick" slot="left"></i>
+          <i class="cicon-search-cpt-chr" slot="right"></i>
           </lv-input>
         </section>
       </dd>
@@ -57,7 +57,7 @@ nopaste="false" autofocus="true" disabled="false" clear="true" rule="chinese" re
     },
     data () {
       return {
-        // 
+        name: 'ssss'
       };
     },
     mounted: function () {

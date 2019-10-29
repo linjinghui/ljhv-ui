@@ -5,28 +5,16 @@
  -->
 
 <template>
-  <span class="input" :class="{'pdlt': pdlt, 'pdrt': pdrt}" :id="id">
-    <input :class="{'theme-bc':focus}"
-    autoComplete="off"
-    ref="ipt"
-    v-model.trim="val"
-    :name="name"
-    :type="type"
-    :disabled="(disabled+'')==='true'"
-    :maxlength="maxlength"
-    :placeholder="placeholder"
-    :onpaste="(nopaste+''==='true')?'return false':''"
-    :readonly="(readonly+'')==='true'"
-    @focus="evn_focus"
-    @blur="evn_blur"
-    @keyup="evn_keyup"
-    @keyup.enter="evn_enter">
-    <slot>
-      <slot name="left"></slot>
-      <i class="cicon-cross-crle-chr-cpt center-v" v-if="_showClear" @click="clk_del"></i>
-      <slot name="right"></slot>
-    </slot>
-  </span>
+  <div class="wrap-input" :class="{'theme-bc':focus}">
+    <slot name="left"></slot>
+    <input
+      autoComplete="off" ref="ipt" v-model.trim="val" :name="name" :type="type"
+      :disabled="(disabled+'')==='true'" :maxlength="maxlength" :placeholder="placeholder"
+      :onpaste="(nopaste+''==='true')?'return false':''" :readonly="(readonly+'')==='true'"
+      @focus="evn_focus" @blur="evn_blur" @keyup="evn_keyup" @keyup.enter="evn_enter">
+    <i class="cicon-cross-crle-chr-cpt" v-if="_showClear" @click="clk_del"></i>
+    <slot name="right"></slot>
+  </div>
 </template>
 
 <script type="text/babel">
@@ -74,7 +62,7 @@
       _showClear: function () {
         let result = '';
         
-        result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0 && this.focus;
+        result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
         return result;
       }
     },
@@ -95,8 +83,10 @@
     },
     methods: {
       clk_del: function () {
+        var _this = this;
+
         this.val = '';
-        this.do_focus();
+        setTimeout(function () { _this.do_focus(); }, 0);
       },
       evn_focus: function () {
         this.$emit('focus');
@@ -192,20 +182,24 @@
 </script>
 
 <style scoped lang="scss">
-  .input {
+  .wrap-input {
     position: relative;
-    display: inline-block;
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding-left: 10px;
     width: 100%;
     height: 34px;
+    border-style: solid;
+    border-width: 1px;
 
     >input {
-      display: block;
-      padding-left: 10px;
-      padding-right: 36px;
+      flex: 1;
+      margin-right: 10px;
+      padding: 0;
       width: 100%;
       height: 100%;
-      border-style: solid;
-      border-width: 1px;
+      border: 0;
       color: inherit;
       font: inherit;
       outline: medium;
@@ -221,40 +215,15 @@
       display: none;
     }
 
-    >input:not(.theme-bc) {
-      border-color: #ddd;
-    }
-
-    >i {
-      position: absolute;
+    > i {
+      position: relative;
+      margin-right: 10px;
       font-size: 16px;
       color: #fff;
       background-color: #999;
     }
-
-    >.cicon-cross-crle-chr-cpt {
-      right: 10px;
-    }
   }
-
-  .input.pdlt {
-    >input {
-      padding-left: 36px;
-    }
-    >i:first-of-type {
-      left: 10px;
-    }
-  }
-
-  .input.pdrt {
-    >input {
-      padding-right: 62px;
-    }
-    >i:last-of-type {
-      right: 10px;
-    }
-    >.cicon-cross-crle-chr-cpt {
-      right: 36px;
-    }
+  .wrap-input:not(.theme-bc) {
+    border-color: #ddd;
   }
 </style>
