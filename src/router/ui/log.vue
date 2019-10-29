@@ -1,16 +1,11 @@
 <template>
   <div class="wrap page-log">
     <h1>更新日志</h1>
-    <dl>
+    <!-- <dl>
       <dt><h3>1.2.5<small> 2018-08-17</small></h3></dt>
       <dd>1、修改 yd-lightbox 显示方式。</dd>
       <dd>2、修改 yd-lightbox 显示方式。</dd>
-    </dl>
-    <dl>
-      <dt><h3>1.2.5<small> 2018-08-17</small></h3></dt>
-      <dd>1、修改 yd-lightbox 显示方式。</dd>
-      <dd>2、修改 yd-lightbox 显示方式。</dd>
-    </dl>
+    </dl> -->
   </div>
 </template>
 

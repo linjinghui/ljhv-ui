@@ -16,14 +16,14 @@ $ npm install lv-web-ui --save</code></pre>
     </dl>
     <dl>
       <dt><h3>脚手架工具(CLI)</h3></dt>
-      <dd>ljhv 提供了一个脚手架工具(CLI)，为单页面应用 (SPA) 快速搭建基础框架。只需要几分钟的时间就可以运行起来并带有热重载、保存时 lint 校验，以及生产环境可用的构建版本。</dd>
+      <dd>lv 提供了一个脚手架工具(CLI)，为单页面应用 (SPA) 快速搭建基础框架。只需要几分钟的时间就可以运行起来并带有热重载、保存时 lint 校验，以及生产环境可用的构建版本。</dd>
       <dd v-highlight>
         <pre><code># 安装脚手架
-$ npm install ljhv-cli -g
+$ npm install lv-cli -g
 # 查看脚手架版本
-$ ljhv-cli -V
+$ lv-cli -V
 # 创建工程
-$ ljhv-cli init
+$ lv-cli init
 # 安装依赖
 $ npm install 
 # 运行程序
