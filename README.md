@@ -1,1 +1,2 @@
-## vue模块化开发程序模版
+## 基于vue的lv 前端组件库
+链接地址：[LV-WEB-UI 使用文档]: http://hcbeng.com/lvui/#/start

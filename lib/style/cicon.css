@@ -85,23 +85,6 @@
 	transform: rotate(-45deg);
 }
 
-/*[class^=cicon-cross-2] {
-	border-radius: 50%;
-	background-color: #c0c4cc;
-}
-
-[class^=cicon-cross-2]:before,
-[class^=cicon-cross-2]:after {
-	width: 0.6em;
-	height: 0;
-	border-top-width: 1px;
-}
-
-[class^=cicon-cross-2]:hover {
-	border-radius: 50%;
-	background-color: #999;
-}*/
-
 [class^=cicon-tick]:before {
   top: -0.2em;
   /* 3/4 */
@@ -350,4 +333,15 @@
   height: 0.6em;
   border-radius: 50%;
   background-color: #3a95de;
+}
+[class^=cicon-list]:before {
+  width: 0.5em;
+	height: 0;
+	border-top-width: 2px;
+}
+[class^=cicon-list]:after {
+  width: 0.5em;
+  height: 0.32em;
+  border-top-width: 2px;
+  border-bottom-width: 2px;
 }

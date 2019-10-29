@@ -23,6 +23,8 @@ html {
     -webkit-text-size-adjust: 100%; /* 2 */
     height: 100%;
     font-size: 14px;
+    /* rem 基于width=750px dpr=2 设计的页面, 如：16px=0.32rem */
+    /* font-size: calc(100vw / 7.5); */
 }
 
 /**
@@ -547,17 +549,17 @@ small {
  * text selection style
  */
 
-/*::-moz-selection {*/
-/*color: #ffffff;*/
-/*background: #2e8ffe;*/
-/*text-shadow: none;*/
-/*}*/
+/* ::-moz-selection {
+    color: #ffffff;
+    background: #2e8ffe;
+    text-shadow: none;
+}
 
-/*::selection {*/
-/*color: #ffffff;*/
-/*background: #2e8ffe;*/
-/*text-shadow: none;*/
-/*}*/
+::selection {
+    color: #ffffff;
+    background: #2e8ffe;
+    text-shadow: none;
+} */
 
 /*chorm滚动条样式 v */
 ::-webkit-scrollbar {
