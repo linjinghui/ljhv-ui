@@ -91,8 +91,8 @@
 	width: 0.4em;
 	height: 0.22em;
 	border-width: 2px;
-	border-top-color: transparent!important;
-	border-right-color: transparent!important;
+  border-top: 0;
+  border-right: 0;
   transform: rotate(-45deg);
   transform-origin: center center;
 }
