@@ -45,6 +45,7 @@
           <i class="cicon-dbarrow-top"></i>
           <i class="cicon-dbarrow-bottom"></i>
           <i class="cicon-list"></i>
+          <i class="cicon-home"><span></span></i>
         </section>
       </dd>
     </dl>
