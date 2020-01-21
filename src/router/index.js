@@ -1,7 +1,7 @@
 // import Vue from 'vue';
 import Router from 'vue-router';
 
-const Index = () => import('./index/index.vue');
+const Index = () => import('./ui/index.vue');
 const Start = () => import('./ui/start.vue');
 const Log = () => import('./ui/log.vue');
 const Theme = () => import('./ui/theme.vue');

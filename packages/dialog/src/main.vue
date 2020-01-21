@@ -5,19 +5,21 @@
 
 <template>
   <transition name="slide-fade">
-    <div class="wrap-dialog" :class="{'no-footer': !(buttons&&buttons.length>0)}" :style="{'z-index': zIndex + 1}" v-if="value+''==='true'">
-      <i class="cicon-cross-chr" @click="clk_hide"></i>
-      <header :style="cstl.header">
-        <slot name="title"></slot>
+    <div class="wrap-dialog" :class="align" :style="{'z-index':zIndex+1}" v-if="value">
+      <header>
+        <slot name="title">{{headText}}</slot>
+        <i class="icon lv-icon-x" @click="clk_hide"></i>
       </header>
-      <vperfect-scrollbar :settings="settings">
-        <slot name="content"></slot>
+      <vperfect-scrollbar :settings="{wheelSpeed:0.5}">
+        <div class="main">
+          <i class="lv-icon-x-2" v-if="icon==='error'"></i>
+          <i class="lv-icon-point-2" v-if="icon==='warning'"></i>
+          <i class="lv-icon-tick-2" v-if="icon==='success'"></i>
+          <slot name="main">{{content}}</slot>
+        </div>
       </vperfect-scrollbar>
-      <footer :style="cstl.footer" v-if="buttons&&buttons.length>0">
-        <template v-for="info in buttons">
-          <cmp-button v-if="JSON.stringify(info.fileoption)" :key="info.id" :theme="info.theme" :fileoption="info.fileoption" @cbk_file="clk_file($event,info)">{{info.text}}</cmp-button>
-          <cmp-button v-else :key="info.id" :theme="info.theme" :prnt="info.prnt" @click="clk_btn(info)">{{info.text}}</cmp-button>
-        </template>
+      <footer v-if="buttons">
+        <lv-button v-for="(button,index) in buttons" :key="'btn_'+index" v-bind="button" @click="clkBtn(button)">{{button.text}}</lv-button>
       </footer>
     </div>
   </transition>
@@ -31,51 +33,52 @@
     name: 'Dialog',
     components: {
       'vperfect-scrollbar': VuePerfectScrollbar,
-      'cmpButton': Button
+      'lvButton': Button
     },
     data: function () {
       return {
         id: 'dlg_' + new Date().getTime() + parseInt(Math.random() * 100),
-        // 滚动速度，默认1
-        settings: {
-          wheelSpeed: 0.5
-        },
         zIndex: 1000,
         domZz: ''
       };
     },
     props: {
-      value: '',
+      // 显示、隐藏
+      value: {
+        type: Boolean,
+        default: false
+      },
       // 是否模态，即是否产生遮罩效果
       modal: {
+        type: Boolean,
         default: true
       },
-      // error|success|warning
-      type: '',
-      stl: {
-        type: Object,
-        default: function (data) {
-          return this.stlDefVal();
-        }
+      // 点击遮罩关闭窗口
+      modalClick: {
+        type: Boolean,
+        default: false
+      },
+      // left|center
+      align: {
+        default: 'left'
+      },
+      // 标题
+      headText: '',
+      // 内容
+      content: '',
+      // 图标 success|warning|error
+      icon: {
+        default: ''
       },
       buttons: {
         type: Array,
         default: function () {
           return [{
-            text: '确定'
+            theme: 'line',
+            text: '取消'
           }, {
-            text: '取消',
-            // primary|success|info|warning|danger|line|#f56c6c
-            theme: 'info'
+            text: '确定'
           }];
-        }
-      },
-      callback: {
-        type: Function,
-        default: function (data) {
-          return function () {
-            // 
-          };
         }
       }
     },
@@ -86,18 +89,6 @@
         } else {
           this.removeZz();
         }
-      },
-      modal: function (val) {
-        // if (val + '' === 'true' && this.value + '' === 'true') {
-        //   this.creatZz();
-        // } else {
-        //   this.removeZz();
-        // }
-      }
-    },
-    computed: {
-      cstl: function () {
-        return Object.assign(this.stlDefVal(), this.stl);
       }
     },
     beforeDestroy: function () {
@@ -117,23 +108,23 @@
           this.clk_hide();
         }
       },
-      clk_btn: function (data) {
-        this.$emit('callback', data);
-      },
-      clk_file: function (files, data) {
-        data.files = files || '';
-        this.clk_btn(data);
-      },
       clk_hide: function () {
         this.$emit('input', false);
       },
+      clkBtn: function (data) {
+        this.$emit('callback', data);
+      },
       creatZz: function () {
         if (this.modal + '' === 'true' && this.value + '' === 'true') {
+          var _this = this;
           var dom = document.createElement('div');
 
           dom.setAttribute('id', this.id);
           dom.setAttribute('class', 'center-hv');
-          dom.setAttribute('style', 'position: fixed;background-color: rgba(0, 0, 0, 0.1);z-index: ' + this.zIndex);
+          dom.setAttribute('style', 'position: fixed;background-color: rgba(0, 0, 0, 0.3);z-index: ' + this.zIndex);
+          dom.addEventListener('click', function () {
+            _this.modalClick && _this.clk_hide();
+          });
           document.body.appendChild(dom);
         }
       },
@@ -141,18 +132,6 @@
         var dom = document.getElementById(this.id);
 
         dom && (document.body.removeChild(dom));
-      },
-      stlDefVal: function () {
-        return {
-          header: {
-            // left|center
-            'text-align': 'left'
-          },
-          footer: {
-            // left|center|right
-            'text-align': 'right'
-          }
-        };
       }
     }
   };
@@ -161,84 +140,94 @@
 <style scoped lang="scss">
   .wrap-dialog {
     position: fixed;
-    margin: auto;
-    top: 0;
-    right: 0;
-    bottom: 0;
-    left: 0;
+    top: 50%;
+    left: 50%;
+    padding: 10px 0;
     width: 420px;
-    height: 150px;
+    transform: translate(-50%, -50%);
     border: 1px solid #ebeef5;
+    border-radius: 4px;
     box-shadow: 0 2px 12px 0 rgba(0,0,0,.1);
     opacity: 1;
+    user-select: none;
     color: #666;
     background-color: #fff;
 
-    >.cicon-cross-chr {
-      position: absolute;
-      top: 0px;
-      right: 0px;
-      color: #999;
-      font-size: 30px;
-      cursor: pointer;
-    }
-
-    >header {
+    > header {
+      display: flex;
       padding: 0 10px;
-      height: 50px;
-      line-height: 50px;
-      text-align: left;
+      flex-shrink: 0;
+      justify-content: space-between;
       white-space: nowrap;
       text-overflow: ellipsis;
       overflow: hidden;
-      color: #333;
       font-size: 18px;
+      color: #333;
+
+      .lv-icon-x {
+        font-size: 20px;
+        color: #999;
+        cursor: pointer;
+      }
     }
 
-    >section {
+    > section {
+      margin-top: 14px;
+      margin-bottom: 14px;
       padding: 0 10px;
-      height: calc(100% - 50px - 50px);
+      max-height: 50vh;
       word-break: break-all;
+      user-select: text;
 
-      >[class^="cicon"] {
-        font-size: 24px;
-        color: #fff;
-        background-color: #f56c6c;
-      }
-
-      >[class^="cicon-cross-crle"] {
-        background-color: #f56c6c;
-      }
-
-      >[class^="cicon-tick-crle"] {
-        background-color: #13ce66;
-      }
-
-      >[class^="cicon-exclamation-crle"] {
-        background-color: #e6a23c;
+      .main {
+        display: flex;
+        flex-shrink: 0;
+        align-items: center;
       }
     }
 
-    >footer {
+    > footer {
       padding: 0 10px;
-      height: 50px;
-      line-height: 50px;
-
+      text-align: right;
       >.button {
         margin-left: 10px;
-        padding-top: 0;
-        height: 34px;
-        line-height: 34px;
       }
 
-      >.button:first-of-type {
+      >.button:first-child {
         margin-left: 0;
       }
     }
   }
+  .wrap-dialog.center {
+    > header {
+      justify-content: center;
+      .lv-icon-x {
+        display: none;
+      }
+    }
+    > section .main {
+      justify-content: center;
+    }
+    > footer {
+      text-align: center;
+    }
+  }
 
-  .wrap-dialog.no-footer > section {
-    height: calc(100% - 50px);
+  .lv-icon-x-2,
+  .lv-icon-point-2,
+  .lv-icon-tick-2 {
+    margin-right: 10px;
+    font-size: 22px;
+  }
+
+  .lv-icon-x-2 {
+    color: #fe6060;
+  }
+  .lv-icon-point-2 {
+    color: #e6a23c;
+  }
+  .lv-icon-tick-2 {
+    color: #67c23a;
   }
 
   .slide-fade-enter-active {
@@ -249,7 +238,7 @@
     transition: top .1s ease-out, opacity .1s ease-out;
   }
   .slide-fade-enter, .slide-fade-leave-to {
-    top: -50px;
+    top: 40%;
     opacity: 0;
   }
 </style>

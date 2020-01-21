@@ -9,43 +9,31 @@
       <dd><h3>图标</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code># -cbdr 表示带边框
-# -chr 表示鼠标移过效果
-# -crle 表示圆角
-# move-loop 表示转圈效果
-&lt;i class="cicon-arrow-right-cbdr-crle"&gt;&lt;/i&gt;</code></pre>
+          <pre><code class="html" v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
-          <i class="cicon-sub-chr-cpt"></i>
-          <i class="cicon-plus-cpt-chr"></i>
-          <i class="cicon-cross-cpt"></i>
-          <i class="cicon-cross-crle-chr"></i>
-          <i class="cicon-cross-crle-cbdr"></i>
-          <i class="cicon-tick"></i>
-          <i class="cicon-search-cpt-chr"></i>
-          <i class="cicon-search-2-cpt"></i>
-          <i class="cicon-play"></i>
-          <i class="cicon-triangle-right"></i>
-          <i class="cicon-triangle-left"></i>
-          <i class="cicon-triangle-top"></i>
-          <i class="cicon-triangle-bottom"></i>
-          <i class="cicon-arrow-right-cbdr-crle"></i>
-          <i class="cicon-arrow-left"></i>
-          <i class="cicon-arrow-top"></i>
-          <i class="cicon-arrow-bottom"></i>
-          <i class="cicon-loading move-loop">
-            <span></span><span></span><span></span>
-          </i>
-          <i class="cicon-exclamation-crle-cbdr"></i>
-          <i class="cicon-calendar">
-            <span></span>
-          </i>
-          <i class="cicon-dbarrow-right"></i>
-          <i class="cicon-dbarrow-left"></i>
-          <i class="cicon-dbarrow-top"></i>
-          <i class="cicon-dbarrow-bottom"></i>
-          <i class="cicon-list"></i>
-          <i class="cicon-home"><span></span></i>
+          <i class="lv-icon-arrow-bottom-2"></i>
+          <i class="lv-icon-arrow-top-2"></i>
+          <i class="lv-icon-arrow-left-2"></i>
+          <i class="lv-icon-arrow-right-2"></i>
+          <i class="lv-icon-point-2"></i>
+          <i class="lv-icon-user"></i>
+          <i class="lv-icon-eye"></i>
+          <i class="lv-icon-ewm"></i>
+          <i class="lv-icon-arrow-left"></i>
+          <i class="lv-icon-arrow-right"></i>
+          <i class="lv-icon-arrow-top"></i>
+          <i class="lv-icon-arrow-bottom"></i>
+          <i class="lv-icon-tick"></i>
+          <i class="lv-icon-top"></i>
+          <i class="lv-icon-point"></i>
+          <i class="lv-icon-ling"></i>
+          <i class="lv-icon-x"></i>
+          <i class="lv-icon-loading move-loop"></i>
+          <i class="lv-icon-eye-close"></i>
+          <i class="lv-icon-pwd"></i>
+          <i class="lv-icon-x-2"></i>
+          <i class="lv-icon-date"></i>
         </section>
       </dd>
     </dl>
@@ -53,30 +41,22 @@
 </template>
 
 <script>
-  // import {Button} from 'web-base-ui';
-  
   export default {
     name: 'Theme',
-    components: {
-      // cmpButton: Button
-    },
     data () {
       return {
-        // 
+        code: ''
       };
     },
     mounted: function () {
-      // 
+      this.code = '<i class="lv-icon-x-2"></i>';
     },
-    methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      }
-    }
+    methods: {}
   };
 </script>
 
-<style lang="scss"></style>
 <style scoped lang="scss">
-  .page-theme {}
+  [class*=lv-icon] {
+    font-size: 40px;
+  }
 </style>

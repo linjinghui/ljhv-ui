@@ -7,14 +7,10 @@ import Tooltip from './tooltip/index';
 import Loading from './loading/index';
 import Progress from './progress/index';
 import Slider from './slider/index';
-// import {DatePicker} from './datePicker/index';
-// import {FlatDatePicker} from './datePicker/index';
-// import {MobileScrollDatePicker} from './datePicker/index';
-import Laydate from './datePicker/index';
+import DatePicker from './datepicker/index';
 import RangeMenu from './rangeMenu/index';
 import Shuttle from './shuttle/index';
 import Pagebar from './pagebar/index';
-import PagebarPagesize from './pagebarSize/index';
 import Echarts from './echarts/index';
 import ImageCrop from './imageCrop/index';
 import Cropper from './cropper/index';
@@ -33,12 +29,13 @@ import Tab from './tab/index';
 import Editor from './editor/index';
 import Star from './star/index';
 import Breadcrumbs from './breadcrumbs/index';
-import ImageViewer from './imageViewer/index';
+// import ImageViewer from './imageViewer/index';
 import Map from './map/index';
 import SwapSort from './swapSort/index';
 import DivEditor from './divEditor/index';
 import Video from './video/index';
 import Img from './img/index';
+import ImgGroup from './imgGroup/index';
 import Flowtree from './flowtree/index';
 import TimeTurntable from './timeTurntable/index';
 import Selector from './selector/index';
@@ -62,4 +59,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, Laydate, RangeMenu, Shuttle, Pagebar, PagebarPagesize, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, ImageViewer, Map, SwapSort, DivEditor, Video, Img, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode};

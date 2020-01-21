@@ -12,34 +12,24 @@ Vue.component('lvCheckbox', Checkbox);</code></pre>
       <dd><h3>表单复选框，带多种功能参数定义</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>// data 参数在 click， beforeclk事件中会回传
-// required 是否必选（默认false）
-// disabled 是否禁用（默认false）
-// beforeclk 勾选\取消勾选前的回调
-// click 勾选\取消勾选后的回调
-&lt;lv-checkbox v-model="selected" data="123" :required="false" :disabled="false" :beforeclk="beforeClk" @click="clkCheckbox"&gt;复选框&lt;/lv-checkbox&gt;
-&lt;script type="text/babel"&gt;
-export default {
-  data () {
-    return {
-      selected: true
-    };
-  },
-  methods: {
-    clkCheckbox (data) {
-      console.log(data);
-    },
-    beforeClk: function (data) {
-      console.log(data);
-      return window.confirm('确认选中？');
-    }
-  }
-}
-&lt;/script&gt;</code></pre>
+           <pre><code v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-checkbox v-model="selected" data="123" :required="false" :disabled="false" :beforeclk="beforeClk" @click="clkCheckbox">复选框</lv-checkbox>
+          <lv-checkbox v-model="selected" val="1">看书</lv-checkbox>
+          <lv-checkbox v-model="selected" val="2" :before="beforeClk">游泳</lv-checkbox>
         </section>
+      </dd>
+    </dl>
+    <dl>
+      <dd><h3>参数说明</h3></dd>
+      <dd class="attribute">
+        <table>
+          <tr><td>参数</td><td>说明</td><td>必填</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>v-model/value</td><td>绑定值</td><td>是</td><td>boolean|array|number|string</td><td>-</td><td>如果传入的非是数组，则表示单选</td></tr>
+          <tr><td>disabled</td><td>禁用</td><td>-</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>val</td><td>选中后回填的值</td><td>是</td><td>boolean|number|string</td><td>-</td><td>-</td></tr>
+          <tr><td>before</td><td>选中前执行的函数</td><td>-</td><td>function</td><td>-</td><td>-</td></tr>
+        </table>
       </dd>
     </dl>
   </div>
@@ -55,22 +45,28 @@ export default {
     },
     data () {
       return {
-        selected: true
+        selected: [],
+        code: ''
       };
     },
+    watch: {
+      selected: function (val) {
+        console.log('selected=', val);
+      }
+    },
     mounted: function () {
-      // 
+      this.code = 'beforeClk: function (callback) {\n' +
+      '  if (window.confirm(\'确认选中？\')) {\n' +
+      '    callback();\n' +
+      '  }\n' +
+      '}\n' + 
+        '<lv-checkbox v-model="selected" val="2" :before="beforeClk">游泳</lv-checkbox>';
     },
     methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      },
-      clkCheckbox (data) {
-        console.log('clkCheckbox=', this.selected);
-      },
-      beforeClk: function (data) {
-        console.log('beforeClk=', data);
-        return window.confirm('确认选中？');
+      beforeClk: function (callback) {
+        if (window.confirm('确认选中？')) {
+          callback();
+        }
       }
     }
   };

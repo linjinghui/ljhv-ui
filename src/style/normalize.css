@@ -488,7 +488,7 @@ p {
  */
 
 [disabled]{
-    opacity:.35;
+    opacity:.7;
     filter:alpha(opacity=68);
     cursor: not-allowed!important;
     background-color: inherit;
@@ -737,14 +737,14 @@ small {
   display: inline-block;
   top: calc(100% + 10px);
   left: 10px;
-  padding: 2px 5px;
+  padding: 2px 10px;
   border: 1px solid #e9f7f6;
   box-shadow: 0 0 4px #aaa;
-  border-radius: 2px;
+  border-radius: 4px;
   font-size: 12px;
   white-space: pre;
-  color:#333;
-  background-color: #f8f8f8;
+  color:#fff;
+  background-color: #333;
   z-index: 2;
   overflow: hidden;
 }
@@ -784,12 +784,12 @@ small {
 
 /* 主题色 */
 .theme-c {
-    color: red;
+    color: #16aa6b;
 }
 .theme-b {
     color: #fff;
-    background-color: red;
+    background-color: #16aa6b;
 }
 .theme-bc {
-    border-color: red;
+    border-color: #16aa6b;
 }

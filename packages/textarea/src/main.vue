@@ -1,6 +1,6 @@
 <template>
   <div class="text-area" :class="{'theme-bc focus': isFocus, 'disabled': disabled+''==='true'}">
-    <textarea :placeholder="placeholder" :rows="rows" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste?'return false':''" :disabled="disabled+''==='true'" @focus="fun_focus" @blur="fun_blur" @input="autoTextAreaHeight"></textarea>
+    <textarea ref="tta" :name="name" :placeholder="placeholder" :rows="rows" :readonly="readonly" :maxlength="maxlength" v-model="pvalue" :onpaste="noPaste?'return false':''" :disabled="disabled+''==='true'" @focus="fun_focus" @blur="fun_blur" @input="autoTextAreaHeight"></textarea>
     <p v-if="residualSize >= 0">还能输入{{residualSize}}个字</p>
   </div>
 </template>
@@ -18,6 +18,9 @@
       value: {
         default: ''
       },
+      name: {
+        default: ''
+      },
       placeholder: {
         default: ''
       },
@@ -25,6 +28,14 @@
         default: 10
       },
       maxlength: '',
+      autofocus: {
+        type: Boolean,
+        default: false
+      },
+      readonly: {
+        type: Boolean,
+        default: false
+      },
       noPaste: {
         type: Boolean,
         default: false
@@ -34,7 +45,7 @@
         default: false
       },
       // 是否高度自增
-      autoHeight: {
+      autoheight: {
         type: Boolean,
         default: false
       }
@@ -51,6 +62,11 @@
         this.debounce(function () {
           _this.$emit('input', _this.pvalue);
         }, 500)();
+      },
+      autofocus: function (val) {
+        if (val) {
+          this.handleAutoFocus();
+        }
       }
     },
     computed: {
@@ -64,6 +80,9 @@
         return result;
       }
     },
+    mounted: function () {
+      this.autofocus && this.handleAutoFocus();
+    },
     methods: {
       fun_focus: function () {
         this.isFocus = true;
@@ -74,11 +93,14 @@
         this.$emit('blur');
       },
       autoTextAreaHeight: function (e) {
-        if (this.autoHeight) {
+        if (this.autoheight) {
           var el = e.target || e.srcElement;
 
           el.style.height = el.scrollTop + el.scrollHeight + 'px';
         }
+      },
+      handleAutoFocus: function () {
+        this.$refs.tta.focus();
       },
       debounce: function (func, wait, immediate) {
         var timeout;

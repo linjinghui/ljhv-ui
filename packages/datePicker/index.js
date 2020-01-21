@@ -1,11 +1,8 @@
-// import DatePicker from './src/main.vue';
-// import FlatDatePicker from './src/flatPicker.vue';
-// import MobileScrollDatePicker from './src/mobileScroll/main.vue';
-import Laydate from './src/laydate.vue';
+import DatePicker from './src/main.vue';
 
 /* istanbul ignore next */
-Laydate.install = function (Vue) {
-  Vue.component(Laydate.name, Laydate);
+DatePicker.install = function (Vue) {
+  Vue.component(DatePicker.name, DatePicker);
 };
 
-export default Laydate;
+export default DatePicker;

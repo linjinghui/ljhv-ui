@@ -1,6 +1,6 @@
 @import 'normalize.css';
-/*引入纯css图标*/
-@import './cicon.css';
+/*引入字体图标*/
+@import '../../static/fonts/iconfont.css';
 
 .theme-c {
   color: #16aa6b;

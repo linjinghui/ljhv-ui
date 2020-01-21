@@ -9,7 +9,7 @@
 </template>
 
 <script type="text/babel">
-  import Viewer from '../../imageViewer/js/viewer.min.js';
+  import Viewer from '../viewer/viewer.min.js';
 
   export default {
     name: 'Img',
@@ -45,24 +45,19 @@
       },
       // 自动原始宽高
       autoWh: {
+        type: Boolean,
         default: false
       },
       // 预览功能
       preview: {
+        type: Boolean,
         default: false
-      },
-      // 容器class，用于显示容器下的所有图片
-      container: {
-        default: ''
       }
     },
     watch: {
       src: function (val, val2) {
         this.loadUrl();
       }
-    },
-    computed: {
-      // 
     },
     beforeDestroy: function () {
       this.viewer && this.viewer.destroy();
@@ -101,7 +96,7 @@
       },
       initViewer: function () {
         if ((this.preview + '') === 'true') {
-          var imgs = this.container ? (document.querySelector('.' + this.container)) : (document.getElementById(this.id));
+          var imgs = document.getElementById(this.id);
           
           this.viewer = new Viewer(imgs, Object.assign({
             inline: false,

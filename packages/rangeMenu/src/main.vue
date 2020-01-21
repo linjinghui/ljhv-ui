@@ -5,36 +5,32 @@
  -->
 
 <template>
-  <vperfect-scrollbar class="rangeMenu" :settings="settings" :disabled="disabled+''==='true'">
-    <a v-for="(item, index) in value" :key="item.id">
-      <label>
-        <slot :item="item">{{item}}</slot>
-      </label>
-      <i class="cicon-cross-cpt-crle-chr cross" @click="clk_del(index)"></i>
+  <vperfect-scrollbar class="rangeMenu" :settings="{wheelSpeed:0.5}">
+    <a v-for="(item,index) in list" :key="'rm_item_'+index" class="item">
+      <slot :item="item">{{item}}</slot>
+      <i class="lv-icon-x" @click="clk_del(index)" v-if="!disabled&&!item.disabled"></i>
     </a>
-    <span class="add theme-c" @click="clk_add">添加</span>
+    <a class="add theme-c" @click="clk_add" v-if="!disabled">添加</a>
   </vperfect-scrollbar>
 </template>
 
 <script type="text/babel">
+  import Button from '../../button/src/main.vue';
   import VuePerfectScrollbar from 'vue-perfect-scrollbar';
 
   export default {
     name: 'RangeMenu',
     components: {
+      lvButton: Button,
       'vperfect-scrollbar': VuePerfectScrollbar
     },
     data: function () {
       return {
-        id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100),
-        // 滚动速度，默认1
-        settings: {
-          wheelSpeed: 0.5
-        }
+        id: 'rangeMenu_' + new Date().getTime() + parseInt(Math.random() * 100)
       };
     },
     props: {
-      value: {
+      list: {
         default: function () {
           return [];
         }
@@ -43,38 +39,22 @@
         default: false
       }
     },
-    watch: {
-      //
-    },
-    computed: {
-      //
-    },
-    beforeDestroy: function () {
-      //
-    },
-    mounted: function () {
-      //
-    },
     methods: {
       emtVal: function (val) {
-        this.$emit('input', val);
+        this.$emit('update:list', val);
       },
       clk_add: function () {
-        if (this.disabled + '' !== 'true') {
-          this.$emit('add');
-        }
+        this.$emit('add');
       },
       clk_del: function (index) {
-        if (this.disabled + '' !== 'true') {
-          let data = '';
+        let data = '';
 
-          try {
-            data = JSON.parse(JSON.stringify(this.value));
-            data.splice(index, 1);
-            this.emtVal(data);
-          } catch (e) {
-            //
-          }
+        try {
+          data = JSON.parse(JSON.stringify(this.list));
+          data.splice(index, 1);
+          this.emtVal(data);
+        } catch (e) {
+          //
         }
       }
     }
@@ -82,71 +62,49 @@
 </script>
 
 <style scoped lang="scss">
-  $padding: 5px;
-
   .rangeMenu {
+    display: flex;
+    flex-shrink: 0;
+    flex-wrap: wrap;
+    align-items: center;
     max-height: 210px;
-    padding-top: $padding;
-    padding-left: $padding;
+    padding-left: 5px;
+    padding-bottom: 5px;
     border: solid 1px #ddd;
     border-radius: 4px;
-    color: #333;
-    overflow: auto;
     font-size: 14px;
     user-select: none;
-
-    > a, > span {
-      float: left;
-      margin-right: $padding;
-      margin-bottom: $padding;
-      height: 24px;
-      line-height: 24px;
-      padding-left: $padding;
-      padding-right: $padding;
+    
+    > a {
+      display: inline-flex;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+      align-items: center;
+      margin-top: 5px;
+      margin-right: 5px;
+      padding: 0 5px;
       border-radius: 4px;
       cursor: default;
 
-      label {
-        display: inline-block;
-        max-width: 84px;
-        height: 100%;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-
-      .cross {
-        margin-left: 2px;
-        color: inheirt;
+      > .lv-icon-x {
+        margin-left: 5px;
         font-size: 16px;
-        vertical-align: 4px;
+        cursor: pointer;
       }
-
-      .cross:hover {
-        color: #fff;
-        background-color: #c0c4cc;
+      > .lv-icon-x:hover {
+        color: #c0c4cc;
       }
     }
-    > a {
+    > .item {
       color: #909399;
-      background-color: #f0f2f5;
+      background-color: rgba(240, 242, 245, 1);
     }
-    > a:hover {
-      background-color: #e6e6e6;
+    > .item:hover {
+      background-color: rgba(240, 242, 245, 0.85);
     }
-
-    .add {
+    > .add:hover {
+      opacity: 0.85;
       cursor: pointer;
     }
-
-    .add:hover {
-      filter: sepia(20%);
-    }
-
-    .add:active {
-      filter: sepia(10%);
-    }
-
-    
   }
 </style>

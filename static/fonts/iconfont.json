@@ -1,0 +1,149 @@
+{
+  "id": "1544349",
+  "name": "lv-web-ui",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "566360",
+      "name": "箭头",
+      "font_class": "-arrow-2",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "670036",
+      "name": "YDUI-单选框(选中)",
+      "font_class": "-radio-2",
+      "unicode": "e678",
+      "unicode_decimal": 59000
+    },
+    {
+      "icon_id": "670037",
+      "name": "YDUI-单选框",
+      "font_class": "-radio",
+      "unicode": "e679",
+      "unicode_decimal": 59001
+    },
+    {
+      "icon_id": "689256",
+      "name": "警示 感叹号 ！2",
+      "font_class": "-point-2",
+      "unicode": "e7f4",
+      "unicode_decimal": 59380
+    },
+    {
+      "icon_id": "689277",
+      "name": "日历 日期",
+      "font_class": "-date",
+      "unicode": "e807",
+      "unicode_decimal": 59399
+    },
+    {
+      "icon_id": "730799",
+      "name": "用户",
+      "font_class": "-user",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "749509",
+      "name": "SEARCH",
+      "font_class": "-search",
+      "unicode": "e644",
+      "unicode_decimal": 58948
+    },
+    {
+      "icon_id": "795509",
+      "name": "眼睛",
+      "font_class": "-eye",
+      "unicode": "e669",
+      "unicode_decimal": 58985
+    },
+    {
+      "icon_id": "859751",
+      "name": "勾",
+      "font_class": "-tick-2",
+      "unicode": "e614",
+      "unicode_decimal": 58900
+    },
+    {
+      "icon_id": "1092131",
+      "name": "二维码",
+      "font_class": "-ewm",
+      "unicode": "e622",
+      "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "1110404",
+      "name": "箭头 左 小",
+      "font_class": "-arrow",
+      "unicode": "e604",
+      "unicode_decimal": 58884
+    },
+    {
+      "icon_id": "1424269",
+      "name": "对勾",
+      "font_class": "-tick",
+      "unicode": "e659",
+      "unicode_decimal": 58969
+    },
+    {
+      "icon_id": "1754536",
+      "name": "播视web_置顶",
+      "font_class": "-top",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "3526773",
+      "name": "感叹号",
+      "font_class": "-point",
+      "unicode": "e60f",
+      "unicode_decimal": 58895
+    },
+    {
+      "icon_id": "3740224",
+      "name": "报警指纹",
+      "font_class": "-ling",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "7550196",
+      "name": "叉",
+      "font_class": "-x",
+      "unicode": "e687",
+      "unicode_decimal": 59015
+    },
+    {
+      "icon_id": "7674902",
+      "name": "加载",
+      "font_class": "-loading",
+      "unicode": "e715",
+      "unicode_decimal": 59157
+    },
+    {
+      "icon_id": "7708024",
+      "name": "眼睛_闭",
+      "font_class": "-eye-close",
+      "unicode": "e61b",
+      "unicode_decimal": 58907
+    },
+    {
+      "icon_id": "9841778",
+      "name": "密码",
+      "font_class": "-pwd",
+      "unicode": "e619",
+      "unicode_decimal": 58905
+    },
+    {
+      "icon_id": "10995831",
+      "name": "删除关闭 叉2",
+      "font_class": "-x-2",
+      "unicode": "e610",
+      "unicode_decimal": 58896
+    }
+  ]
+}

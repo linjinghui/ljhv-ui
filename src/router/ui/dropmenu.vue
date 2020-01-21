@@ -8,131 +8,33 @@
 Vue.component('lvDropmenu', Dropmenu);</code></pre>
       </dd>
     </dl>
-    <dl>
+    <dl style="line-height:unset;">
       <dd><h3>可多选的下拉框</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-dropmenu v-bind="option" v-model="option.result" @cbkClkItem="cbkClkItem"&gt;&lt;/lv-dropmenu&gt;
-&lt;script type="text/babel"&gt;
-export default {
-  data () {
-    return {
-      option: {
-        placeholder: '请选择内容',
-        # 显示隐藏下拉框
-        show: true,
-        # 下拉框开启多选(默认单选false)
-        multi: true,
-        # 是否禁用下拉框(默认否false)
-        disabled: false,
-        # 下拉框数据
-        data: ['黄金高', '双皮奶', '拉希米', '换节奏', '北京烤鸭', '无泡沫', '长达作为', '榴莲皮'],
-        # 已选中下拉框 下标集合
-        result: [1, 2]
-      }
-    };
-  },
-  methods: {
-    cbkClkItem: function (data) {
-      console.log(data);
-    }
-  }
-}
-&lt;/script&gt;</code></pre>
+           <pre><code v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-dropmenu v-bind="option" v-model="option.result" @cbkClkItem="cbkClkItem"></lv-dropmenu>
+          <lv-dropmenu :value.sync="option.result" position="bottom" :disabled="false" :list="option.data" :unselect="option.unselect" :placeholder="option.placeholder" :searchabled="true"></lv-dropmenu>
         </section>
       </dd>
     </dl>
-
     <dl>
-      <dd><h3>单选下拉框，支持输入框检索、自定义菜单内容</h3></dd>
-      <dd class="example">
-        <section v-highlight>
-           <pre><code>&lt;lv-dropmenu v-bind="option2" v-model="option2.result" @cbkClkItem="cbkClkItem"&gt;
-  &lt;p slot="line" slot-scope="props"&gt;{props.item.name}&lt;/p&gt;
-&lt;/lv-dropmenu&gt;
-&lt;script type="text/babel"&gt;
-export default {
-  data () {
-    return {
-      option2: {
-        placeholder: '请选择',
-        show: false,
-        multi: false,
-        disabled: false,
-        # 是否禁用输入检索功能(默认否false)
-        readonly: false,
-        data: [{name: 'name1', age: 11}, {name: 'name2', age: 12}, {name: 'name3', age: 13}, {name: 'name4', age: 14}],
-        result: [2]
-      }
-    };
-  },
-  methods: {
-    cbkClkItem: function (data) {
-      console.log(data);
-    }
-  }
-}
-&lt;/script&gt;</code></pre>
-        </section>
-        <section style="padding:10px;">
-          <lv-dropmenu v-bind="option2" v-model="option2.result" @cbkClkItem="cbkClkItem">
-            <p slot="line" slot-scope="props">{{props.item.name}}</p>
-          </lv-dropmenu>
-        </section>
+      <dd><h3>参数说明</h3></dd>
+      <dd class="attribute">
+        <table>
+          <tr><td>参数</td><td>说明</td><td>必填</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>value</td><td>绑定值</td><td>是</td><td>array|number|string</td><td>-</td><td>如果传入的是数组，则表示多选，否则单选</td></tr>
+          <tr><td>disabled</td><td>禁用</td><td>-</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>placeholder</td><td>占位文本</td><td>否</td><td>string</td><td>-</td><td>请选择</td></tr>
+          <tr><td>searchabled</td><td>是否允许检索</td><td>否</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>unselect</td><td>不允许选择的项</td><td>否</td><td>array</td><td>-</td><td>-</td></tr>
+          <tr><td>list</td><td>下拉项数据集合</td><td>是</td><td>array</td><td>-</td><td>-</td></tr>
+          <tr><td>keyvalue</td><td>下拉项显示名称、选中值 字段映射<br>label：显示名称的映射<br>value：选中值的映射</td><td>否</td><td>object</td><td>-</td><td>{label: 'name', value: 'id'}</td></tr>
+          <tr><td>position</td><td>下拉框位置</td><td>-</td><td>string</td><td>top|bottom</td><td>bottom</td></tr>
+        </table>
       </dd>
     </dl>
-
-    <dl>
-      <dd><h3>异步检索下拉框</h3></dd>
-      <dd class="example">
-        <section v-highlight>
-           <pre><code>&lt;lv-dropmenu v-bind="option3" v-model="option3.result" @cbkClkItem="cbkClkItem" @search="search"&gt;
-  &lt;p slot="line" slot-scope="props"&gt;{props.item.name}&lt;/p&gt;
-&lt;/lv-dropmenu&gt;
-&lt;script type="text/babel"&gt;
-export default {
-  data () {
-    return {
-      option3: {
-        placeholder: '回车搜索',
-        show: false,
-        isSearch: false,
-        data: [],
-        result: []
-      }
-    };
-  },
-  methods: {
-    cbkClkItem: function (data) {
-      console.log(data);
-    },
-    search: function (data) {
-      console.log(data);
-      var _this = this;
-
-      this.option3.data = [];
-      this.option3.isSearch = true;
-      // 获取数据
-      setTimeout(function () {
-        _this.option3.isSearch = false;
-        _this.option3.data = [{name: 'name1', age: 11}, {name: 'name2', age: 12}, {name: 'name3', age: 13}, {name: 'name4', age: 14}];
-      }, 3000);
-    }
-  }
-}
-&lt;/script&gt;</code></pre>
-        </section>
-        <section style="padding:10px;">
-          <lv-dropmenu v-bind="option3" v-model="option3.result" @cbkClkItem="cbkClkItem" @search="search">
-            <p slot="line" slot-scope="props">{{props.item.name}}</p>
-          </lv-dropmenu>
-        </section>
-      </dd>
-    </dl>
-
   </div>
 </template>
 
@@ -146,56 +48,40 @@ export default {
     },
     data () {
       return {
+        code: '',
         option: {
           placeholder: '请选择内容',
-          show: true,
-          multi: true,
-          disabled: false,
-          readonly: false,
-          data: ['黄金高', '双皮奶', '拉希米', '换节奏', '北京烤鸭', '无泡沫', '长达作为', '榴莲皮'],
-          result: [1, 2]
-        },
-        option2: {
-          placeholder: '请选择',
-          show: false,
-          multi: false,
-          disabled: false,
-          readonly: false,
-          data: [{name: 'name1', age: 11}, {name: 'name2', age: 12}, {name: 'name3', age: 13}, {name: 'name4', age: 14}],
-          result: [2]
-        },
-        option3: {
-          placeholder: '回车搜索',
-          show: false,
-          isSearch: false,
-          data: [],
-          result: []
+          data: [{
+            id: '选项1',
+            name: '黄金糕'
+          }, {
+            id: '选项2',
+            name: '双皮奶'
+          }, {
+            id: '选项3',
+            name: '蚵仔煎'
+          }, {
+            id: '选项4',
+            name: '龙须面'
+          }, {
+            id: '选项5',
+            name: '北京烤鸭'
+          }],
+          unselect: ['选项2', '选项4'],
+          result: ['选项3']
         }
       };
     },
+    watch: {
+      'option.result': function (val) {
+        console.log('==value==', val);
+      }
+    },
     mounted: function () {
-      // 
+      this.code = '<lv-dropmenu :value.sync="option.result" :disabled="false" position="bottom" :list="option.data" :unselect="option.unselect" :placeholder="option.placeholder" :searchabled="true"></lv-dropmenu>';
     },
     methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      },
-      cbkClkItem: function (data) {
-        console.log('====cbkClkItem====');
-        console.log(data);
-      },
-      search: function (data) {
-        console.log(data);
-        var _this = this;
-
-        this.option3.data = [];
-        this.option3.isSearch = true;
-        // 获取数据
-        setTimeout(function () {
-          _this.option3.isSearch = false;
-          _this.option3.data = [{name: 'name1', age: 11}, {name: 'name2', age: 12}, {name: 'name3', age: 13}, {name: 'name4', age: 14}];
-        }, 3000);
-      }
+      // 
     }
   };
 </script>

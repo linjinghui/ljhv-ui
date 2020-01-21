@@ -2,9 +2,9 @@
   <div id="app">
     <router-view></router-view>
     <loading v-model="optionLoading.show" v-bind="optionLoading"></loading>
-    <tip v-model="optionTip.show" v-bind="optionTip"></tip>
-    <confirm v-bind="optionConfirm" v-model="optionConfirm.show">
-      <span slot="title" v-html="optionConfirm.heading"></span>
+    <tip v-model="optionTip.text" v-bind="optionTip"></tip>
+    <confirm v-bind="optionConfirm" :value.sync="optionConfirm.show">
+      <span slot="title" v-text="optionConfirm.headText"></span>
       <span slot="content" v-html="optionConfirm.content"></span>
     </confirm>
     <prompt v-bind="optionPrompt" v-model="optionPrompt.show">
@@ -29,11 +29,11 @@
           full: false
         },
         optionTip: {
-          show: false,
-          // left|center
-          textAlign: '',
-          // primary|success|info|warning|danger|自定义
-          theme: 'success'
+          text: '',
+          type: '',
+          time: '',
+          icon: '',
+          close: ''
         },
         optionPrompt: {
           show: false,
@@ -56,34 +56,8 @@
         },
         optionConfirm: {
           show: false,
-          modal: false,
-          heading: '标题',
-          content: '文本内容',
-          // error|success|warning
-          type: 'success',
-          stl: {
-            header: {
-              // left|center
-              'text-align': 'center'
-            },
-            section: {
-              // left|center|right
-              'text-align': 'center'
-            },
-            footer: {
-              // left|center|right
-              'text-align': 'center'
-            }
-          },
-          buttons1: [],
-          buttons: [{
-            text: '放弃修改',
-            // primary|success|info|warning|danger|#f56c6c
-            theme: 'line'
-          }, {
-            text: '修改',
-            theme: 'warning'
-          }]
+          headText: '标题',
+          content: '文本内容'
         }
       };
     },
@@ -92,9 +66,6 @@
 
       Vue.prototype.$loading = function (option) {
         _this.optionLoading = Object.assign(_this.optionLoading, option);
-      };
-      Vue.prototype.$tip = function (option) {
-        _this.optionTip = Object.assign(_this.optionTip, option);
       };
       Vue.prototype.$confirm = function (option) {
         _this.optionConfirm = Object.assign(_this.optionConfirm, option);
@@ -156,7 +127,6 @@
     min-height: 630px; */
     overflow: auto;
     background-color: #fff;
-    --theme: #0079ff;
   }
   
   /* 笔记本尺寸 1366 * 768 */

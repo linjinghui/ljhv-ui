@@ -1,104 +1,107 @@
 <template>
-  <div class="pagebar-wrapper" :class="theme">
-    <span :disabled="value<=1" @click="value>1&&clkItem(value-1)">
-      <i class="cicon-arrow-left"></i>
-      <small>上一页</small>
-    </span>
-    <template v-for="(item) in arr">
-      <span :key="item" v-if="item<=totalPage" :class="{'theme-b active':value===item}" @click="clkItem(item)">{{item}}</span>
-    </template>
-    <span :disabled="value>=totalPage" @click="value<totalPage&&clkItem(value+1)">
-      <i class="cicon-arrow-right"></i>
-      <small>下一页</small>
-    </span>
-    <label class="total">共{{totalSize}}条</label>， 
-    <label class="goto">前往<input v-model="value2" @keyup.enter="entIpt2">页</label>
+  <div class="pagebar-wrapper">
+    <lv-dropmenu v-if="!simple" :value.sync="cpageSize" :list="sizes" position="top"></lv-dropmenu>
+    <div class="p-r">
+      <span :disabled="pageNum<=1" @click="pageNum>1&&clkItem(pageNum-1)">
+        <i class="lv-icon-arrow-left"></i>
+      </span>
+      <template v-for="(item) in arr">
+        <span :key="item" v-if="item<=totalPage" :class="{'active':pageNum===item,'theme-c':simple&&pageNum===item,'theme-b':!simple&&pageNum===item}" @click="clkItem(item)">{{item}}</span>
+      </template>
+      <span :disabled="pageNum>=totalPage" @click="pageNum<totalPage&&clkItem(pageNum+1)">
+        <i class="lv-icon-arrow-right"></i>
+      </span>
+      <label v-if="!simple" class="total">共{{totalSize}}条，</label> 
+      <label v-if="!simple" class="goto">
+        前往<lv-input v-model="val" :clear="false" @enter="enterIpt"></lv-input>页
+      </label>
+    </div>
   </div>
 </template>
 
 <script type="text/babel">
+  import DropMenu from '../../dropMenu/src/main';
+  import Input from '../../input/src/main';
+
   export default {
     name: 'Pagebar',
+    components: {
+      lvDropmenu: DropMenu,
+      lvInput: Input
+    },
     data: function () {
       return {
-        dspIpt1: false,
-        dspIpt2: false,
-        value1: '',
-        value2: ''
+        val: '',
+        cpageSize: 0
       };
     },
     props: {
-      // simple
-      'theme': {
-        default: ''
+      // 是否简版
+      'simple': {
+        type: Boolean,
+        default: false
       },
       'lenth': {
         default: 5
       },
       // 当前页
-      'value': {
-        default: 10
+      'pageNum': {
+        default: 1
       },
       // 每页显示记录数
       'pageSize': {
-        default: 8
+        default: 20
       },
       // 总记录数
       'totalSize': {
-        default: 100
+        default: 1
+      },
+      'sizes': {
+        type: Array,
+        default: function () {
+          return [
+            { id: 10, name: '10条/页' }, 
+            { id: 20, name: '20条/页' }, 
+            { id: 40, name: '40条/页' }, 
+            { id: 80, name: '80条/页' }, 
+            { id: 100, name: '100条/页' }
+          ];
+        }
       }
     },
-    mounted: function () {
-      // 
+    watch: {
+      'cpageSize': function (val) {
+        this.val = '';
+        this.clkItem(1);
+      }
     },
     computed: {
       // 计算总页数
       totalPage: function () {
-        return parseInt((this.totalSize - 1) / this.pageSize + 1);
+        return parseInt((this.totalSize - 1) / this.cpageSize + 1);
       },
       arr: function () {
-        let first = parseInt((this.value - 1) / this.lenth) * this.lenth;
+        let first = parseInt((this.pageNum - 1) / this.lenth) * this.lenth;
         let array = [];
 
         for (let i = 0;i < this.lenth;i++) {
           array[array.length] = ++first;
         }
         return array;
-      },
-      bfarr: function () {
-        // let index = this.value <= 1 ? 2 : this.value;
-        // let index = this.value;
-        // let num = 2 + ((parseInt((index + 1) / (this.lenth - 2)) - 1) < 0 ? 0 : (parseInt((index + 1) / (this.lenth - 2)) - 1)) * (this.lenth - 2);
-        let num = 2 + (this.lenth - 2) * parseInt((this.value - 2) / (this.lenth - 2));
-        let array = [];
-
-        for (let i = num;(i < (this.lenth - 2 + num)) && (i < this.totalPage);i++) {
-          array[array.length] = i;
-        }
-        // 2 + (parseInt(11+1/3) - 1) * 3
-        // 2 + (this.lenth - 2) * parseInt((13 - 2) / (this.lenth - 2))
-        return array;
       }
     },
-    watch: {
-      // value: function (val) {
-      //   this.clkItem(val);
-      // }
+    created: function () {
+      this.cpageSize = this.pageSize;
     },
     methods: {
       clkItem: function (item) {
-        this.$emit('input', item);
-        this.$emit('callback', item);
+        this.$emit('update:pageNum', item);
+        this.$emit('update:pageSize', this.cpageSize);
+        this.$emit('pagination', item);
       },
-      entIpt1: function () {
-        this.dspIpt1 = false;
-        this.value1 = this.parseIptValue(this.value1);
-        this.clkItem(this.value1);
-      },
-      entIpt2: function () {
-        this.dspIpt2 = false;
-        this.value2 = this.parseIptValue(this.value2);
-        this.clkItem(this.value2);
+      enterIpt: function () {
+        this.val = this.parseIptValue(this.val);
+        this.clkItem(this.val);
       },
       parseIptValue: function (val) {
         val = parseInt(val) || 1;
@@ -113,115 +116,50 @@
   };
 </script>
 
+<style lang="scss">
+  .pagebar-wrapper {
+    input {
+      padding: 0;
+      text-align: center;
+    }
+  }
+</style>
 <style scoped lang="scss">
   .pagebar-wrapper {
     position: relative;
     display: flex;
-    justify-items: center;
-    // justify-content: space-between;
+    flex-shrink: 0;
+    align-items: center;
+    justify-content: space-between;
     font-size: 12px;
-    color: #535353;
     user-select: none;
-
-    [disabled] {
-      cursor: text;
-      color: #ccc;
+    
+    .dropmenu {
+      width: 100px;
     }
-
-    [class^="cicon-arrow"] {
-      font-size: 14px;
-      vertical-align: -3px;
-    }
-
-    input {
-      display: inline-block;
+    .input {
       margin-left: 5px;
       margin-right: 5px;
-      width: 30px;
-      height: 24px;
-      padding: 0;
-      text-align: center;
-      border: solid 1px #ccc;
+      width: 40px;
     }
 
-    span {
-      position: relative;
-      float: left;
-      min-width: 26px;
-      height: 26px;
-      border: solid 1px #ccc;
-      border-right-width: 0;
-      line-height: 24px;
-      text-align: center;
-      vertical-align: middle;
-      cursor: pointer;
+    .p-r {
+      display: flex;
+      flex-shrink: 0;
+      align-items: center;
 
-      label {
-        display: block;
-        width: 100%;
-        height: 100%;
+      > span {
+        width: 24px;
+        height: 24px;
+        line-height: 24px;
+        text-align: center;
+        border-radius: 4px;
         cursor: pointer;
       }
-
-      .cicon-arrow-left,
-      .cicon-arrow-right {
-        display: none;
+      
+      > .total {
+        margin-left: 10px;
       }
-    }
-
-    span:first-of-type {
-      padding-left: 10px;
-      padding-right: 10px;
-      border-top-left-radius: 4px;
-      border-bottom-left-radius: 4px; 
-    }
-
-    span:last-of-type {
-      padding-left: 10px;
-      padding-right: 10px;
-      border-top-right-radius: 4px;
-      border-bottom-right-radius: 4px; 
-      border-right-width: 1px;
-    }
-
-    span.active {
-      // color: #fff;
-      border: 0;
-      // background-color: var(--theme);
-    }
-
-    .total {
-      margin-left: 10px;
-      line-height: 24px;
-    }
-
-    .goto {
-      line-height: 24px;
-    }
-  }
-
-  .pagebar-wrapper.simple {
-
-    span {
-      border: 0;
-
-      .cicon-arrow-left,
-      .cicon-arrow-right {
-        display: inline-block;
-      }
-
-      small {
-        display: none;
-      }
-    }
-
-    span:first-of-type,
-    span:last-of-type {
-      padding: 0;
-    }
-
-    span.active {
-      border-radius: 50%;
     }
   }
 </style>

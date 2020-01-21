@@ -22,7 +22,7 @@
     <p class="text center-hv">{{checkProgressParam(progress)}}%</p>
   </div>
   <div class="progress square" v-else :style="{'background-color': theme}">
-    <div class="pg-bar stripe" :style="{'width': checkProgressParam(progress) + '%', 'background-color': themebar}">  <span class="text center-hv">{{checkProgressParam(progress)}}%</span>
+    <div class="pg-bar stripe theme-b" :style="{'width': checkProgressParam(progress) + '%', 'background-color': themebar}">  <span class="text center-hv">{{checkProgressParam(progress)}}%</span>
     </div>
   </div>
 </template>
@@ -47,7 +47,8 @@
       },
       // 进度条颜色
       themebar: {
-        default: '#20a0ff'
+        // #20a0ff
+        default: ''
       },
       // 1-100
       progress: {

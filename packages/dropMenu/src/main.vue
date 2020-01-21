@@ -1,212 +1,211 @@
 
 <template>
-  <div class="wrap-drop-menu" @click.stop>
-    <cmp-input type="text" ref="dmIpt" v-model="iptValue" :placeholder="placeholder" :disabled="disabled+''==='true'" 
-    :readonly="multi?true:readonly" @keyup="evn_keyup" @enter="evn_enter">
-        <i class="cicon-arrow-bottom center-v" v-if="!isSearch" :disabled="disabled+''==='true'" :class="{'up': show}" slot="right" @click.stop="clk_arrow"></i>
-        <i class="cicon-loading move-loop center-v" v-if="isSearch" slot="right" @click.stop="clk_arrow">
-          <span></span><span></span><span></span>
-        </i>
-    </cmp-input>
-    <cmp-menu ref="dmmeu" :show="show" :multi="multi" :data="data" v-model="result" @cbkClkItem="cbkClkItem">
-      <template slot="line" slot-scope="props">
-        <slot name="line" :item="props.item">{{props.item}}</slot>
-      </template>
-    </cmp-menu>
+  <div class="dropmenu" @click.stop>
+    <lv-input v-model="resultText" :placeholder="searchabled&&resultText?resultText:placeholder" :disabled="disabled" :readonly="!searchabled" @focus="iptFocus" @change="iptChange">
+      <i slot="right" class="icon lv-icon-arrow" :class="{open:show}" :disabled="disabled" @click="toggleMenu"></i>
+    </lv-input>
+    <vperfect-scrollbar ref="wrapUl" class="wrap-ul" :settings="{wheelSpeed:0.5}" :style="position==='bottom'?'top:calc(100% + 5px)':'bottom:calc(100% + 5px)'" v-if="show">
+      <ul class="ul">
+        <li class="nothing" v-if="!clist||clist.length===0">暂无记录</li>
+        <li v-for="(item,index) in clist" :key="index"
+          :disabled="unselect.indexOf(item[keyvalue.value])>-1" 
+          :class="{'active theme-c':(typeof value)==='object'?(value.indexOf(item[keyvalue.value])!==-1):(value===item[keyvalue.value])}"
+          @click="clkItem(item)">
+          <p>{{item[keyvalue.label]}}</p>
+          <i class="lv-icon-tick"></i>
+        </li>
+      </ul>
+    </vperfect-scrollbar>
   </div>
 </template>
 
 <script type="text/babel">
+  import VuePerfectScrollbar from 'vue-perfect-scrollbar';
   import Input from '../../input/index.js';
-  import Menu from '../../menu/index.js';
 
   export default {
     name: 'DropMenu',
     components: {
-      'cmpInput': Input,
-      'cmpMenu': Menu
+      'vperfect-scrollbar': VuePerfectScrollbar,
+      'lvInput': Input
     },
     data: function () {
       return {
-        show: false,
-        result: this.value,
-        iptValue: ''
+        keyword: '',
+        show: false
       };
     },
     props: {
+      // v-model, 数组表示多选、其他单选
       value: {
-        default: function () {
-          return [];
+        default: ''
+      },
+      // 显示名称、选中值 字段映射，默认 name：显示名称，id：选中值
+      keyvalue: {
+        type: Object,
+        default: {
+          label: 'name',
+          value: 'id'
         }
       },
       placeholder: {
-        default: '请选择内容'
+        default: '请选择'
       },
       disabled: {
+        type: Boolean,
         default: false
       },
-      readonly: {
+      // 是否允许检索
+      searchabled: {
+        type: Boolean,
         default: false
       },
-      data: {
+      // 不允许选择的项 
+      unselect: {
         default: function () {
           return [];
         }
       },
-      multi: {
-        default: false
-      },
-      isSearch: {
-        default: false
-      }
-    },
-    watch: {
-      disabled: function (val) {
-        if (val + '' === 'true') {
-          this.show = false;
-        } else {
-          this.show = true;
+      list: {
+        default: function () {
+          return [];
         }
       },
-      result: function (val) {
-        this.$emit('input', val);
-      },
-      data: function () {
-        this.$nextTick(function () {
-          this.setIptValue();
-        });
-      },
-      value: function (val) {
-        this.setIptValue();
-      },
-      iptValue: function (val) {
-        if (!val) {
-          this.result = [];
-        }
-      },
-      show: function (val) {
-        if (val) {
-          // 清除隐藏
-          this.evn_keyup('', '');
-        }
+      // 下拉框位置 top|bottom
+      position: {
+        default: 'bottom'
       }
     },
     computed: {
-      //
+      clist: function () {
+        var _this = this;
+        var result = this.list.filter(function (item) {
+          return item[_this.keyvalue.label].indexOf(_this.keyword) >= 0;
+        });
+
+        return result;
+      },
+      resultText: function () {
+        var _this = this;
+        var arr = (typeof this.value === 'object') ? this.value : [this.value];
+        var result = [];
+
+        this.list.forEach(function (element) {
+          if (arr.indexOf(element[_this.keyvalue.value]) > -1) {
+            result.push(element[_this.keyvalue.label]);
+          }
+        });
+        return result.join('、');
+      }
     },
     beforeDestroy: function () {
-      window.removeEventListener('click', this.clk_hide);
+      window.removeEventListener('click', this.hideMenu);
     },
     mounted: function () {
-      window.addEventListener('click', this.clk_hide);
-      this.$refs.dmIpt.$el.addEventListener('click', this.toggleDropmenu);
-      this.setIptValue();
+      window.addEventListener('click', this.hideMenu);
     },
     methods: {
-      clk_arrow: function () {
-        this.toggleDropmenu();
+      toggleMenu: function () {
+        if (!this.disabled) {
+          this.show = !this.show;
+        }
       },
-      clk_hide: function () {
-        this.toggleDropmenu(false);
+      hideMenu: function () {
+        this.show = false;
       },
-      toggleDropmenu: function (status) {
-        if (this.disabled + '' !== 'true') {
-          if (typeof status === 'undefined') {
-            this.show = !this.show;
+      clkItem: function (info) {
+        if (!this.disabled && this.unselect.indexOf(info[this.keyvalue.value]) === -1) {
+          var result = '';
+          var value = info[this.keyvalue.value];
+
+          if ((typeof this.value) === 'object') {
+            // 多选
+            result = JSON.parse(JSON.stringify(this.value));
+
+            if (this.value.indexOf(value) === -1) {
+              result.push(value);
+            } else {
+              result.splice(this.value.indexOf(value), 1);
+            }
           } else {
-            this.show = status;
+            // 单选
+            result = value;
+            this.hideMenu();
           }
+          this.$emit('update:value', result);
         }
       },
-      cbkClkItem: function (data) {
-        this.$emit('cbkClkItem', data);
-        if (!this.multi) {
-          this.show = false;
-        }
+      iptChange: function (data) {
+        this.keyword = data;
+        this.show = true;
       },
-      setIptValue: function () {
-        var indexArr = this.value;
-        var domMenu = this.$refs.dmmeu.$el;
-        var domMenuItems = domMenu.querySelectorAll('.line');
-        var arr = [];
-
-        for (let i = 0;i < indexArr.length;i++) {
-          var item = indexArr[i];
-
-          if (isNaN(item)) {
-            // 字符串
-            arr[arr.length] = (function () {
-              var str = '';
-
-              for (let j = 0;j < domMenuItems.length;j++) {
-                var innerText = domMenuItems[j] ? domMenuItems[j].innerText : '';
-
-                if (innerText.indexOf(item) >= 0) {
-                  str = innerText;
-                  break;
-                }
-              }
-              return str;
-            }());
-          } else {
-            // 下标 
-            arr[arr.length] = domMenuItems[item] ? domMenuItems[item].innerText : '';
-          }
-        }
-        this.iptValue = arr.join('、');
-      },
-      evn_keyup: function (evt, key) {
-        if (!this.disabled && !this.readonly) {
-          this.show = true;
-          var _key = typeof key === 'undefined' ? this.iptValue : key;
-          var domMenu = this.$refs.dmmeu.$el;
-          var domMenuItems = domMenu.childNodes;
-
-          for (let i = 0;i < domMenuItems.length;i++) {
-            var dom = domMenuItems[i];
-            var domText = dom.innerText;
-            var isMatch = domText.indexOf(_key) > -1;
-            
-            dom.style.display = isMatch ? '' : 'none';
-          }
-        }
-      },
-      evn_enter: function () {
-        this.$emit('search', this.iptValue);
+      iptFocus: function (data) {
+        this.keyword = '';
+        this.show = true;
       }
     }
   };
 </script>
 
 <style scoped lang="scss">
-  .wrap-drop-menu {
+  .dropmenu {
     position: relative;
-    vertical-align: middle;
 
-    >.input {
-      overflow: hidden;
-
-      >.cicon-arrow-bottom {
-        color: inherit;
-        background-color: transparent;
-        cursor: pointer;
-        transition: transform .2s;
-      }
-      .cicon-arrow-bottom.up {
-        transform: rotate(270deg);
-      }
-      >.cicon-loading {
-        font-size: 20px;
-        color: inherit;
-        background-color: transparent;
-      }
+    .lv-icon-arrow {
+      transform: rotate(-90deg);
+      transition: all .1s;
+    }
+    .lv-icon-arrow.open {
+      transform: rotate(90deg);
     }
 
-    >.wrap-menu {
+    .wrap-ul {
       position: absolute;
       left: 0;
-      top: calc(34px + 2px);
-      z-index: 2;
+      width: 100%;
+      max-height: 200px;
+      border: solid 1px #e4e7ed;
+      box-shadow: 0 2px 12px 0 rgba(0, 0, 0, 0.1);
+      background-color: #fff;
+      user-select: none;
+      z-index: 3;
+
+      li {
+        display: flex;
+        flex-shrink: 0;
+        justify-content: space-between;
+        padding: 6px 10px;
+        line-height: unset;
+      }
+      li:first-of-type {
+        margin-top: 6px;
+      }
+      li:last-of-type {
+        margin-bottom: 6px;
+      }
+      li > p {
+        flex: 1;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      li > i {
+        display: none;
+        width: 18px;
+        height: 18px;
+        font-size: 18px;
+      }
+      li.active > i {
+        display: inline-block;
+      }
+      li:not(.nothing):not([disabled]):hover {
+        cursor: pointer;
+        background-color: #f5f7fa;
+      }
+      li.nothing {
+        color: #999;
+        justify-content: center;
+      }
     }
   }
 </style>

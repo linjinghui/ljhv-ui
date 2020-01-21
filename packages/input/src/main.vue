@@ -1,32 +1,42 @@
 <!--
 功能介绍：
-1、支持显示、隐藏清空按钮 - 默认显示
-2、支持自定义左右两侧图标 - （右侧图标会覆盖清空按钮）
  -->
 
 <template>
-  <div class="wrap-input" :class="{'theme-bc':focus}">
-    <slot name="left"></slot>
-    <input
-      autoComplete="off" ref="ipt" v-model.trim="val" :name="name" :type="type"
-      :disabled="(disabled+'')==='true'" :maxlength="maxlength" :placeholder="placeholder"
-      :onpaste="(nopaste+''==='true')?'return false':''" :readonly="(readonly+'')==='true'"
-      @focus="evn_focus" @blur="evn_blur" @keyup="evn_keyup" @keyup.enter="evn_enter">
-    <i class="cicon-cross-crle-chr-cpt" v-if="_showClear" @click="clk_del"></i>
+  <div class="input" :class="{'theme-bc':focus}" :style="'border-color:'+(focus?'':'#ddd')">
+    <slot class="l-icon" name="left"></slot>
+    <input autoComplete="off" ref="ipt"
+      :name="name" 
+      :type="ptype" 
+      :disabled="disabled" 
+      :maxlength="maxlength" 
+      :placeholder="placeholder"
+      :readonly="readonly"
+      :onpaste="nopaste?'return false':''" 
+      @input="handleInput" 
+      @focus="handleFocus" 
+      @blur="handleBlur" 
+      @keyup="handleKeyup" 
+      @keyup.enter="handleEnter">
+    <i class="icon lv-icon-x-2" :disabled="disabled" @click="handleClear" v-if="clear&&!readonly&&value"></i>
+    <i class="icon lv-icon-search" :disabled="disabled" @click="handleSearch" v-if="ptype==='search'"></i>
+    <i class="icon lv-icon-eye" @click="handleTogglePwd" v-if="eye&&ptype==='password'"></i>
+    <i class="icon lv-icon-eye-close" @click="handleTogglePwd" v-if="eye&&ptype==='text'"></i>
     <slot name="right"></slot>
   </div>
 </template>
 
 <script type="text/babel">
+
   export default {
     name: 'Input',
     data: function () {
       return {
         id: 'ipt_' + new Date().getTime() + parseInt(Math.random() * 100),
-        val: this.value,
-        focus: '',
-        pdlt: '',
-        pdrt: ''
+        focus: false,
+        // 是否显示眼睛
+        eye: false,
+        ptype: this.type
       };
     },
     props: {
@@ -35,93 +45,124 @@
         default: 'text'
       },
       name: '',
-      maxlength: '',
-      readonly: '',
+      maxlength: {
+        default: 500
+      },
+      readonly: {
+        type: Boolean,
+        default: false
+      },
       placeholder: '',
-      nopaste: '',
-      autofocus: '',
-      disabled: '',
+      nopaste: {
+        type: Boolean,
+        default: false
+      },
+      autofocus: {
+        type: Boolean,
+        default: false
+      },
+      disabled: {
+        type: Boolean,
+        default: false
+      },
       clear: {
+        type: Boolean,
         default: true
       },
       // number|mobile|fix|email|url|letter|chinese
       rule: ''
     },
     watch: {
-      val: function (val) {
-        this.$emit('input', val);
-      },
       value: function (val) {
-        this.val = val;
+        this.handleSetInputVal(val);
       },
-      autofocus: function () {
-        this.is_auto_focus();
+      type: function (val) {
+        this.ptype = val;
+      },
+      autofocus: function (val) {
+        if (val) {
+          this.handleAutoFocus();
+        }
       }
     },
-    computed: {
-      _showClear: function () {
-        let result = '';
-        
-        result = ((this.clear + '') !== 'false') && ((this.disabled + '') !== 'true') && ((this.readonly + '') !== 'true') && this.val && this.val.length > 0;
-        return result;
-      }
-    },
+    computed: {},
     beforeDestroy: function () {
       //
     },
     mounted: function () {
-      var _this = this;
-
-      this.pdlt = this.$slots.left;
-      this.pdrt = this.$slots.right;
-      this.is_auto_focus();
-      // 监控DOM变化
-      this.addDomChange(function () {
-        _this.pdlt = _this.$slots.left;
-        _this.pdrt = _this.$slots.right;
-      });
+      this.eye = this.type === 'password';
+      this.autofocus && this.handleAutoFocus();
+      this.handleSetInputVal(this.value);
     },
     methods: {
-      clk_del: function () {
-        var _this = this;
-
-        this.val = '';
-        setTimeout(function () { _this.do_focus(); }, 0);
-      },
-      evn_focus: function () {
-        this.$emit('focus');
-        this.focus = true;
-      },
-      evn_blur: function () {
-        var _this = this;
-        
-        this.do_reg_value();
-        this.$emit('blur');
-        setTimeout(function () { _this.focus = false; }, 200);
-      },
-      evn_keyup: function (event) {
-        this.$emit('keyup', event.keyCode);
-      },
-      evn_enter: function () {
-        this.$emit('enter');
-      },
-      do_focus: function () {
-        this.$refs.ipt.focus();
-      },
-      is_auto_focus: function () {
-        if (this.autofocus + '' === 'true') {
-          this.do_focus();
+      handleSetInputVal: function (value) {
+        if (this.$refs.ipt.value !== value) {
+          this.$refs.ipt.value = value;
         }
       },
-      do_reg_value: function () {
-        let value = this.val || '';
+      handleInput: function (e) {
+        var _this = this;
+
+        this.timer && setTimeout(this.timer);
+        this.timer = setTimeout(function () {
+          _this.$emit('input', e.target.value);
+          _this.$emit('change', e.target.value);
+        }, 100);
+      },
+      handleFocus: function () {
+        if (!this.disabled) {
+          this.focus = true;
+          this.$emit('focus');
+        }
+      },
+      handleAutoFocus: function () {
+        this.$refs.ipt.focus();
+      },
+      handleBlur: function () {
+        if (!this.disabled) {
+          this.focus = false;
+          this.$emit('blur');
+
+          // if (this.rule) {
+          //   this.$emit('input', this.regValue());
+          // }
+        }
+      },
+      handleKeyup: function (event) {
+        this.$emit('keyup', event.keyCode);
+      },
+      handleEnter: function () {
+        var _this = this;
+
+        setTimeout(function () {
+          _this.$emit('enter', _this.value);
+        }, 200);
+      },
+      handleSearch: function () {
+        if (!this.disabled) {
+          this.$emit('search', this.value);
+        }
+      },
+      handleClear: function () {
+        if (!this.disabled) {
+          this.handleSetInputVal('');
+          this.handleAutoFocus();
+          this.$emit('input', '');
+          this.$emit('change', '');
+        }
+      },
+      handleTogglePwd: function () {
+        this.ptype = this.ptype === 'password' ? 'text' : 'password';
+      },
+      regValue: function () {
+        let value = JSON.parse(JSON.stringify(this.value || ''));
 
         if (typeof value !== 'string') {
           value += '';
         }
 
         if (this.rule === 'number') {
-          this.val = value.replace(/[\D]+/g, '');
+          value = value.replace(/[\D]+/g, '');
         } else if (this.rule === 'float') {
           let _val = '';
           let _i = 0;
@@ -133,97 +174,87 @@
             ++_i;
             return _i === 1 ? a : '';
           });
-          this.val = _val;
+          value = _val;
         } else if (this.rule === 'mobile') {
           value = value.replace(/[\D]+/g, '');
           if (value.indexOf('1') !== 0) {
-            this.val = '1' + value.substring(0, 10);
+            value = '1' + value.substring(0, 10);
           } else {
-            this.val = value.substring(0, 11);
+            value = value.substring(0, 11);
           }
         } else if (this.rule === 'fix') {
-          this.val = value.replace(/[^0-9-]+/g, '');
+          value = value.replace(/[^0-9-]+/g, '');
         } else if (this.rule === 'email') {
           value = value.replace(/^@+|@+$/g, '').replace(/\s+/g, '');
           if (value.indexOf('@') < 0) {
-            this.val = value + '@qq.com';
+            value = value + '@qq.com';
           }
         } else if (this.rule === 'url') {
           if (value.indexOf('http://') !== 0 && value.indexOf('https://') !== 0) {
-            this.val = 'http://' + value;
+            value = 'http://' + value;
           }
         } else if (this.rule === 'letter') {
-          this.val = value.replace(/[^a-zA-Z]+/g, '');
+          value = value.replace(/[^a-zA-Z]+/g, '');
         } else if (this.rule === 'chinese') {
-          this.val = value.replace(/[^\u4e00-\u9fa5]+/g, '');
+          value = value.replace(/[^\u4e00-\u9fa5]+/g, '');
         } else if (typeof this.rule === 'string') {
-          this.val = value.replace(new RegExp(this.rule, 'g'), '');
+          value = value.replace(new RegExp(this.rule, 'g'), '');
         }
-      },
-      addDomChange: function (cbk) {
-        var target = document.getElementById(this.id);
-        var callback = function (records) {
-          records.map(function (record) {
-            cbk && cbk();
-          });
-        };
-        var mo = new MutationObserver(callback);
-        var option = {
-          'childList': true,
-          'subtree': true
-        };
 
-        if (target) {
-          mo.observe(target, option);
-        }
+        return value;
       }
     }
   };
 </script>
 
 <style scoped lang="scss">
-  .wrap-input {
+  input {
+    flex: 1;
+    padding: 0 10px;
+    width: 100%;
+    height: 100%;
+    border: 0;
+    color: inherit;
+    font: inherit;
+    outline: medium;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+  }
+
+  input[disabled] {
+    cursor: text;
+    user-select: none;
+  }
+
+  input::-ms-clear {
+    display: none;
+  }
+  .input {
     position: relative;
-    display: flex;
+    display: inline-flex;
     flex-shrink: 0;
     align-items: center;
-    padding-left: 10px;
     width: 100%;
-    height: 34px;
+    height: 30px;
+    line-height: 1;
     border-style: solid;
     border-width: 1px;
-
-    >input {
-      flex: 1;
-      margin-right: 10px;
-      padding: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-      color: inherit;
-      font: inherit;
-      outline: medium;
-      -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
-    }
-
-    >input[disabled] {
-      cursor: text;
-      user-select: none;
-    }
-
-    >input::-ms-clear {
-      display: none;
-    }
-
-    > i {
-      position: relative;
-      margin-right: 10px;
-      font-size: 16px;
-      color: #fff;
-      background-color: #999;
-    }
+    border-radius: 4px;
+    overflow: hidden;
   }
-  .wrap-input:not(.theme-bc) {
-    border-color: #ddd;
+  .icon {
+    margin-right: 10px;
+    cursor: pointer;
+    // color: #b3b3b3;
+  }
+  .icon:not([disabled]):hover {
+    opacity: 0.8;
+  }
+  .lv-icon-eye,
+  .lv-icon-eye-close {
+    font-size: 22px;
+  }
+
+  .l-icon {
+    margin-left: 10px;
   }
 </style>

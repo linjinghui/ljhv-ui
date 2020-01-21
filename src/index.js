@@ -11,7 +11,7 @@ import VConsole from 'vconsole';
 Vue.use(vueHljs);
 
 // 注册全局组件
-[Loading, Tip, Confirm, Prompt].map(function (component) {
+[Loading, Confirm, Prompt].map(function (component) {
   Vue.component(component.name, component);
 });
 
@@ -20,6 +20,11 @@ Vue.prototype.$eventbus = new Vue();
 window.EVENTBUS = new Vue();
 
 Vue.prototype.$store = store;
+
+// 提示框插件
+Vue.prototype.$tip = function (option) {
+  return new Tip(option).show();
+}
 
 // 判断是否移动端
 var client = navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i);

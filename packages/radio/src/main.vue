@@ -1,14 +1,11 @@
 <!--
 功能介绍：
-1、支持自定义背景色（theme - 'red'）
-2、禁用（disabled - true|false）
-3、确认点击前执行事件（beforeclk - function）
+1、支持多选，v-model 传入的是数组就可以多选，多选支持取消操作
  -->
 
 <template>
-  <label class="radio" :disabled="(disabled+'')==='true'" @click="clk">
-    <span :class="{'theme-c':value!==''&&value===val}"><i class="theme-b"></i></span>
-    <!-- <i :class="{'selected theme-c theme-b':value!==''&&value===val}"></i> -->
+  <label class="radio" :class="{'selected':selected}" :disabled="disabled" @click="clickHandle">
+    <i :style="{color:selected?'':'#999'}" :class="{'lv-icon-radio':!selected,'lv-icon-radio-2':selected,'theme-c':selected}"></i>
     <slot></slot>
   </label>
 </template>
@@ -20,27 +17,35 @@
       return {};
     },
     props: {
-      disabled: '',
+      // 禁用
+      disabled: {
+        type: Boolean,
+        default: false
+      },
+      // v-model
       value: '',
-      theme: {
-        type: String,
-        default: 'theme-b'
-      },
-      beforeclk: {
-        type: Function
-      },
-      val: ''
+      // 值
+      val: '',
+      // 选中前执行
+      before: {
+        type: Function,
+        default: function (callback) {
+          callback && callback();
+        }
+      }
     },
-    watch: {
-      //
-    },
+    watch: {},
     computed: {
-      // _style: function () {
-      //   return {
-      //     borderColor: this.theme,
-      //     backgroundColor: this.theme
-      //   };
-      // }
+      selected: function () {
+        let result = false;
+
+        if ((typeof this.value) === 'object') {
+          result = this.value.indexOf(this.val) !== -1;
+        } else {
+          result = this.value === this.val;
+        }
+        return result;
+      }
     },
     beforeDestroy: function () {
       //
@@ -49,13 +54,26 @@
       //
     },
     methods: {
-      clk: function () {
-        if (this.disabled + '' !== 'true') {
-          if (this.beforeclk) {
-            this.beforeclk() && this.$emit('input', this.val);
-          } else {
-            this.$emit('input', this.val);
-          }
+      clickHandle: function () {
+        if (!this.disabled) {
+          let _this = this;
+
+          _this.before(function () {
+            let result = JSON.parse(JSON.stringify(_this.value));
+
+            if ((typeof result) === 'object') {
+              let index = result.indexOf(_this.val);
+              
+              if (index === -1) {
+                result.push(_this.val);
+              } else {
+                result.splice(index, 1);
+              }
+            } else {
+              result = _this.val;
+            }
+            _this.$emit('input', result);
+          });
         }
       }
     }
@@ -65,50 +83,28 @@
 <style scoped lang="scss">
   
   .radio {
-    display: inline-block;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
     margin-right: 10px;
+    line-height: 1;
     user-select: none;
-
-    > span {
-      position: relative;
-      display: inline-block;
+    
+    > i {
       margin-right: 5px;
-      width: 1em;
-      height: 1em;
-      border-radius: 50%;
-      border-width: 1px;
-      border-style: solid;
-      vertical-align: middle;
-      font-size: 16px;
-
-      > i {
-        display: none;
-      }
+      font-size: 20px;
     }
-    > span:not(.theme-c) {
-      color: #dcdfe6;
-    }
-
-    > span.theme-c > i {
-      position: absolute;
-      display: block;
-      top: 0;
-      right: 0;
-      bottom: 0;
-      left: 0;
-      margin: auto;
-      width: 0.5em;
-      height: 0.5em;
-      border-radius: 50%;
-    }
-
   }
 
   .radio:not([disabled]) {
     cursor: pointer;
   }
 
-  .radio:not([disabled]):hover > i:not(.selected) {
-    border-color: #ccc!important;
+  .radio:not([disabled]):not(.selected):hover > i {
+    opacity: 0.8;
+  }
+
+  .radio[disabled] > i {
+    color: #bebebe;
   }
 </style>

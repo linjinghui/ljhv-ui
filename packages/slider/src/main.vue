@@ -9,7 +9,7 @@
     <div class="wrap-drag">
       <p class="progress bg"></p>
       <p class="progress theme-b" :disabled="disabled" :style="'width:'+pgwidth+'px;'"></p>
-      <tooltip ref="ttp" :text="text" theme="#333" position="bottom">
+      <tooltip ref="ttp" :text="text">
         <span class="bar theme-c" :disabled="disabled" v-drag:x="{px:value/max,disabled:disabled}" @edrag="funDrag"></span>
       </tooltip>
     </div>
@@ -89,7 +89,7 @@
         this.pgwidth = data.detail.x;
         this.text = parseFloat((data.detail.px * this.max).toFixed(this.point));
         // this.text = data.detail.px * this.max;
-        this.$refs.ttp.update();
+        // this.$refs.ttp.update();
         // this.debounce(function () {
         //   _this.$emit('input', _this.text);
         // }, 1800)();

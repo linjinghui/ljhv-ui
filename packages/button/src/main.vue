@@ -9,16 +9,17 @@
  -->
 
 <template>
-  <button class="button theme-b" :class="theme" v-if="typeof fileoption==='undefined'" :id="id" :disabled="pdisabled" :data-clipboard-text="copydata" @click="clk">
-    <template v-if="value>0"><span style="font-size: 14px;">{{value}}</span> s</template>
+  <button class="button" :class="theme||'theme-b'" :id="id" :disabled="disabled" :data-clipboard-text="copyData" @click="clk">
+    <template v-if="icon">
+      <i :class="icon"></i>&nbsp;
+    </template>
+    <template v-if="file&&!disabled">
+      <label class="lab-file" :for="'file_'+id"><slot></slot></label>
+      <input type="file" :id="'file_'+id" :accept="file.accept" :multiple="file.multiple" @change="fileChange">
+    </template>
+    <span class="second" v-else-if="second" v-text="second+'s'"></span>
     <slot v-else></slot>
   </button>
-  <!-- 选择文件专用∨ -->
-  <label class="button theme-b" :class="theme" :id="id" :disabled="pdisabled" :for="'file_'+id" v-else>
-    <input type="file" :id="'file_'+id" :disabled="pdisabled" :accept="fileoption.accept" :multiple="fileoption.multiple" @change="file_change">
-    <slot></slot>
-  </label>
-  <!-- 选择文件专用∧ -->
 </template>
 
 <script type="text/babel">
@@ -29,55 +30,61 @@
     data: function () {
       return {
         id: 'btn_' + new Date().getTime() + parseInt(Math.random() * 100),
-        pdisabled: ''
+        second: 0
       };
     },
     props: {
+      // 主题：primary|success|info|warning|error|line|simple
       theme: '',
+      // 禁用
       disabled: {
+        type: Boolean,
         default: false
       },
-      copydata: '',
-      fileoption: '',
-      // 计时器
-      value: {
+      // 禁用时长（秒）
+      disabledDuring: {
         type: Number,
         default: 0
       },
+      // 复制剪贴板内容
+      copyData: '',
+      // 选择文件 {accept, multiple, uploadUrl, header, formData, fileFormName}
+      file: '',
       // 打印ID
-      prnt: ''
-    },
-    watch: {
-      disabled: function (val) {
-        this.pdisabled = this.parseDisabled();
+      print: '',
+      // 阻止事件冒泡
+      stop: {
+        type: Boolean,
+        default: false
       },
-      value: function (val) {
-        if (val > 0) {
-          // 开始计时
-          this.pdisabled = true;
-          this.sub_count_down();
-        } else {
-          // 结束计时
-          this.pdisabled = false;
-        }
-      }
+      // 阻止默认行为
+      prevent: {
+        type: Boolean,
+        default: false
+      },
+      // 图标
+      icon: ''
     },
+    watch: {},
     computed: {},
     beforeDestroy: function () {
       // 
     },
     mounted: function () {
-      this.pdisabled = this.parseDisabled();
       // 初始化剪贴板
-      this.init_copy_btn();
-      if (this.prnt) {
-        // window.$ = require('jquery');
+      this.initCopy();
+      if (this.print) {
         require('../lib/jquery.PrintArea.js');
       }
     },
     methods: {
-      clk: function () {
-        if (this.prnt) {
+      clk: function (e) {
+        let _this = this;
+        
+        this.stop && e.stopPropagation();
+        this.prevent && e.preventDefault();
+
+        if (this.print) {
           var $ = window.$;
           // iframe|popup 新窗口打开
           var mode = 'iframe';
@@ -87,38 +94,37 @@
           var headElements = '<meta charset="utf-8" />,<meta http-equiv="X-UA-Compatible" content="IE=edge"/>';
           var options = { mode: mode, popClose: close, extraCss: extraCss, retainAttr: keepAttr, extraHead: headElements };
 
-          $(this.prnt).printArea(options);
+          $(this.print).printArea(options);
         }
-        if (!this.copydata) {
-          // 控制复制和倒计时状态不允许点击
-          this.$emit('click');
+        this.$emit('click');
+        // 倒计时
+        if (this.disabledDuring > 0) {
+          this.second = this.disabledDuring;
+          this.disabled = true;
+          this.timer = setInterval(function () {
+            _this.second -= 1;
+            if (_this.second <= 0) {
+              clearInterval(_this.timer);
+              _this.disabled = false;
+            }
+          }, 1000);
         }
       },
-      parseDisabled: function () {
-        let result = '';
-
-        if (typeof this.disabled === 'string') {
-          result = this.disabled === 'true';
-        } else {
-          result = this.disabled;
-        }
-        return result;
-      },
-      init_copy_btn: function () {
+      initCopy: function () {
         let _this = this;
 
-        if (this.copydata) {
+        if (this.copyData) {
           this.clipboard = new ClipboardJS('#' + this.id);
           this.clipboard.on('success', function (e) {
-            _this.$emit('cbk_copy', _this.copydata);
+            _this.$emit('copy-success', _this.copyData);
           });
 
           this.clipboard.on('error', function (e) {
-            _this.$emit('cbk_copy', 'error');
+            _this.$emit('copy-error', 'error');
           });
         }
       },
-      file_change: function (e) {
+      fileChange: function (e) {
         let el = e.target;
         let files = [];
 
@@ -138,16 +144,72 @@
             });
           }
         }
-        this.$emit('cbk_file', files);
+        this.upLoadFile(el.files);
+        this.$emit('select-file', files);
         // 清除input记录
         el.value = '';
       },
-      sub_count_down: function () {
-        let _this = this;
+      upLoadFile: function (files) {
+        if (this.file.uploadUrl && files && files.length > 0) {
+          var _this = this;
+          var formData = new FormData();
+          var request = new XMLHttpRequest();
+          var fileFormName = this.file.fileFormName || 'file';
+          var header = this.file.header || {};
+          var fData = this.file.formData || {};
+          var timeout = 30000;
+          var timer = '';
+          
+          // 上传进度
+          request.onprogress = function (event) {
+            if (event.lengthComputable) {
+              _this.$emit('upload-progress', event.loaded / event.total);
+            }
+          };
 
-        setTimeout(function () {
-          _this.$emit('input', _this.value - 1);
-        }, 1000);
+          request.open('post', this.file.uploadUrl, true);
+
+          // 设置请求头
+          request.setRequestHeader('Content-Type', 'multipart/form-data');
+          for (let key in header) {
+            request.setRequestHeader(key, header[key]);
+          }
+
+          // 设置请求参数
+          for (let i = 0;i < files.length;i++) {
+            formData.append(fileFormName, files[i], files[i].name);
+          }
+          for (let key in fData) {
+            formData.append(key, fData[key]);
+          }
+
+          // 发送请求
+          request.send(formData);
+
+          // 处理超时
+          timer = setTimeout(function () {
+            request.abort();
+          }, timeout);
+
+          request.onreadystatechange = function () {
+            if (request.readyState === 4) {
+              timer && clearTimeout(timer);
+              if (request.status === 200) {
+                var result = '';
+
+                try {
+                  result = JSON.parse(request.response);
+                } catch (error) {
+                  result = request.response;
+                }
+                _this.$emit('upload-success', result);
+              } else {
+                _this.$emit('upload-error', request.status);
+              }
+            }
+          };
+          
+        }
       }
     }
   };
@@ -156,8 +218,11 @@
 <style scoped lang="scss">
   .button {
     position: relative;
-    display: inline-block;
-    padding: 6px 15px;
+    // display: inline-block;
+    display: inline-flex;
+    flex-shrink: 0;
+    align-items: center;
+    padding: 4px 15px;
     color: #fff;
     font-size: 12px;
     text-decoration: none;
@@ -167,17 +232,20 @@
     touch-action: manipulation;
     user-select: none;
     border: 1px solid transparent;
+    border-radius: 4px;
     box-sizing: border-box;
     transition-property: all;
     overflow: visible;
     outline: medium;
     text-transform: none;
-    // -webkit-appearance: button;
     -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
     cursor: pointer;
     
     input[type='file'] {
       display: none;
+    }
+    > i {
+      display: inline-block;
     }
   }
   .button.primary {
@@ -200,6 +268,11 @@
     color: inherit;
     background-color: #fff;
   }
+  .button.simple {
+    padding: 0;
+    color: inherit;
+    background-color: transparent;
+  }
 
   .button[disabled] {
     cursor: text;
@@ -216,5 +289,25 @@
 
   .button:not([disabled]):active {
     opacity: 0.9;
+  }
+
+  .second {
+    font-size: 16px;
+  }
+
+  .lab-file {
+    display: block;
+    width: 100%;
+    height: 100%;
+    cursor: pointer;
+  }
+  .lab-file:after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: transparent;
   }
 </style>

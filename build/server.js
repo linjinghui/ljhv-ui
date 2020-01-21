@@ -46,6 +46,13 @@ app.get('/', (req, res) => {
 //   target: 'http://127.0.0.1:5001',
 //   changeOrigoin: true
 // }));
+const apiProxy2 = proxy('/apiorgan', {
+  target: 'http://114.115.200.40:9025',
+  changeOrigin: true
+});
+
+app.use('/apiorgan', apiProxy2);
+
 
 app.listen(config.port, () => {
   var url = 'http://localhost:' + config.port;

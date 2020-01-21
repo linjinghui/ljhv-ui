@@ -9,64 +9,38 @@ Vue.component('lvLaydate', Laydate);</code></pre>
       </dd>
     </dl>
     <dl>
-      <dd><h3>基于Laydate的日期选择器，可支持自定义右侧图标，更多配置参考API <a href="https://www.layui.com/laydate/" target="_blank">https://www.layui.com/laydate/</a></h3></dd>
+      <dd><h3>基于Laydate的日期选择器，更多配置参考API <a href="https://www.layui.com/laydate/" target="_blank">https://www.layui.com/laydate/</a></h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>&lt;lv-laydate v-model="startDate" placeholder="请选择日期" :option="option"&gt;&lt;/lv-laydate&gt;
-&lt;script type="text/babel"&gt;
-export default {
-  data () {
-    return {
-      startDate: '',
-      option: {
-        // year month time date datetime
-        type: 'datetime',
-        // 范围选择
-        range: false,
-        // 日期匹配
-        format: 'yyyy-MM-dd HH:mm:ss',
-        // 开启公历节日
-        calendar: true,
-        // 自定义主题色
-        theme: '#16aa6b',
-        // 自定义节日
-        mark: {
-          '0-10-14': '生日',
-          // 每年的日期
-          '0-12-31': '跨年',
-          // 每月某天
-          '0-0-10': '工资', 
-          '0-0-15': '月中',
-          // 如果为空字符，则默认显示数字+徽章
-          '2017-8-15': '', 
-          '2099-10-14': '呵呵'
-        },
-        min: -7,
-        max: 7
-      }
-    };
-  }
-}
-&lt;/script&gt;</code></pre>
+           <pre><code v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-laydate v-model="startDate" placeholder="请选择日期" :option="option">
-            <!-- 可自定义右侧图标 -->
-            <i class="cicon-tick" slot="right"></i>
-          </lv-laydate>
+          <lv-date-picker v-model="startDate" placeholder="请选择日期" :disabled="false" :option="option"></lv-date-picker>
         </section>
+      </dd>
+    </dl>
+    <dl>
+      <dd><h3>参数说明</h3></dd>
+      <dd class="attribute">
+        <table>
+          <tr><td>参数</td><td>说明</td><td>必填</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>v-model/value</td><td>绑定值</td><td>是</td><td>number|string</td><td>-</td><td>如果传入的是Long类型，则返回结果也是Long类型</td></tr>
+          <tr><td>placeholder</td><td>占位文本</td><td>-</td><td>string</td><td>-</td><td>-</td></tr>
+          <tr><td>disabled</td><td>禁用</td><td>-</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>option</td><td>日期配置信息</td><td>否</td><td>object</td><td>配置参考API https://www.layui.com/laydate/</td><td>{ type: 'datetime', format: 'yyyy-MM-dd HH:mm:ss' }</td></tr>
+        </table>
       </dd>
     </dl>
   </div>
 </template>
 
 <script>
-  import {Laydate} from '../../../packages/index.js';
+  import {DatePicker} from '../../../packages/index.js';
   
   export default {
     name: 'DatePicker',
     components: {
-      lvLaydate: Laydate
+      lvDatePicker: DatePicker
     },
     watch: {
       startDate: function (val) {
@@ -75,38 +49,37 @@ export default {
     },
     data () {
       return {
-        startDate: '',
-        // 更多配置参考API https://www.layui.com/laydate/
+        code: '',
+        // startDate: '2020-03-01 11:13:11',
+        startDate: new Date().getTime(),
         option: {
           // year month time date datetime
           type: 'datetime',
           // 范围选择
           range: false,
           // 日期匹配
-          format: 'yyyy-MM-dd HH:mm:ss',
+          format: 'yyyy-MM-dd HH:mm:ss'
           // 开启公历节日
-          calendar: true,
-          // 自定义主题色
-          theme: '#16aa6b',
+          // calendar: false
           // 自定义节日
-          mark: {
-            '0-10-14': '生日',
-            // 每年的日期
-            '0-12-31': '跨年',
-            // 每月某天
-            '0-0-10': '工资', 
-            '0-0-15': '月中',
-            // 如果为空字符，则默认显示数字+徽章
-            '2017-8-15': '', 
-            '2099-10-14': '呵呵'
-          },
-          min: -7,
-          max: 7
+          // mark: {
+          //   '0-10-14': '生日',
+          //   // 每年的日期
+          //   '0-12-31': '跨年',
+          //   // 每月某天
+          //   '0-0-10': '工资', 
+          //   '0-0-15': '月中',
+          //   // 如果为空字符，则默认显示数字+徽章
+          //   '2017-8-15': '', 
+          //   '2099-10-14': '呵呵'
+          // },
+          // min: -7,
+          // max: 7
         }
       };
     },
     mounted: function () {
-      // 
+      this.code = '<lv-date-picker v-model="startDate" placeholder="请选择日期" :option="option"></lv-date-picker>';
     },
     methods: {
       parseHtmlStr (htmlstr) {
