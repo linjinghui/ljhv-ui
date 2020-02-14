@@ -50,6 +50,13 @@ import GamePt from './gamePt/index';
 import Sidenav from './sidenav/index';
 import Rule from './rule/index';
 import SliderCode from './sliderCode/index';
+import Routrecord from './routrecord/index';
+import Select from './select/index';
+import Form from './form/index';
+import Upload from './upload/index';
+import Weather from './upload/index';
+import Numberkey from './numberkey/index';
+import Lock from './lock/index';
 
 const components = [Loading, Tip, Confirm, Prompt];
 const install = function (Vue) {
@@ -59,4 +66,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode, Routrecord, Select, Form, Upload, Weather, Numberkey, Lock};

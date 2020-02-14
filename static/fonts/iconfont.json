@@ -6,11 +6,67 @@
   "description": "",
   "glyphs": [
     {
-      "icon_id": "566360",
-      "name": "箭头",
-      "font_class": "-arrow-2",
-      "unicode": "e64a",
-      "unicode_decimal": 58954
+      "icon_id": "7852109",
+      "name": "wifi-2",
+      "font_class": "-wifi-2",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "4933336",
+      "name": "附件",
+      "font_class": "-attach",
+      "unicode": "e732",
+      "unicode_decimal": 59186
+    },
+    {
+      "icon_id": "10560916",
+      "name": "列表向右",
+      "font_class": "-list-r",
+      "unicode": "e61d",
+      "unicode_decimal": 58909
+    },
+    {
+      "icon_id": "10560917",
+      "name": "列表向左",
+      "font_class": "-list-l",
+      "unicode": "e61e",
+      "unicode_decimal": 58910
+    },
+    {
+      "icon_id": "578990",
+      "name": "编辑",
+      "font_class": "-edit",
+      "unicode": "e61f",
+      "unicode_decimal": 58911
+    },
+    {
+      "icon_id": "5330032",
+      "name": "排序",
+      "font_class": "-sort",
+      "unicode": "e75b",
+      "unicode_decimal": 59227
+    },
+    {
+      "icon_id": "5485648",
+      "name": "删除",
+      "font_class": "-del",
+      "unicode": "e611",
+      "unicode_decimal": 58897
+    },
+    {
+      "icon_id": "689277",
+      "name": "日历 日期",
+      "font_class": "-date",
+      "unicode": "e807",
+      "unicode_decimal": 59399
+    },
+    {
+      "icon_id": "749509",
+      "name": "SEARCH",
+      "font_class": "-search",
+      "unicode": "e644",
+      "unicode_decimal": 58948
     },
     {
       "icon_id": "670036",
@@ -27,41 +83,6 @@
       "unicode_decimal": 59001
     },
     {
-      "icon_id": "689256",
-      "name": "警示 感叹号 ！2",
-      "font_class": "-point-2",
-      "unicode": "e7f4",
-      "unicode_decimal": 59380
-    },
-    {
-      "icon_id": "689277",
-      "name": "日历 日期",
-      "font_class": "-date",
-      "unicode": "e807",
-      "unicode_decimal": 59399
-    },
-    {
-      "icon_id": "730799",
-      "name": "用户",
-      "font_class": "-user",
-      "unicode": "e677",
-      "unicode_decimal": 58999
-    },
-    {
-      "icon_id": "749509",
-      "name": "SEARCH",
-      "font_class": "-search",
-      "unicode": "e644",
-      "unicode_decimal": 58948
-    },
-    {
-      "icon_id": "795509",
-      "name": "眼睛",
-      "font_class": "-eye",
-      "unicode": "e669",
-      "unicode_decimal": 58985
-    },
-    {
       "icon_id": "859751",
       "name": "勾",
       "font_class": "-tick-2",
@@ -74,6 +95,41 @@
       "font_class": "-ewm",
       "unicode": "e622",
       "unicode_decimal": 58914
+    },
+    {
+      "icon_id": "3740224",
+      "name": "报警指纹",
+      "font_class": "-ling",
+      "unicode": "e61c",
+      "unicode_decimal": 58908
+    },
+    {
+      "icon_id": "730799",
+      "name": "用户",
+      "font_class": "-user",
+      "unicode": "e677",
+      "unicode_decimal": 58999
+    },
+    {
+      "icon_id": "566360",
+      "name": "箭头",
+      "font_class": "-arrow-2",
+      "unicode": "e64a",
+      "unicode_decimal": 58954
+    },
+    {
+      "icon_id": "689256",
+      "name": "警示 感叹号 ！2",
+      "font_class": "-point-2",
+      "unicode": "e7f4",
+      "unicode_decimal": 59380
+    },
+    {
+      "icon_id": "795509",
+      "name": "眼睛",
+      "font_class": "-eye",
+      "unicode": "e669",
+      "unicode_decimal": 58985
     },
     {
       "icon_id": "1110404",
@@ -102,13 +158,6 @@
       "font_class": "-point",
       "unicode": "e60f",
       "unicode_decimal": 58895
-    },
-    {
-      "icon_id": "3740224",
-      "name": "报警指纹",
-      "font_class": "-ling",
-      "unicode": "e61c",
-      "unicode_decimal": 58908
     },
     {
       "icon_id": "7550196",

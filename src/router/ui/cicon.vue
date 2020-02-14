@@ -34,6 +34,10 @@
           <i class="lv-icon-pwd"></i>
           <i class="lv-icon-x-2"></i>
           <i class="lv-icon-date"></i>
+          <i class="lv-icon-list-l"></i>
+          <i class="lv-icon-list-r"></i>
+          <i class="lv-icon-attach"></i>
+          <i class="lv-icon-wifi-2"></i>
         </section>
       </dd>
     </dl>

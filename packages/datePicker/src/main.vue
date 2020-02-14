@@ -10,8 +10,7 @@
 </template>
 
 <script type="text/babel">
-  // import laydate from 'layui-laydate';
-  import laydate from '../laydate/laydate';
+  import laydate from '../laydate/laydate.js';
   import Input from '../../input/index.js';
 
   export default {
@@ -22,12 +21,16 @@
     data: function () {
       return {
         id: 'datepicker_' + new Date().getTime() + parseInt(Math.random() * 100),
-        val: this.value,
+        val: '',
         isfocus: false
       };
     },
     props: {
-      value: '',
+      // value: '',
+      // 开始时间
+      start: '',
+      // 结束时间 - option.range 存在的时候生效
+      end: '',
       placeholder: {
         default: '请选择日期'
       },
@@ -46,21 +49,34 @@
       }
     },
     watch: {
-      value: function (val) {
-        this.val = this.dataFormat(val, this.option.format);
+      start: function (val) {
+        // this.val = this.dataFormat(val, this.option.format);
+        this.countVal();
       }
     },
     computed: {
-      //
+      separator: function () {
+        return this.option.range === true ? ' - ' : (this.option.range ? (' ' + this.option.range + ' ') : '');
+      }
     },
     beforeDestroy: function () {
       //
     },
     mounted: function () {
-      this.val = this.dataFormat(this.value, this.option.format);
+      // this.val = this.dataFormat(this.value, this.option.format);
+      this.countVal();
       this.initLaydate();
     },
     methods: {
+      // 根据start、end计算val
+      countVal: function () {
+        var str = this.dataFormat(this.start, this.option.format);
+
+        if (this.option.range) {
+          str += this.separator + this.dataFormat(this.end, this.option.format);
+        }
+        this.val = str === this.separator ? '' : str;
+      },
       dataFormat: function (date, fmt) {
         if (!date || (date + '' === 'Invalid Date') || new Date(date) + '' === 'Invalid Date' || !fmt) {
           return '';
@@ -100,13 +116,23 @@
           eventElem: _tar + ' .lv-icon-date:not([disabled])',
           trigger: 'click',
           change: function (value, date, endDate) {
-            _this.$emit('input', isNaN(_this.value) ? value : new Date(value).getTime());
+            _this.$emit('input', isNaN(_this.start) ? value : new Date(value).getTime());
           },
           done: function (value, date, endDate) {
             // value 得到日期生成的值，如：2017-08-18
             // date 得到日期时间对象：{year: 2017, month: 8, date: 18, hours: 0, minutes: 0, seconds: 0}
             // endDate 得结束的日期时间对象，开启范围选择（range: true）才会返回。对象成员同上。
-            _this.$emit('input', isNaN(_this.value) ? value : (value ? new Date(value).getTime() : 0));
+            // _this.$emit('input', isNaN(_this.value) ? value : (value ? new Date(value).getTime() : 0));
+            var start = value;
+            var end = '';
+
+            if (_this.option.range) {
+              start = value.split(_this.separator)[0];
+              end = value.split(_this.separator)[1];
+            }
+
+            _this.$emit('update:start', (_this.start === '' || isNaN(_this.start)) ? start : (start ? new Date(start).getTime() : 0));
+            _this.$emit('update:end', (_this.start === '' || isNaN(_this.start)) ? end : (end ? new Date(end).getTime() : 0));
           }
         }));
       }

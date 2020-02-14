@@ -1,24 +1,49 @@
 <!-- 
 功能介绍：
-1、
- -->
+{
+  icon, title, path, children
+}-->
 
 <template>
-  <vperfect-scrollbar class="scroll-sidenar" :settings="settings">
-    <dl class="wrap-sidenar" :id="id">
-      <template v-for="(item,index) in list">
-        <dt :key="'pt_'+index" :class="{'open':openIndexList.indexOf(index)>-1,'active theme-c':$route.path===item.path}" @click="toggle(index)">
-          <slot name="item" :item="item">{{item.title}}</slot>
-          <i class="cicon-arrow-bottom arrow" v-if="item.children&&item.children.length&&!hideArrow"></i>
-        </dt>
-        <div :key="'dpt_'+index" :ref="'dpt_'+index">
-          <dd v-for="(citem,cindex) in item.children" :key="'cld_'+cindex" :class="{'active theme-c':$route.path===citem.path}">
-            <slot name="item" :item="citem">{{citem.title}}</slot>
-          </dd>
-        </div>
-      </template>
-    </dl>
-  </vperfect-scrollbar>
+  <div class="sidenar" :class="{'mix':mix}" :id="id" :style="{'color':color}" @click="turnOffThree">
+    <vperfect-scrollbar class="level-main" :settings="settings" :style="{'backgroundColor':background}">
+      <ul>
+        <template v-for="item in list">
+          <li class="v-center" :key="item.title" :class="{'open':item.open,'active theme-b':currentPath===item.path}" @click.stop="clkItem(item,1)">
+            <div class="v-center">
+              <i v-if="item.icon" :class="item.icon"></i>
+              {{item.title}}
+            </div>
+            <i v-if="item.children&&item.children.length>0" class="lv-icon-arrow-bottom"></i>
+          </li>
+          <!-- 二级 -->
+          <ul :key="item.title+'_sub_ul'" v-if="item.children&&item.children.length>0" :style="{'maxHeight':item.open?(item.children.length*itemHeight+'px'):0}">
+            <li class="v-center" v-for="subItem in item.children" :key="subItem.title+'_sub_li'" :class="{'open':subItem.open,'active theme-b':currentPath===subItem.path}" @click.stop="clkItem(subItem,2)">
+              <div class="v-center">
+                <i v-if="subItem.icon" :class="subItem.icon"></i>
+                {{subItem.title}}
+              </div>
+              <i v-if="subItem.children&&subItem.children.length>0" class="lv-icon-arrow-right"></i>
+            </li>
+          </ul>
+        </template>
+      </ul>
+    </vperfect-scrollbar>
+    <!-- 三级 -->
+    <vperfect-scrollbar class="level-three" :settings="settings" v-if="currentItem&&currentItem.children&&currentItem.children.length>0" :class="{'show':showThreeList}">
+      <ul>
+        <li class="v-center" v-for="item in currentItem.children" :key="item.title+'_three_li'" :class="{'open':item.open,'active theme-b':currentPath===item.path}" @click.stop="clkItem(item,3)">
+          <div class="v-center">
+            <i v-if="item.icon" :class="item.icon"></i>
+            {{item.title}}
+          </div>
+        </li>
+      </ul>
+      <i class="lv-icon-list-l" @click="turnOffThree"></i>
+    </vperfect-scrollbar>
+    <!-- 最小化开关 -->
+    <i class="swith lv-icon-list-l theme-b" v-if="showMix" @click="mix=!mix"></i>
+  </div>
 </template>
 
 <script type="text/babel">
@@ -36,17 +61,37 @@
           return [];
         }
       },
-      // 是否可以展开多个
-      showMult: {
+      // 是否展开所有
+      openAll: {
+        type: Boolean,
+        default: false
+      },
+      // 显示箭头
+      showArrow: {
+        type: Boolean,
         default: true
       },
-      // 是否展开所有
-      showAll: {
+      // 显示最小化按钮
+      showMix: {
+        type: Boolean,
+        default: true
+      },
+      // 跳转类型 hash|href
+      type: {
+        default: 'hash'
+      },
+      // 是否继承地址栏参数
+      forward: {
+        type: Boolean,
         default: false
       },
-      // 隐藏箭头
-      hideArrow: {
-        default: false
+      // 文本色
+      color: {
+        default: ''
+      },
+      // 背景色
+      background: {
+        default: ''
       }
     },
     data: function () {
@@ -55,112 +100,259 @@
         settings: {
           wheelSpeed: 0.5
         },
-        openIndexList: []
+        // 显示、隐藏第三层
+        showThreeList: '',
+        // 行高
+        itemHeight: 0,
+        // 当前选中的二级项
+        currentItem: '',
+        // 最小化显示
+        mix: false
       };
+    },
+    computed: {
+      // 当前路由地址
+      currentPath: function () {
+        return this.$route.path;
+      }
     },
     watch: {
       $route: function (to, from) {
-        this.watchRoute();
+        this.openNodeByRoute();
       }
     },
     mounted: function () {
-      this.watchRoute();
-      if (this.showMult && this.showAll) {
-        // 显示所有子项
-        this.openIndexList = (function (_this) {
-          var arr = [];
-          
-          _this.list.forEach(function (element, index) {
-            arr.push(index);
-          });
-          return arr;
-        }(this));
-      }
+      this.getItemHeight();
+      this.openNodeByRoute();
     },
     methods: {
-      toggle: function (index, from) {
-        if (index >= 0) {
-          var _index = this.openIndexList.indexOf(index);
+      // 行点击
+      clkItem: function (data, level) {
+        this.mix = false;
+        if (data.children && data.children.length > 0) {
+          this.$set(data, 'open', !data.open);
+        }
 
-          if (_index === -1) {
-            if (!this.showMult) {
-              this.openIndexList = [];
-            }
-            this.openIndexList.push(index);
-          } else if (!from) {
-            // 如果是路由过来的，不处理
-            this.openIndexList.splice(_index, 1);
+        if (level === 2) {
+          if (data.open && data.children && data.children.length > 0) {
+            this.turnOnThree(data);
+          } else {
+            this.turnOffThree();
+          }
+        }
+
+        if (data.path) {
+          var paramstr = location.href.split('?')[1];
+          var pth = data.path;
+
+          if (this.forward && paramstr) {
+            pth += '?' + paramstr;
+          }
+          if (this.type === 'href') {
+            location.href = pth;
+          } else {
+            location.hash = pth;
           }
         }
       },
-      watchRoute: function () {
-        var result = '';
-        var rpath = this.$route.path;
+      // 获取行高
+      getItemHeight: function () {
+        var dom = document.getElementById(this.id);
+        var li = dom && dom.querySelector('li');
 
-        for (var i = 0;i < this.list.length;i++) {
-          var item = this.list[i];
+        this.itemHeight = li ? li.offsetHeight : 0;
+      },
+      // 显示第三层
+      turnOnThree: function (data) {
+        this.currentItem = data;
+        this.$nextTick(function () {
+          // 显示第三层
+          this.showThreeList = true;
+          // 箭头开启
+          this.currentItem && (this.currentItem.open = true);
+        });
+      },
+      // 关闭第三层
+      turnOffThree: function () {
+        var _this = this;
 
-          if (JSON.stringify(item).indexOf(rpath) > -1) {
-            result = i;
+        // 隐藏第三层
+        this.showThreeList = false;
+        // 箭头关闭
+        this.currentItem && (this.currentItem.open = false);
+        // 当前节点数据清空
+        setTimeout(function () {
+          _this.currentItem = '';
+        }, 300);
+      },
+      // 根据路由打开对应的节点
+      openNodeByRoute: function () {
+        for (var index = 0;index < this.list.length;index++) {
+          var element = this.list[index];
+
+          if (JSON.stringify(element.children).indexOf(this.currentPath) >= 0) {
+            this.$set(element, 'open', true);
+            if (element.children && element.children.length > 0) {
+              for (var i = 0;i < element.children.length;i++) {
+                var item = element.children[i];
+
+                if (item.children && JSON.stringify(item.children).indexOf(this.currentPath) >= 0) {
+                  this.$set(item, 'open', true);
+                  break;
+                }
+              }
+            }
             break;
           }
-        }
-        this.toggle(result, 'route');
+        } 
       }
     }
   };
 </script>
 
-<style lang="scss">
-  .wrap-sidenar {
-    dt, dd {
-      > *:not(.arrow) {
-        flex: 1;
-      }
-    }
-    [class^=cicon-arrow]:before, [class^=cicon-dbarrow]:before, [class^=cicon-dbarrow]:after {
-      border-width: 1px;
-    }
-  }
-</style>
 <style scoped lang="scss">
-  .scroll-sidenar {
+  .v-center {
+    display: flex;
+    flex-shrink: 0;
+    align-items: center;
+  }
+
+  .sidenar {
+    position: relative;
     width: 100%;
     height: 100%;
-  }
-  .wrap-sidenar {
-    padding: 10px;
-    padding-left: 20px;
+    line-height: initial;
+    font-size: 14px;
     user-select: none;
-    overflow: hidden;
+    transition: width .2s;
+  }
+  .level-main,
+  .level-three {
+    width: 100%;
+    height: 100%;
 
-    dt, dd {
-      display: flex;
-      flex-shrink: 0;
-      align-items: center;
-      justify-content: space-between;
-      line-height: 28px;
-      cursor: pointer;
+    > ul {
+      margin-top: 5px;
+      margin-bottom: 5px;
+    }
+  }
 
-      > .arrow {
-        font-size: 16px;
-        transition: all 0.3s;
+  .level-main {
+    position: relative;
+    z-index: 2;
+  }
+
+  li {
+    padding: 10px;
+    cursor: pointer;
+
+    > div {
+      flex: 1;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      > i {
+        margin-right: 6px;
+        width: 20px;
+        height: 20px;
+        font-size: 18px;
+        line-height: 20px;
+        text-align: center;
       }
     }
-    dd {
-      padding-left: 20px;
+    > i {
+      margin-left: 10px;
+      width: 20px;
+      height: 20px;
+      line-height: 20px;
+      font-size: 14px;
+      text-align: center;
+      transition: transform .2s;
     }
+  }
+  li.open > i {
+    transform: rotateZ(180deg);
+  }
+  li:not(.active):not([disabled]):hover {
+    background-color: rgba(248, 248, 248, 0.2);
+  }
 
-    dt + div {
-      max-height: 0;
+  ul > ul {
+    transition: all .2s;
+    overflow: hidden;
+
+    > li {
+      padding-left: 36px;
+    }
+    > li.open {
+      color: #555;
+      background-color: #d8d8d8;
+    }
+  }
+
+  // 三级
+  .level-three {
+    position: absolute;
+    top: 0;
+    left: 0%;
+    width: 100%;
+    height: 100%;
+    z-index: 1;
+    transition: left .3s;
+    color: #666;
+    background-color: #d8d8d8;
+
+    .lv-icon-list-l {
+      position: absolute;
+      top: 0;
+      right: 0;
+      bottom: 0;
+      margin: auto;
+      padding-left: 2px;
+      width: 22px;
+      height: 22px;
+      font-size: 22px;
+      text-align: right;
+      cursor: pointer;
       overflow: hidden;
-      transition: all .3s ease-in-out;
     }
-    dt.open + div {
-      max-height: 1000px;
+  }
+  .level-three.show {
+    left: 100%;
+  }
+
+  // 最小化开关
+  .swith {
+    position: absolute;
+    top: 0;
+    right: -40px;
+    width: 40px;
+    height: 40px;
+    line-height: 40px;
+    text-align: center;
+    cursor: pointer;
+    font-size: 20px;
+  }
+  .swith:before {
+    display: block;
+    transition: transform .3s;
+  }
+  .swith:hover {
+    opacity: .9;
+  }
+
+  // 最小化显示
+  .sidenar.mix {
+    width: 42px;
+
+    ul > ul,
+    .lv-icon-arrow-bottom,
+    .lv-icon-arrow-right {
+      display: none;
     }
-    dt.open > .arrow {
-      transform: rotate(270deg);
+    
+    .swith:before {
+      transform: rotateZ(180deg);
     }
   }
 </style>

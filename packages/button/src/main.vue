@@ -34,7 +34,7 @@
       };
     },
     props: {
-      // 主题：primary|success|info|warning|error|line|simple
+      // 主题：primary|success|info|warning|danger|line|simple
       theme: '',
       // 禁用
       disabled: {
@@ -63,12 +63,16 @@
         default: false
       },
       // 图标
-      icon: ''
-    },
-    watch: {},
-    computed: {},
-    beforeDestroy: function () {
-      // 
+      icon: '',
+      // 选择文件后的回调,需要return文件数组
+      selectFile: {
+        type: Function,
+        default: function () {
+          return function (files) {
+            return files;
+          };
+        }
+      }
     },
     mounted: function () {
       // 初始化剪贴板
@@ -125,32 +129,47 @@
         }
       },
       fileChange: function (e) {
-        let el = e.target;
-        let files = [];
+        var _this = this;
+        var el = e.target;
+        var files = [];
 
         if (el.files) {
-          for (let i = 0;i < el.files.length;i++) {
-            let file = el.files[i];
-            let name = file.webkitRelativePath || file.relativePath || file.name;
-            let suffix = (name && name.split('.').length > 1) ? (name.split('.')[name.split('.').length - 1]) : '';
+          // 添加_id属性
+          for (var j = 0;j < el.files.length;j++) {
+            var f = el.files[j];
+            var n = f.webkitRelativePath || f.relativePath || f.name;
 
-            files.push({
-              size: file.size,
-              name: name,
-              type: file.type,
-              suffix: suffix,
-              file,
-              el
-            });
+            el.files[j]._id = n + '_' + f.size;
+          }
+          
+          var newFiles = this.selectFile(el.files);
+
+          if (newFiles && newFiles.length > 0) {
+            for (var i = 0;i < newFiles.length;i++) {
+              var file = newFiles[i];
+              var name = file.webkitRelativePath || file.relativePath || file.name;
+              var suffix = (name && name.split('.').length > 1) ? (name.split('.')[name.split('.').length - 1]) : '';
+
+              files.push({
+                _id: name + '_' + file.size,
+                size: file.size,
+                name: name,
+                type: file.type,
+                suffix: suffix,
+                file,
+                el
+              });
+            }
+            for (var index = 0;index < newFiles.length;index++) {
+              _this.upLoadFile(newFiles[index]);
+            }
           }
         }
-        this.upLoadFile(el.files);
-        this.$emit('select-file', files);
         // 清除input记录
         el.value = '';
       },
-      upLoadFile: function (files) {
-        if (this.file.uploadUrl && files && files.length > 0) {
+      upLoadFile: function (file) {
+        if (this.file.uploadUrl && file) {
           var _this = this;
           var formData = new FormData();
           var request = new XMLHttpRequest();
@@ -159,26 +178,28 @@
           var fData = this.file.formData || {};
           var timeout = 30000;
           var timer = '';
+          var _file = { _id: file.name + '_' + file.size, name: file.name, size: file.size, type: file.type };
           
           // 上传进度
           request.onprogress = function (event) {
-            if (event.lengthComputable) {
-              _this.$emit('upload-progress', event.loaded / event.total);
+            if (event.lengthComputable && event.currentTarget.status === 200) {
+              _this.$emit('upload-progress', _file, event.loaded / event.total);
             }
           };
 
           request.open('post', this.file.uploadUrl, true);
 
           // 设置请求头
-          request.setRequestHeader('Content-Type', 'multipart/form-data');
+          // request.setRequestHeader('Content-Type', 'multipart/form-data');
           for (let key in header) {
             request.setRequestHeader(key, header[key]);
           }
 
           // 设置请求参数
-          for (let i = 0;i < files.length;i++) {
-            formData.append(fileFormName, files[i], files[i].name);
-          }
+          // for (let i = 0;i < files.length;i++) {
+          // _files.push({ _id: files[i].name + '_' + files[i].size, name: files[i].name, size: files[i].size, type: files[i].type });
+          formData.append(fileFormName, file, file.name);
+          // }
           for (let key in fData) {
             formData.append(key, fData[key]);
           }
@@ -202,9 +223,11 @@
                 } catch (error) {
                   result = request.response;
                 }
-                _this.$emit('upload-success', result);
+                _this.$emit('upload-success', _file, result);
               } else {
-                _this.$emit('upload-error', request.status);
+                setTimeout(function () {
+                  _this.$emit('upload-error', _file, request.status);
+                }, 500);
               }
             }
           };
@@ -246,6 +269,7 @@
     }
     > i {
       display: inline-block;
+      font-size: 18px;
     }
   }
   .button.primary {
@@ -269,7 +293,8 @@
     background-color: #fff;
   }
   .button.simple {
-    padding: 0;
+    padding-left: 0;
+    padding-right: 0;
     color: inherit;
     background-color: transparent;
   }

@@ -7,9 +7,7 @@
       <span slot="title" v-text="optionConfirm.headText"></span>
       <span slot="content" v-html="optionConfirm.content"></span>
     </confirm>
-    <prompt v-bind="optionPrompt" v-model="optionPrompt.show">
-      <span slot="title" v-html="optionPrompt.heading"></span>
-    </prompt>
+    <prompt v-model="optionPrompt.show" :headText="optionPrompt.headText" :modal="optionPrompt.modal" :esc="optionPrompt.esc" :modalClick="optionPrompt.modalClick" :align="optionPrompt.align" :label="optionPrompt.label" :maxlength="optionPrompt.maxlength" :placeholder="optionPrompt.placeholder" :initVal="optionPrompt.initVal" :buttons="optionPrompt.buttons" :callback="optionPrompt.callback"></prompt>
   </div>
 </template>
 
@@ -36,23 +34,7 @@
           close: ''
         },
         optionPrompt: {
-          show: false,
-          modal: true,
-          heading: '标题',
-          stl: {
-            footer: {
-              // left|center|right
-              'text-align': 'right'
-            }
-          },
-          buttons: [{
-            text: '取消',
-            // primary|success|info|warning|danger|#f56c6c
-            theme: 'line'
-          }, {
-            text: '确认',
-            theme: 'success'
-          }]
+          show: false
         },
         optionConfirm: {
           show: false,
@@ -71,6 +53,7 @@
         _this.optionConfirm = Object.assign(_this.optionConfirm, option);
       };
       Vue.prototype.$prompt = function (option) {
+        console.log('==prompt==', option);
         _this.optionPrompt = Object.assign(_this.optionPrompt, option);
       };
     },

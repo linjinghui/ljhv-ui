@@ -48,6 +48,11 @@
         type: Boolean,
         default: false
       },
+      // esc 关闭
+      esc: {
+        type: Boolean,
+        default: true
+      },
       // 是否模态，即是否产生遮罩效果
       modal: {
         type: Boolean,
@@ -104,7 +109,7 @@
         let e = event || window.event;
         let keyCode = e.keyCode;
 
-        if (keyCode === 27 && this.value) {
+        if (this.esc && keyCode === 27 && this.value) {
           this.clk_hide();
         }
       },

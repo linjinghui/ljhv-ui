@@ -4,99 +4,108 @@
  -->
 
 <template>
-  <!-- <cmp-confirm v-bind="option" v-model="option.show"> -->
-  <cmp-confirm v-model="show" :modal="modal" :stl="stl" :buttons="buttons" :callback="cbkClk">
-    <template slot="title">
-      <slot name="title"></slot>
-    </template>
-    <span slot="content">
-      <cmp-input v-model="text" type="text" :maxlength="maxlength" :placeholder="placeholder" autofocus="true" @enter="cbk_enter"></cmp-input>
-    </span>
-  </cmp-confirm>
+  <lv-dialog v-model="pshow" :modal="modal" :esc="esc" :align="align" :modalClick="modalClick" :headText="headText" :buttons="buttons" @callback="dlgCallback">
+    <lv-input slot="main" :autofocus="true" v-model="iptValue" :maxlength="maxlength" :placeholder="placeholder">
+      <p slot="left" style="padding:0 10px;" v-if="label">{{label}}</p>
+    </lv-input>
+  </lv-dialog>
 </template>
 
 <script type="text/babel">
-  import Confirm from '../../confirm/src/confirm.vue';
-  import Input from '../../input/index.js';
+  import Dialog from '../../dialog/src/main';
+  import Input from '../../input/src/main';
 
   export default {
     name: 'Prompt',
     components: {
-      'cmpConfirm': Confirm,
-      'cmpInput': Input
+      lvDialog: Dialog,
+      lvInput: Input
     },
     data: function () {
       return {
-        id: 'pmp_' + new Date().getTime() + parseInt(Math.random() * 100),
-        text: this.initText,
-        show: this.value
+        pshow: this.value,
+        iptValue: this.initVal
       };
     },
     props: {
-      value: '',
+      value: {
+        type: Boolean,
+        default: false
+      },
       // 是否模态，即是否产生遮罩效果
       modal: {
+        type: Boolean,
         default: true
       },
-      // 初始文本
-      initText: {
-        default: ''
+      // esc关闭弹窗
+      esc: {
+        type: Boolean,
+        default: true
       },
-      placeholder: '',
-      maxlength: '',
-      // error|success|warning
-      type: '',
-      stl: '',
-      buttons: '',
+      // 点击遮罩关闭窗口
+      modalClick: {
+        type: Boolean,
+        default: false
+      },
+      // left|center
+      align: {
+        default: 'left'
+      },
+      // 标题
+      headText: ' ',
+      buttons: {
+        type: Array,
+        default: function () {
+          return [{
+            theme: 'line',
+            text: '取消'
+          }, {
+            text: '确定'
+          }];
+        }
+      },
       callback: {
         type: Function,
-        default: function (data) {
+        default: function () {
           return function () {
             // 
           };
         }
+      },
+
+      // 输入框参数
+      label: '',
+      maxlength: '',
+      placeholder: '',
+      initVal: {
+        default: ''
       }
     },
     watch: {
       value: function (val) {
-        this.show = val;
+        this.pshow = val;
       },
-      show: function (val) {
+      pshow: function (val) {
         this.$emit('input', val);
-        if (val) {
-          this.text = this.initText;
+        if (!val) {
+          this.iptValue = '';
         }
+      },
+      initVal: function (val) {
+        this.iptValue = val;
       }
-      // initText: function (val) {
-      //   this.text = val;
-      // }
-    },
-    computed: {
-      // 
-    },
-    beforeDestroy: function () {
-      // 
     },
     mounted: function () {
       // 
     },
     methods: {
-      cbk_enter: function () {
-        this.callback({
-          'type': 'enter',
-          'value': this.text
-        });
-        // this.text = '';
-      },
-      cbkClk: function (data) {
-        data.value = this.text;
-        this.callback(data);
-        // this.text = '';
+      dlgCallback: function (data) {
+        this.callback(data, this.iptValue);
       }
     }
   };
 </script>
 
 <style scoped lang="scss">
-  // 
+  .wrap-confirm {}
 </style>

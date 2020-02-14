@@ -1,0 +1,79 @@
+{
+  "id": "1638896",
+  "name": "数字",
+  "font_family": "iconfont",
+  "css_prefix_text": "icon",
+  "description": "",
+  "glyphs": [
+    {
+      "icon_id": "475322",
+      "name": "数字0",
+      "font_class": "-number-0",
+      "unicode": "e62c",
+      "unicode_decimal": 58924
+    },
+    {
+      "icon_id": "475323",
+      "name": "数字1",
+      "font_class": "-number-1",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "475324",
+      "name": "数字2",
+      "font_class": "-number-2",
+      "unicode": "e62e",
+      "unicode_decimal": 58926
+    },
+    {
+      "icon_id": "475325",
+      "name": "数字3",
+      "font_class": "-number-3",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "475326",
+      "name": "数字4",
+      "font_class": "-number-4",
+      "unicode": "e630",
+      "unicode_decimal": 58928
+    },
+    {
+      "icon_id": "475327",
+      "name": "数字5",
+      "font_class": "-number-5",
+      "unicode": "e631",
+      "unicode_decimal": 58929
+    },
+    {
+      "icon_id": "475328",
+      "name": "数字6",
+      "font_class": "-number-6",
+      "unicode": "e632",
+      "unicode_decimal": 58930
+    },
+    {
+      "icon_id": "475329",
+      "name": "数字7",
+      "font_class": "-number-7",
+      "unicode": "e633",
+      "unicode_decimal": 58931
+    },
+    {
+      "icon_id": "475330",
+      "name": "数字8",
+      "font_class": "-number-8",
+      "unicode": "e634",
+      "unicode_decimal": 58932
+    },
+    {
+      "icon_id": "475331",
+      "name": "数字9",
+      "font_class": "-number-9",
+      "unicode": "e635",
+      "unicode_decimal": 58933
+    }
+  ]
+}

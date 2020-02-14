@@ -42,10 +42,11 @@ app.get('/', (req, res) => {
 });
 
 // nginx 代理开始
-// app.use('/api', proxy('/api', {
-//   target: 'http://127.0.0.1:5001',
-//   changeOrigoin: true
-// }));
+app.use('/api', proxy('/api', {
+  target: 'http://114.115.200.40:9047',
+  changeOrigoin: true
+}));
+
 const apiProxy2 = proxy('/apiorgan', {
   target: 'http://114.115.200.40:9025',
   changeOrigin: true

@@ -34,6 +34,16 @@ const Sidenav = () => import('./ui/sidenav.vue');
 const Rule = () => import('./ui/rule.vue');
 const Navlist = () => import('./ui/navlist.vue');
 const Slidercode = () => import('./ui/slidercode.vue');
+const Tree = () => import('./ui/tree.vue');
+const Breadcrumbs = () => import('./ui/breadcrumbs.vue');
+const Routrecord = () => import('./ui/routrecord.vue');
+const Select = () => import('./ui/select.vue');
+const Form = () => import('./ui/form.vue');
+const Upload = () => import('./ui/upload.vue');
+const Prompt = () => import('./ui/prompt.vue');
+const Weather = () => import('./ui/weather.vue');
+const Numberkey = () => import('./ui/numberkey.vue');
+const Lock = () => import('./ui/lock.vue');
 
 Vue.use(Router);
 
@@ -210,6 +220,56 @@ export default new Router({
           path: '/slidercode',
           name: 'slidercode',
           component: Slidercode
+        },
+        {
+          path: '/tree',
+          name: 'tree',
+          component: Tree
+        },
+        {
+          path: '/breadcrumbs',
+          name: 'breadcrumbs',
+          component: Breadcrumbs
+        },
+        {
+          path: '/routrecord',
+          name: '路由记录',
+          component: Routrecord
+        },
+        {
+          path: '/select',
+          name: '选择器',
+          component: Select
+        },
+        {
+          path: '/form',
+          name: '表单',
+          component: Form
+        },
+        {
+          path: '/upload',
+          name: '上传文件',
+          component: Upload
+        },
+        {
+          path: '/prompt',
+          name: '弹窗输入',
+          component: Prompt
+        },
+        {
+          path: '/weather',
+          name: '天气预报',
+          component: Weather
+        },
+        {
+          path: '/numberkey',
+          name: '数字键盘',
+          component: Numberkey
+        },
+        {
+          path: '/lock',
+          name: '锁屏',
+          component: Lock
         }
       ]
     }

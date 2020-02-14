@@ -3,7 +3,7 @@ import './style/main.css';
 import store from './store';
 import router from './router';
 import App from './App';
-import directives from './directives';
+// import directives from './directives';
 import {Loading, Tip, Confirm, Prompt} from '../packages/index.js';
 import vueHljs from 'vue-hljs';
 import 'vue-hljs/dist/vue-hljs.min.css';

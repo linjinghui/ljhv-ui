@@ -6,36 +6,36 @@
         LV-WEB-UI 使用文档
       </h1>
     </header>
-    <nav>
-      <lv-sidenav :list="navData" :showAll="true" :showMult="true" :hideArrow="false">
-        <router-link slot="item" slot-scope="props" :to="props.item.path" v-if="props.item.path">{{props.item.title}}</router-link>
-      </lv-sidenav>
-    </nav>
+    <lv-sidenav class="nav" :list="navData" :showAll="true" :showMult="true" :hideArrow="false" background="#545c64" color="#fff"></lv-sidenav>
     <section>
+      <lv-routrecord style="margin-left:100px;"></lv-routrecord>
       <router-view></router-view>
     </section>
   </div>
 </template>
 
 <script>
-  import {Sidenav} from '../../../packages/index.js';
+  import {Sidenav, Routrecord} from '../../../packages/index.js';
   
   export default {
     name: 'Index',
     components: {
-      lvSidenav: Sidenav
+      lvSidenav: Sidenav,
+      lvRoutrecord: Routrecord
     },
     data () {
       return {
         navData: [
           {
+            icon: 'lv-icon-ewm', 
             title: '开始',
             children: [
               { title: '快速上手', path: '/start' },
-              { title: '更新日志', path: '/log' }
+              { title: '更新日志', path: '', children: [{ title: '快手', path: '/ks', icon: 'lv-icon-ewm' }, { title: '更志', path: '/gz', icon: 'lv-icon-date' }] }
             ]
           },
           {
+            icon: 'lv-icon-ewm', 
             title: '全局组件',
             children: [
               { title: '全局设置', path: '/theme' },
@@ -43,10 +43,12 @@
               { title: '图标', path: '/cicon' },
               { title: '加载中', path: '/loading' },
               { title: '提示框', path: '/tip' },
-              { title: '确认框', path: '/confirm' }
+              { title: '确认框', path: '/confirm' },
+              { title: '弹窗输入框', path: '/prompt' }
             ]
           },
           {
+            icon: 'lv-icon-ewm', 
             title: '表单组件',
             children: [
               { title: '按钮', path: '/button' },
@@ -56,10 +58,13 @@
               { title: '开关', path: '/swith' },
               { title: '下拉框', path: '/dropmenu' },
               { title: '日期选择器', path: '/datepicker' },
-              { title: '文本域', path: '/textarea' }
+              { title: '文本域', path: '/textarea' },
+              { title: '上传文件', path: '/upload' },
+              { title: '表单', path: '/form' }
             ]
           },
           {
+            icon: 'lv-icon-ewm', 
             title: '组件',
             children: [
               { title: '表格', path: '/table' },
@@ -76,22 +81,19 @@
               { title: '加载更多', path: '/loadmore' },
               { title: '侧边导航', path: '/sidenav' },
               { title: '刻度尺', path: '/rule' },
-              { title: '滑块验证码', path: '/slidercode' }
+              { title: '滑块验证码', path: '/slidercode' },
+              { title: '树形', path: '/tree' },
+              { title: '面包屑', path: '/breadcrumbs' },
+              { title: '路由记录', path: '/routrecord' },
+              { title: '选择器', path: '/select' },
+              // { title: '天气预报-未实现', path: '/weather' },
+              { title: '数字键盘', path: '/numberkey' },
+              { title: '锁屏', path: '/lock' }
             ]
           }
         ]
       };
-    },
-    watch: {
-      $route (to, from) {
-        console.log(to.name);
-        console.log(from);
-      }
-    },
-    mounted: function () {
-      // 
-    },
-    methods: {}
+    }
   };
 </script>
 
@@ -178,21 +180,11 @@
       }
     }
 
-    > nav {
+    > .nav {
       float: left;
       // padding-left: 20px;
       width: 220px;
       height: calc(100% - 60px);
-      // line-height: 28px;
-      overflow: auto;
-
-      > dl {
-        margin-top: 10px;
-        > dd {
-          padding-left: 10px;
-          cursor: pointer;
-        }
-      }
     }
 
     > section {

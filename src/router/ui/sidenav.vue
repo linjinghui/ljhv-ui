@@ -12,35 +12,29 @@ Vue.component('lvSidenav', Sidenav);</code></pre>
       <dd><h3>可根据路由地址自动识别激活项</h3></dd>
       <dd class="example">
         <section v-highlight>
-           <pre><code>// list 列表数据，格式：[{title: '导航名称', path: '跳转地址', children: ''}]
-// showAll: 是否显示所有节点
-// showMult: 是否展开多个节点
-// hideArrow: 是否隐藏箭头
-&lt;lv-sidenav :list="navData" :showAll="false" :showMult="true" :hideArrow="false"&gt;&lt;/lv-sidenav&gt;
-&lt;script type="text/babel"&gt;
-export default {
-  data () {
-    return {
-      navData: [{
-        title: '开始',
-        children: [
-          { title: '快速上手', path: '/start' },
-          { title: '更新日志', path: '/log' }
-        ]
-      }]
-    };
-  },
-  methods: {
-    xxx () {}
-  }
-}
-&lt;/script&gt;</code></pre>
+           <pre><code v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
           <div style="width:240px;height:400px;border:solid 1px;">
-            <lv-sidenav :list="navData" :showAll="false" :showMult="true" :hideArrow="false"></lv-sidenav>
+            <lv-sidenav background="red" color="#fff" :list="navData" :showAll="false" :showMult="true" :hideArrow="false"></lv-sidenav>
           </div>
         </section>
+      </dd>
+    </dl>
+    <dl>
+      <dd><h3>参数说明</h3></dd>
+      <dd class="attribute">
+        <table>
+          <tr><td>参数</td><td>说明</td><td>必填</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>list</td><td>导航列表数据</td><td>是</td><td>array</td><td>-</td><td>{icon, title, path, children}</td></tr>
+          <tr><td>openAll</td><td>是否打开所有</td><td>-</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>showArrow</td><td>是否显示箭头</td><td>-</td><td>boolean</td><td>-</td><td>true</td></tr>
+          <tr><td>showMix</td><td>是否显示最小化按钮</td><td>-</td><td>boolean</td><td>-</td><td>true</td></tr>
+          <tr><td>forward</td><td>是否继承地址栏参数</td><td>-</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>type</td><td>跳转类型</td><td>是</td><td>string</td><td>hash|href</td><td>hash</td></tr>
+          <tr><td>color</td><td>文本色</td><td>-</td><td>色值(#333|red|rgba)</td><td>-</td><td>-</td></tr>
+          <tr><td>background</td><td>背景色</td><td>-</td><td>色值(#333|red|rgba)</td><td>-</td><td>-</td></tr>
+        </table>
       </dd>
     </dl>
   </div>
@@ -56,12 +50,13 @@ export default {
     },
     data () {
       return {
+        code: '',
         navData: [
           {
             title: '开始',
             children: [
-              { title: '快速上手', path: '/start' },
-              { title: '更新日志', path: '/log' }
+              { title: '快速上手', path: '/start', icon: 'lv-icon-ewm' },
+              { title: '更新日志', path: '', icon: 'lv-icon-date', children: [{ title: '快手', path: '/ks', icon: 'lv-icon-ewm' }, { title: '更志', path: '/gz', icon: 'lv-icon-date' }] }
             ]
           },
           {
@@ -111,12 +106,7 @@ export default {
       };
     },
     mounted: function () {
-      // 
-    },
-    methods: {
-      parseHtmlStr (htmlstr) {
-        console.log(htmlstr.replace(/</g, '&lt;').replace(/>/g, '&gt;'));
-      }
+      this.code = '<lv-sidenav background="red" color="#fff" :list="navData" :showAll="false" :showMult="true" :hideArrow="false"></lv-sidenav>';
     }
   };
 </script>

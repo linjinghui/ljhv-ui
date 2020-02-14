@@ -15,7 +15,8 @@ Vue.component('lvLaydate', Laydate);</code></pre>
            <pre><code v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-date-picker v-model="startDate" placeholder="请选择日期" :disabled="false" :option="option"></lv-date-picker>
+          <!-- <lv-date-picker v-model="startDate" placeholder="请选择日期" :disabled="false" :option="option"></lv-date-picker> -->
+          <lv-date-picker :start.sync="startDate" :end.sync="endDate" placeholder="请选择日期" :disabled="false" :option="option"></lv-date-picker>
         </section>
       </dd>
     </dl>
@@ -45,17 +46,22 @@ Vue.component('lvLaydate', Laydate);</code></pre>
     watch: {
       startDate: function (val) {
         console.log('startDate=', this.startDate);
+      },
+      endDate: function (val) {
+        console.log('endDate=', this.endDate);
       }
     },
     data () {
       return {
         code: '',
         // startDate: '2020-03-01 11:13:11',
-        startDate: new Date().getTime(),
+        // endDate: '2020-03-13 21:13:11',
+        startDate: 0,
+        endDate: 0,
         option: {
           // year month time date datetime
           type: 'datetime',
-          // 范围选择
+          // 范围选择 '至'
           range: false,
           // 日期匹配
           format: 'yyyy-MM-dd HH:mm:ss'

@@ -70,7 +70,7 @@
                 result.splice(index, 1);
               }
             } else {
-              result = _this.val;
+              result = _this.selected ? '' : _this.val;
             }
             _this.$emit('input', result);
           });
@@ -86,6 +86,7 @@
     display: inline-flex;
     flex-shrink: 0;
     align-items: center;
+    margin-top: 5px;
     margin-right: 10px;
     line-height: 1;
     user-select: none;
