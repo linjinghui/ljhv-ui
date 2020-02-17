@@ -44,6 +44,7 @@ const Prompt = () => import('./ui/prompt.vue');
 const Weather = () => import('./ui/weather.vue');
 const Numberkey = () => import('./ui/numberkey.vue');
 const Lock = () => import('./ui/lock.vue');
+const Video = () => import('./ui/video.vue');
 
 Vue.use(Router);
 
@@ -270,6 +271,11 @@ export default new Router({
           path: '/lock',
           name: '锁屏',
           component: Lock
+        },
+        {
+          path: '/video',
+          name: '视频播放器',
+          component: Video
         }
       ]
     }

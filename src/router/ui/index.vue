@@ -88,7 +88,8 @@
               { title: '选择器', path: '/select' },
               // { title: '天气预报-未实现', path: '/weather' },
               { title: '数字键盘', path: '/numberkey' },
-              { title: '锁屏', path: '/lock' }
+              { title: '锁屏', path: '/lock' },
+              { title: '视频播放器', path: '/video' }
             ]
           }
         ]

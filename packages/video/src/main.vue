@@ -9,9 +9,9 @@ https://github.com/niandeng-ckplayer/chplayer
     <div class="wrap-video" :style="{'z-index': zIndex + 1}" v-if="value!==''" v-show="value">
       <header>
         <span>{{title}}</span>
-        <i class="cicon-cross-cpt-chr" @click="clkClose"></i>
+        <i class="lv-icon-x" @click="clkClose"></i>
       </header>
-      <section :id="id"></section>
+      <section :id="id" class="theme-c"></section>
     </div>
   </transition>
 </template>
@@ -23,12 +23,12 @@ https://github.com/niandeng-ckplayer/chplayer
     name: 'Video',
     data: function () {
       var id = 'vdo_' + new Date().getTime() + parseInt(Math.random() * 100);
-
+      
       return {
         id: id,
         player: '',
         zIndex: 1000,
-        option: {
+        opt: {
           // 容器的ID或className
           container: '#' + id,
           variable: 'player',
@@ -102,7 +102,7 @@ https://github.com/niandeng-ckplayer/chplayer
         default: true
       },
       title: '',
-      opt: {
+      option: {
         default: function () {
           return {};
         }
@@ -119,7 +119,6 @@ https://github.com/niandeng-ckplayer/chplayer
           this.creatZz();
         } else {
           this.removeZz();
-          // this.player.stop();
           this.player.pause();
         }
       },
@@ -141,14 +140,17 @@ https://github.com/niandeng-ckplayer/chplayer
     },
     methods: {
       initPlayer: function () {
+        var dom = document.getElementById(this.id);
         var Chplayer = window.chplayer;
+        var theme = dom && getComputedStyle(dom, null)['color'];
         
-        this.player = new Chplayer(Object.assign(this.option, this.opt));
+        !this.opt.theme && theme && (this.opt.theme = theme);
+        this.player = new Chplayer(Object.assign(this.opt, this.option));
       },
       changeVideo: function (videoUrl) {
         if (this.player) {
           var Chplayer = window.chplayer;
-          var newVideoObject = Object.assign(this.option, this.opt);
+          var newVideoObject = Object.assign(this.opt, this.option);
 
           if (this.player.playerType === 'html5video') {
             if (/\.(flv|m3u8|f4v|rtmp)/g.test(JSON.stringify(videoUrl))) {
@@ -217,7 +219,7 @@ https://github.com/niandeng-ckplayer/chplayer
         color: #333;
       }
 
-      > .cicon-cross-cpt-chr {
+      > .lv-icon-x {
         float: right;
         margin-top: 7.5px;
         margin-right: 7.5px;

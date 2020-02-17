@@ -56,6 +56,7 @@
 		},
 		//全局变量/变量类型：Object/功能：播放器默认配置，在外部传递过来相应配置后，则进行相关替换
 		varsConfig: {
+			theme: '#0782F5',
 			container: '', //视频容器的ID
 			variable: 'chplayer', //播放函数(变量)名称
 			volume: 0.8, //默认音量，范围0-1
@@ -674,7 +675,8 @@
 			var bWidth = 38, //按钮的宽
 				bHeight = 38; //按钮的高
 			var bBgColor = '#FFFFFF', //按钮元素默认颜色
-				bOverColor = '#0782F5'; //按钮元素鼠标经过时的颜色
+				bOverColor = this.vars['theme'];
+				// bOverColor = '#0782F5'; //按钮元素鼠标经过时的颜色
 			var timeInto = '00:00 / 00:00'; //时间显示框默认显示内容
 			var randomS = this.randomString(10); //获取一个随机字符串
 			/*
@@ -2284,7 +2286,8 @@
 				for(var i = 0; i < pArr.length; i++) {
 					var fontColor = '#FFFFFF';
 					if(pArr[i].innerHTML == nowD) {
-						fontColor = '#0782F5';
+						fontColor = this.vars['theme'];
+						// fontColor = '#0782F5';
 					}
 					this.css(pArr[i], {
 						color: fontColor,
