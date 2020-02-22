@@ -11,7 +11,7 @@
 </template>
 
 <script type="text/babel">
-  import Dialog from '../../dialog/src/main';
+  import Dialog from '../../dialog/index.js';
 
   export default {
     name: 'Confirm',

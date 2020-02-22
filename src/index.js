@@ -4,7 +4,7 @@ import store from './store';
 import router from './router';
 import App from './App';
 // import directives from './directives';
-import {Loading, Tip, Confirm, Prompt} from '../packages/index.js';
+import {Loading, Confirm, Prompt} from '../packages/index.js';
 import vueHljs from 'vue-hljs';
 import 'vue-hljs/dist/vue-hljs.min.css';
 import VConsole from 'vconsole';
@@ -17,11 +17,12 @@ Vue.use(vueHljs);
 
 // 用于组件通信
 Vue.prototype.$eventbus = new Vue();
-window.EVENTBUS = new Vue();
 
 Vue.prototype.$store = store;
 
 // 提示框插件
+import '../node_modules/notice.js/dist/noticejs.css';
+import Tip from '../node_modules/notice.js/dist/notice.js';
 Vue.prototype.$tip = function (option) {
   return new Tip(option).show();
 }

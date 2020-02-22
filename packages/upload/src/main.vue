@@ -25,9 +25,9 @@
 </template>
 
 <script type="text/babel">
-  import Button from '../../button/src/main';
-  import Img from '../../img/src/main';
-  import Progress from '../../progress/src/main';
+  import Button from '../../button/index.js';
+  import Img from '../../img/src/main.vue';
+  import Progress from '../../progress/src/main.vue';
 
   export default {
     name: 'Upload',

@@ -18,8 +18,8 @@
 </template>
 
 <script type="text/babel">
-  import Dialog from '../../dialog/src/main';
-  import Input from '../../input/src/main';
+  import Dialog from '../../dialog/src/main.vue';
+  import Input from '../../input/src/main.vue';
 
   export default {
     name: 'Confirm',

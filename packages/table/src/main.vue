@@ -24,7 +24,7 @@
 <script type="text/babel">
   import VuePerfectScrollbar from 'vue-perfect-scrollbar';
   import Sortable from '../sortablejs/Sortable.js';
-  import Pagebar from '../../pagebar/src/main';
+  import Pagebar from '../../pagebar/src/main.vue';
 
   export default {
     name: 'Table',

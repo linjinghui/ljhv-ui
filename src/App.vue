@@ -2,7 +2,6 @@
   <div id="app">
     <router-view></router-view>
     <loading v-model="optionLoading.show" v-bind="optionLoading"></loading>
-    <tip v-model="optionTip.text" v-bind="optionTip"></tip>
     <confirm v-bind="optionConfirm" :value.sync="optionConfirm.show">
       <span slot="title" v-text="optionConfirm.headText"></span>
       <span slot="content" v-html="optionConfirm.content"></span>

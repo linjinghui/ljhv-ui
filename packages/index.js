@@ -20,7 +20,6 @@ import Textarea from './textarea/index';
 import DropMenu from './dropMenu/index';
 import Menu from './menu/index';
 import Cascade from './cascade/index';
-import Tip from './tip/index';
 import Tree from './tree/index';
 import Dialog from './dialog/index';
 import Confirm from './confirm/index';
@@ -29,7 +28,6 @@ import Tab from './tab/index';
 import Editor from './editor/index';
 import Star from './star/index';
 import Breadcrumbs from './breadcrumbs/index';
-// import ImageViewer from './imageViewer/index';
 import Map from './map/index';
 import SwapSort from './swapSort/index';
 import DivEditor from './divEditor/index';
@@ -58,7 +56,7 @@ import Weather from './upload/index';
 import Numberkey from './numberkey/index';
 import Lock from './lock/index';
 
-const components = [Loading, Tip, Confirm, Prompt];
+const components = [Loading, Confirm, Prompt];
 const install = function (Vue) {
   if (install.installed) return;
   components.map(function (component) {
@@ -66,4 +64,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tip, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode, Routrecord, Select, Form, Upload, Weather, Numberkey, Lock};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode, Routrecord, Select, Form, Upload, Weather, Numberkey, Lock};

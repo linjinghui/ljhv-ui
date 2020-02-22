@@ -46,7 +46,7 @@
     },
     methods: {
       clkBtn () {
-        this.$tip({ text: '提示内容11', type: 'success' });
+        this.$tip({ text: '提示内容11提示内容11提示内容11提示内容11提示内容11', timeout: 3, type: 'success', position: 'topCenter', progressBar: false });
       }
     }
   };

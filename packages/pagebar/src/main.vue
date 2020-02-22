@@ -20,8 +20,8 @@
 </template>
 
 <script type="text/babel">
-  import DropMenu from '../../dropMenu/src/main';
-  import Input from '../../input/src/main';
+  import DropMenu from '../../dropMenu/src/main.vue';
+  import Input from '../../input/src/main.vue';
 
   export default {
     name: 'Pagebar',

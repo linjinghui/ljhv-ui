@@ -1,0 +1,14 @@
+@import 'normalize.css';
+/*引入字体图标*/
+@import '../../static/fonts/iconfont.css';
+
+.theme-c {
+  color: #16aa6b;
+}
+.theme-b {
+  color: #fff;
+  background-color: #16aa6b;
+}
+.theme-bc {
+  border-color: #16aa6b;
+}

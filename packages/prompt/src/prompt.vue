@@ -12,8 +12,8 @@
 </template>
 
 <script type="text/babel">
-  import Dialog from '../../dialog/src/main';
-  import Input from '../../input/src/main';
+  import Dialog from '../../dialog/index.js';
+  import Input from '../../input/index.js';
 
   export default {
     name: 'Prompt',

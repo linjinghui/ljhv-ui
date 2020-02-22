@@ -17,9 +17,9 @@
 </template>
 
 <script type="text/babel">
-  import Img from '../../img/src/main';
-  import Numberkey from '../../numberkey/src/main';
-  import Button from '../../button/src/main';
+  import Img from '../../img/src/main.vue';
+  import Numberkey from '../../numberkey/src/main.vue';
+  import Button from '../../button/index.js';
 
   export default {
     name: 'Lock',

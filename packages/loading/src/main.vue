@@ -16,7 +16,7 @@
 </template>
 
 <script type="text/babel">
-  import Mask from '../../mask/src/main';
+  import Mask from '../../mask/src/main.vue';
 
   export default {
     name: 'Loading',
