@@ -9,7 +9,7 @@
  -->
 
 <template>
-  <button class="button" :class="theme||'theme-b'" :id="id" :disabled="disabled" :data-clipboard-text="copyData" @click="clk">
+  <button class="button" :class="theme||'theme-b'" :id="id" :disabled="disabled" :data-clipboard-text="copyData" :style="{'width':width,'height':height}" @click="clk">
     <template v-if="icon">
       <i :class="icon"></i>&nbsp;
     </template>
@@ -36,6 +36,12 @@
     props: {
       // 主题：primary|success|info|warning|danger|line|simple
       theme: '',
+      // 宽
+      width: '',
+      // 高度
+      height: {
+        default: '34px'
+      },
       // 禁用
       disabled: {
         type: Boolean,
@@ -72,6 +78,13 @@
             return files;
           };
         }
+      },
+      // 点击前，需要通过回调callback函数才能执行后续点击功能
+      beforeClick: {
+        type: Function,
+        default: function (callback) {
+          callback();
+        }
       }
     },
     mounted: function () {
@@ -84,35 +97,38 @@
     methods: {
       clk: function (e) {
         let _this = this;
-        
-        this.stop && e.stopPropagation();
-        this.prevent && e.preventDefault();
 
-        if (this.print) {
-          var $ = window.$;
-          // iframe|popup 新窗口打开
-          var mode = 'iframe';
-          var close = true;
-          var extraCss = '';
-          var keepAttr = ['class', 'id', 'style'];
-          var headElements = '<meta charset="utf-8" />,<meta http-equiv="X-UA-Compatible" content="IE=edge"/>';
-          var options = { mode: mode, popClose: close, extraCss: extraCss, retainAttr: keepAttr, extraHead: headElements };
+        _this.beforeClick(function () {
+          _this.stop && e.stopPropagation();
+          _this.prevent && e.preventDefault();
 
-          $(this.print).printArea(options);
-        }
-        this.$emit('click');
-        // 倒计时
-        if (this.disabledDuring > 0) {
-          this.second = this.disabledDuring;
-          this.disabled = true;
-          this.timer = setInterval(function () {
-            _this.second -= 1;
-            if (_this.second <= 0) {
-              clearInterval(_this.timer);
-              _this.disabled = false;
-            }
-          }, 1000);
-        }
+          if (_this.print) {
+            var $ = window.$;
+            // iframe|popup 新窗口打开
+            var mode = 'iframe';
+            var close = true;
+            var extraCss = '';
+            var keepAttr = ['class', 'id', 'style'];
+            var headElements = '<meta charset="utf-8" />,<meta http-equiv="X-UA-Compatible" content="IE=edge"/>';
+            var options = { mode: mode, popClose: close, extraCss: extraCss, retainAttr: keepAttr, extraHead: headElements };
+
+            $(_this.print).printArea(options);
+          }
+          _this.$emit('click');
+          // 倒计时
+          if (_this.disabledDuring > 0) {
+            _this.second = _this.disabledDuring;
+            _this.disabled = true;
+            _this.timer = setInterval(function () {
+              _this.second -= 1;
+              if (_this.second <= 0) {
+                clearInterval(_this.timer);
+                _this.disabled = false;
+              }
+            }, 1000);
+          }
+
+        });
       },
       initCopy: function () {
         let _this = this;
@@ -246,7 +262,7 @@
     flex-shrink: 0;
     align-items: center;
     justify-content: center;
-    padding: 4px 15px;
+    padding: 0px 15px;
     color: #fff;
     font-size: 14px;
     text-decoration: none;

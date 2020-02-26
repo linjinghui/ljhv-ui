@@ -24,6 +24,12 @@
       height: {
         default: 155
       },
+      cw: {
+        default: 60
+      },
+      ch: {
+        default: 60
+      },
       // 指定背景图片地址
       imgUrl: {
         default: ''
@@ -33,10 +39,9 @@
       var _this = this;
 
       imgCaptcha(this.id, {
-        // 'https://ss0.bdstatic.com/70cFuHSh_Q1YnxGkpoWK1HF6hhy/it/u=2353873632,2644143944&fm=26&gp=0.jpg', 'http://gss0.baidu.com/-Po3dSag_xI4khGko9WTAnF6hhy/zhidao/pic/item/a50f4bfbfbedab6448bfd164f736afc378311e40.jpg'
         imgurl: [this.imgUrl],
-        cw: 80,
-        ch: 80,
+        cw: this.cw,
+        ch: this.ch,
         onSuccess: function () {
           _this.$emit('success');
         },
@@ -44,9 +49,6 @@
           _this.$emit('error');
         }
       });
-    },
-    methods: {
-      
     }
   };
 </script>

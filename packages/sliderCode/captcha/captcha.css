@@ -78,7 +78,8 @@
     top: 0;
     left: 0px;
     background-color: #1296db;
-    background-image: url(./icon/slider.png);
+    /* background-image: url(./icon/slider.png); */
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAwCAYAAABXAvmHAAAA7UlEQVRoge2ZQRWDMBQEkYCESEACDkACDooDcFIc1AIOwAk4mB6aQ0vTDwmvh77u3mffTpJbskxRvhsgBy5AB1QRnPNMB7gIrvLMBciTRj+VFcDCa64HuIb3NAe424ZZgOKMwBQYYo7xJ/8pzuBC0gBT6vjcGDIkDNkTHwwu/ikBpVE4GlxvcL3BjQZXSkACEpCABCQgAQlIQAISkIAEJCABCUhAAhKQgAQkIAEJ/IXAb38x+dI5YYgzhrgE8TlpvC8tgHVTOBzgQmOaA9z2FlbOfLP60hxoebztOoJznumtkw9wtWdazn50K8p+7jWphoF7KfsaAAAAAElFTkSuQmCC);
     background-position: center;
     background-repeat: no-repeat;
     background-size: 50%;

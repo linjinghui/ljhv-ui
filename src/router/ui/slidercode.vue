@@ -19,6 +19,21 @@ Vue.component('lvSliderCode', SliderCode);</code></pre>
         </section>
       </dd>
     </dl>
+    <dl>
+      <dd><h3>参数说明</h3></dd>
+      <dd class="attribute">
+        <table>
+          <tr><td>参数</td><td>说明</td><td>必填</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>width</td><td>宽度</td><td>-</td><td>number</td><td>-</td><td>-</td></tr>
+          <tr><td>height</td><td>高度</td><td>-</td><td>number</td><td>-</td><td>-</td></tr>
+          <tr><td>cw</td><td>裁剪区宽度</td><td>-</td><td>number</td><td>-</td><td>60</td></tr>
+          <tr><td>ch</td><td>裁剪区高度</td><td>-</td><td>number</td><td>-</td><td>60</td></tr>
+          <tr><td>imgUrl</td><td>背景图片地址</td><td>-</td><td>string</td><td>-</td><td>-</td></tr>
+          <tr><td>@success</td><td>验证成功回调</td><td>-</td><td>function</td><td>-</td><td>-</td></tr>
+          <tr><td>@error</td><td>验证失败回调</td><td>-</td><td>function</td><td>-</td><td>-</td></tr>
+        </table>
+      </dd>
+    </dl>
   </div>
 </template>
 

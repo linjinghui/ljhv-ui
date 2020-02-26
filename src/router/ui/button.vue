@@ -38,7 +38,7 @@ Vue.component('lvButton', Button);</code></pre>
            <pre><code v-text="code2"></code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-button theme="primary" :disabledDuring="10" @click="clkSend">点击发送</lv-button>
+          <lv-button theme="primary" :disabledDuring="10" :beforeClick="bfclick" @click="clkSend">点击发送</lv-button>
         </section>
       </dd>
     </dl>
@@ -80,6 +80,8 @@ Vue.component('lvButton', Button);</code></pre>
       <dd class="attribute">
         <table>
           <tr><td>参数</td><td>说明</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>width</td><td>宽</td><td>string</td><td>-</td><td>-</td></tr>
+          <tr><td>height</td><td>高</td><td>string</td><td>-</td><td>34px</td></tr>
           <tr><td>theme</td><td>主题</td><td>string</td><td>primary|success|info|warning|danger|line|simple</td><td>-</td></tr>
           <tr><td>disabled</td><td>禁用</td><td>boolean</td><td>-</td><td>false</td></tr>
           <tr><td>disabledDuring</td><td>禁用时长(秒)</td><td>number</td><td>-</td><td>0</td></tr>
@@ -93,6 +95,7 @@ Vue.component('lvButton', Button);</code></pre>
           <tr><td>upload-progress</td><td>文件上传进度回调</td><td>function</td><td>-</td><td>-</td></tr>
           <tr><td>upload-success</td><td>文件上传成功后的回调</td><td>function</td><td>-</td><td>-</td></tr>
           <tr><td>upload-error</td><td>文件上传失败后的回调</td><td>function</td><td>-</td><td>-</td></tr>
+          <tr><td>beforeClick</td><td>点击前执行，需要通过回调callback函数才能执行后续点击功能</td><td>function</td><td>-</td><td>function (callback) {<br> callback() <br>}</td></tr>
         </table>
       </dd>
     </dl>
@@ -172,6 +175,9 @@ Vue.component('lvButton', Button);</code></pre>
     methods: {
       clkBtn (text) {
         this.$tip({ title: '系统', text: text, type: 'info' });
+      },
+      bfclick (callback) {
+        callback();
       },
       clkSend () {
         this.second = 10;
