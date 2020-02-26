@@ -24,7 +24,7 @@ Vue.prototype.$store = store;
 import '../node_modules/notice.js/dist/noticejs.css';
 import Tip from '../node_modules/notice.js/dist/notice.js';
 Vue.prototype.$tip = function (option) {
-  return new Tip(option).show();
+  return new Tip(Object.assign({position: 'topCenter', timeout: 20}, option)).show();
 }
 
 // 判断是否移动端

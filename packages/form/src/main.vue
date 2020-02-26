@@ -50,8 +50,6 @@
     padding: 10px;
     line-height: initial;
 
-    border: solid 1px red;
-
     .form-title {
       padding-top: 10px;
       padding-bottom: 20px;

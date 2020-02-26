@@ -244,7 +244,7 @@
   .icon {
     margin-right: 10px;
     cursor: pointer;
-    // color: #b3b3b3;
+    color: #666;
   }
   .icon:not([disabled]):hover {
     opacity: 0.8;

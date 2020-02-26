@@ -245,9 +245,10 @@
     display: inline-flex;
     flex-shrink: 0;
     align-items: center;
+    justify-content: center;
     padding: 4px 15px;
     color: #fff;
-    font-size: 12px;
+    font-size: 14px;
     text-decoration: none;
     text-align: center;
     white-space: nowrap;
@@ -293,8 +294,7 @@
     background-color: #fff;
   }
   .button.simple {
-    padding-left: 0;
-    padding-right: 0;
+    padding: 4px;
     color: inherit;
     background-color: transparent;
   }

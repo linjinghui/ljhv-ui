@@ -148,7 +148,8 @@ Vue.component('lvButton', Button);</code></pre>
           '<lv-button theme="warning" @click="clkBtn(\'警告\')">警告</lv-button> \n' + 
           '<lv-button theme="danger" @click="clkBtn(\'危险\')">危险</lv-button> \n' + 
           '<lv-button theme="line" @click="clkBtn(\'线性\')">线性</lv-button> \n' + 
-          '<lv-button theme="simple" @click="clkBtn(\'简单\')">简单</lv-button>';
+          '<lv-button theme="simple" @click="clkBtn(\'简单\')">简单</lv-button> \n' + 
+          '<lv-button theme="primary" icon="lv-icon-loading move-loop" @click="clkBtn(\'PRIMARY\')">带图标</lv-button>';
       this.code2 = '<lv-button theme="primary" :disabledDuring="10" @click="clkSend">点击发送</lv-button>';
       this.code3 = '<lv-button theme="primary" copyData="拷贝内容" @copy-success="cbkCopy">复制到剪贴板</lv-button>';
       this.code4 = 'fileOption: { \n ' +

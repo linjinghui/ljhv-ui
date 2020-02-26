@@ -12,3 +12,11 @@
 .theme-bc {
   border-color: #16aa6b;
 }
+
+/* noticejs样式 */
+.noticejs .close {
+  cursor: pointer;
+}
+.noticejs-progressbar {
+  display: none;
+}
