@@ -89,7 +89,9 @@
               // { title: '天气预报-未实现', path: '/weather' },
               { title: '数字键盘', path: '/numberkey' },
               { title: '锁屏', path: '/lock' },
-              { title: '视频播放器', path: '/video' }
+              { title: '视频播放器', path: '/video' },
+              { title: '分割面板', path: '/split' },
+              { title: '甘特图', path: '/gantt' }
             ]
           }
         ]

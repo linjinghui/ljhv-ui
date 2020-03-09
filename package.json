@@ -1,6 +1,6 @@
 {
   "name": "lv-web-ui",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "description": "lv-web-ui api",
   "main": "src/index.js",
   "scripts": {
@@ -86,6 +86,9 @@
   },
   "dependencies": {
     "notice.js": "^0.4.0",
-    "vue-hljs": "^1.1.2"
+    "v-gantt-chart": "^1.4.0",
+    "videojs-contrib-hls": "^5.15.0",
+    "vue-hljs": "^1.1.2",
+    "vue-video-player": "^5.0.2"
   }
 }

@@ -28,6 +28,7 @@ Vue.component('lvLock', Lock);</code></pre>
           <tr><td>v-model/value</td><td>显示</td><td>是</td><td>boolean</td><td>-</td><td>-</td></tr>
           <tr><td>name</td><td>用户名</td><td>是</td><td>string</td><td>-</td><td>-</td></tr>
           <tr><td>avant</td><td>头像地址</td><td>是</td><td>string</td><td>-</td><td>-</td></tr>
+          <tr><td>bmap</td><td>背景图</td><td>-</td><td>string</td><td>-</td><td>-</td></tr>
         </table>
       </dd>
     </dl>

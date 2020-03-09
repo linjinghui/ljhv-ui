@@ -45,6 +45,8 @@ const Weather = () => import('./ui/weather.vue');
 const Numberkey = () => import('./ui/numberkey.vue');
 const Lock = () => import('./ui/lock.vue');
 const Video = () => import('./ui/video.vue');
+const Split = () => import('./ui/split.vue');
+const Gantt = () => import('./ui/gantt.vue');
 
 Vue.use(Router);
 
@@ -276,6 +278,16 @@ export default new Router({
           path: '/video',
           name: '视频播放器',
           component: Video
+        },
+        {
+          path: '/split',
+          name: '分割面板',
+          component: Split
+        },
+        {
+          path: '/gantt',
+          name: '甘特图',
+          component: Gantt
         }
       ]
     }

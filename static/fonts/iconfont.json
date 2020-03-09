@@ -6,6 +6,146 @@
   "description": "",
   "glyphs": [
     {
+      "icon_id": "3092113",
+      "name": "屏幕全屏",
+      "font_class": "-full",
+      "unicode": "e781",
+      "unicode_decimal": 59265
+    },
+    {
+      "icon_id": "992406",
+      "name": "邮件1",
+      "font_class": "-email",
+      "unicode": "e646",
+      "unicode_decimal": 58950
+    },
+    {
+      "icon_id": "771110",
+      "name": "收藏gre",
+      "font_class": "-wjx-e",
+      "unicode": "e688",
+      "unicode_decimal": 59016
+    },
+    {
+      "icon_id": "1817697",
+      "name": "home",
+      "font_class": "-home",
+      "unicode": "e60b",
+      "unicode_decimal": 58891
+    },
+    {
+      "icon_id": "604477",
+      "name": "男性",
+      "font_class": "-man",
+      "unicode": "e616",
+      "unicode_decimal": 58902
+    },
+    {
+      "icon_id": "1347382",
+      "name": "mobile",
+      "font_class": "-mobile",
+      "unicode": "e62f",
+      "unicode_decimal": 58927
+    },
+    {
+      "icon_id": "1638205",
+      "name": "位置",
+      "font_class": "-position",
+      "unicode": "e612",
+      "unicode_decimal": 58898
+    },
+    {
+      "icon_id": "1648674",
+      "name": "电话",
+      "font_class": "-phone",
+      "unicode": "e627",
+      "unicode_decimal": 58919
+    },
+    {
+      "icon_id": "2154470",
+      "name": "44_点点点",
+      "font_class": "-ddd",
+      "unicode": "e67a",
+      "unicode_decimal": 59002
+    },
+    {
+      "icon_id": "2325938",
+      "name": "退出",
+      "font_class": "-out",
+      "unicode": "e645",
+      "unicode_decimal": 58949
+    },
+    {
+      "icon_id": "2418255",
+      "name": "收藏",
+      "font_class": "-wjx",
+      "unicode": "e670",
+      "unicode_decimal": 58992
+    },
+    {
+      "icon_id": "2678669",
+      "name": "PC",
+      "font_class": "-pc",
+      "unicode": "e671",
+      "unicode_decimal": 58993
+    },
+    {
+      "icon_id": "3091945",
+      "name": "全屏",
+      "font_class": "-out-full",
+      "unicode": "e768",
+      "unicode_decimal": 59240
+    },
+    {
+      "icon_id": "4406941",
+      "name": "相机",
+      "font_class": "-camera",
+      "unicode": "e60d",
+      "unicode_decimal": 58893
+    },
+    {
+      "icon_id": "5093335",
+      "name": "女",
+      "font_class": "-woman",
+      "unicode": "e602",
+      "unicode_decimal": 58882
+    },
+    {
+      "icon_id": "6049449",
+      "name": "刷新",
+      "font_class": "-fresh",
+      "unicode": "e621",
+      "unicode_decimal": 58913
+    },
+    {
+      "icon_id": "6850816",
+      "name": "时间",
+      "font_class": "-time",
+      "unicode": "e61a",
+      "unicode_decimal": 58906
+    },
+    {
+      "icon_id": "8871307",
+      "name": "系统",
+      "font_class": "-sys",
+      "unicode": "e62d",
+      "unicode_decimal": 58925
+    },
+    {
+      "icon_id": "11690689",
+      "name": "点赞",
+      "font_class": "-zan",
+      "unicode": "e613",
+      "unicode_decimal": 58899
+    },
+    {
+      "icon_id": "12686945",
+      "name": "箭头",
+      "font_class": "-arrowt",
+      "unicode": "e656",
+      "unicode_decimal": 58966
+    },
+    {
       "icon_id": "7852109",
       "name": "wifi-2",
       "font_class": "-wifi-2",

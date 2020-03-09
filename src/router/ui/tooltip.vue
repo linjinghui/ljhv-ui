@@ -15,7 +15,7 @@ Vue.component('lvTooltip', Tooltip);</code></pre>
            <pre><code v-text="code"></code></pre>
         </section>
         <section style="padding:10px;">
-          <lv-tooltip text="提示内容" :arrow="false" :followCursor="false">
+          <lv-tooltip text="提示内容" theme="translucent" :arrow="true" :followCursor="false" :allowHTML="true">
             <i>text支持HTML代码</i>
           </lv-tooltip>
         </section>
@@ -29,6 +29,8 @@ Vue.component('lvTooltip', Tooltip);</code></pre>
           <tr><td>text</td><td>提示文本-支持HTML代码</td><td>是</td><td>-</td><td>-</td><td>-</td></tr>
           <tr><td>arrow</td><td>是否显示箭头</td><td>-</td><td>boolean</td><td>-</td><td>true</td></tr>
           <tr><td>followCursor</td><td>是否跟随鼠标</td><td>-</td><td>boolean</td><td>-</td><td>false</td></tr>
+          <tr><td>theme</td><td>主题</td><td>-</td><td>string</td><td>light-border|translucent</td><td>translucent</td></tr>
+          <tr><td>allowHTML</td><td>是否允许html代码</td><td>-</td><td>boolean</td><td>-</td><td>true</td></tr>
         </table>
       </dd>
     </dl>
@@ -49,7 +51,7 @@ Vue.component('lvTooltip', Tooltip);</code></pre>
       };
     },
     mounted: function () {
-      this.code = '<lv-tooltip text="提示内容" :arrow="false" :followCursor="false">\n' +
+      this.code = '<lv-tooltip text="提示内容" theme="translucent" :arrow="true" :followCursor="false" :allowHTML="true">\n' +
       '  <button>text支持HTML代码</button>\n' +
       '</lv-tooltip>';
     },

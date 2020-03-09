@@ -55,6 +55,8 @@ import Upload from './upload/index';
 import Weather from './upload/index';
 import Numberkey from './numberkey/index';
 import Lock from './lock/index';
+import Split from './split/index';
+import Gantt from './gantt/index';
 
 const components = [Loading, Confirm, Prompt];
 const install = function (Vue) {
@@ -64,4 +66,4 @@ const install = function (Vue) {
   });
 }
 
-export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode, Routrecord, Select, Form, Upload, Weather, Numberkey, Lock};
+export {install, Button, Checkbox, Radio, Input, Swith, Tooltip, Loading, Progress, Slider, DatePicker, RangeMenu, Shuttle, Pagebar, Echarts, ImageCrop, Cropper, Table, Sidebar, Textarea, DropMenu, Menu, Cascade, Tree, Dialog, Confirm, Prompt, Tab, Editor, Star, Breadcrumbs, Map, SwapSort, DivEditor, Video, Img, ImgGroup, Flowtree, TimeTurntable, Selector, RotaryTable, AddLabel, Banner, SwiperBanner, SwiperNav, List, More, GamePt, Sidenav, Rule, SliderCode, Routrecord, Select, Form, Upload, Weather, Numberkey, Lock, Split, Gantt};

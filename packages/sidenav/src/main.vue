@@ -11,7 +11,7 @@
         <template v-for="item in list">
           <li class="v-center" :key="item.title" :class="{'open':item.open,'active theme-b':currentPath===item.path}" @click.stop="clkItem(item,1)">
             <div class="v-center">
-              <i v-if="item.icon" :class="item.icon"></i>
+              <i v-if="item.icon" class="theme-c" :class="item.icon" :style="{'color':iconColor}"></i>
               {{item.title}}
             </div>
             <i v-if="item.children&&item.children.length>0" class="lv-icon-arrow-bottom"></i>
@@ -20,7 +20,7 @@
           <ul :key="item.title+'_sub_ul'" v-if="item.children&&item.children.length>0" :style="{'maxHeight':item.open?(item.children.length*itemHeight+'px'):0}">
             <li class="v-center" v-for="subItem in item.children" :key="subItem.title+'_sub_li'" :class="{'open':subItem.open,'active theme-b':currentPath===subItem.path}" @click.stop="clkItem(subItem,2)">
               <div class="v-center">
-                <i v-if="subItem.icon" :class="subItem.icon"></i>
+                <i v-if="subItem.icon" class="theme-c" :class="subItem.icon" :style="{'color':iconColor}"></i>
                 {{subItem.title}}
               </div>
               <i v-if="subItem.children&&subItem.children.length>0" class="lv-icon-arrow-right"></i>
@@ -34,7 +34,7 @@
       <ul>
         <li class="v-center" v-for="item in currentItem.children" :key="item.title+'_three_li'" :class="{'open':item.open,'active theme-b':currentPath===item.path}" @click.stop="clkItem(item,3)">
           <div class="v-center">
-            <i v-if="item.icon" :class="item.icon"></i>
+            <i v-if="item.icon" class="theme-c" :class="item.icon" :style="{'color':iconColor}"></i>
             {{item.title}}
           </div>
         </li>
@@ -91,6 +91,10 @@
       },
       // 背景色
       background: {
+        default: ''
+      },
+      // 图标颜色
+      iconColor: {
         default: ''
       }
     },
@@ -273,6 +277,9 @@
   li.open > i {
     transform: rotateZ(180deg);
   }
+  li.active > div > i {
+    color: inherit;
+  }
   li:not(.active):not([disabled]):hover {
     background-color: rgba(248, 248, 248, 0.2);
   }
@@ -287,6 +294,10 @@
     > li.open {
       color: #555;
       background-color: #d8d8d8;
+
+      > div > i {
+        color: inherit;
+      }
     }
   }
 
@@ -343,7 +354,7 @@
 
   // 最小化显示
   .sidenar.mix {
-    width: 42px;
+    width: 0px;
 
     ul > ul,
     .lv-icon-arrow-bottom,

@@ -18,6 +18,10 @@
     },
     props: {
       text: '',
+      // 主题 light-border|translucent
+      theme: {
+        default: 'translucent'
+      },
       // 是否显示箭头
       arrow: {
         type: Boolean,
@@ -27,6 +31,11 @@
       followCursor: {
         type: Boolean,
         default: false
+      },
+      // 是否允许html代码
+      allowHTML: {
+        type: Boolean,
+        default: true
       }
     },
     // 1、构造目标元素 并 获取目标元素长、宽、相对位置left、top
@@ -39,13 +48,15 @@
 
       this.$nextTick(function () {
         if (dom.elm) {
+          console.log('==this.allowHTML==', this.allowHTML);
           var option = {
             arrow: this.arrow,
             // fade|shift-away|shift-toward|scale|perspective
             animation: 'scale',
-            // followCursor: true,
+            allowHTML: this.allowHTML,
             // light|light-border|material|translucent
-            // theme: 'translucent',
+            interactive: true,
+            theme: this.theme,
             content: this.text
             // plugins: [followCursor]
           };
@@ -65,5 +76,6 @@
 
 <style>
   @import url('tippy.js/dist/tippy.css');
+  @import url('tippy.js/themes/light-border.css');
   @import url('tippy.js/animations/scale.css');
 </style>

@@ -31,6 +31,15 @@ Vue.component('lvSelect', Select);</code></pre>
           <tr><td>@click</td><td>点击回调的函数</td><td>-</td><td>function</td><td>-</td><td>-</td></tr>
         </table>
       </dd>
+    </dl><dl>
+      <dd><h3>list 参数说明</h3></dd>
+      <dd class="attribute">
+        <table>
+          <tr><td>参数</td><td>说明</td><td>必填</td><td>类型</td><td>可选值</td><td>默认值</td></tr>
+          <tr><td>icon</td><td>图标样式名</td><td>-</td><td>string</td><td>-</td><td>-</td></tr>
+          <tr><td>name</td><td>触发方式</td><td>是</td><td>string</td><td>-</td><td>-</td></tr>
+        </table>
+      </dd>
     </dl>
   </div>
 </template>
