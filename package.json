@@ -39,7 +39,7 @@
     "html-webpack-plugin": "^2.29.0",
     "http-proxy-middleware": "^0.17.4",
     "jstree": "^3.3.4",
-    "karma": "^1.7.0",
+    "karma": "^6.4.1",
     "karma-chrome-launcher": "^2.2.0",
     "karma-coverage": "^1.1.1",
     "karma-expect": "^1.1.3",
